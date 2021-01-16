@@ -3,7 +3,7 @@ const { MessageType } = require('@adiwajshing/baileys')
 module.exports = {
     name: 'help',
     aliases: ['h'],
-    description: 'Display all commands and descriptions',
+    description: 'Menampilkan semua perintah dan deskripsi',
     execute (client, from) {
         const commands = client.cmd.array()
         let text = 'Command di bot ini\n\nPrefix: !\n'

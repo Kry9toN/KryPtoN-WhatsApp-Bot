@@ -22,20 +22,21 @@ async function krypton () {
     if (fs.existsSync('./sessions/krypton-sessions.json')) {
         await client.loadAuthInfo('./sessions/krypton-sessions.json')
         await client.on('connecting', () => {
-            start('1', ' [SERVER] Connecting to exist sessions...')
+            start('1', '[SERVER] Menyambungkan ke sessions yang sudah ada...')
         })
     }
 
     // Server connecting
     if (!fs.existsSync('./sessions/krypton-sessions.json')) {
         await client.on('connecting', () => {
-            start('1', ' [SERVER] Waitting scan QR to connecting...')
+            start('1', '[SERVER] Menunggu scan code QR untuk menyambungkan...')
         })
     }
 
     // Server connected
     await client.on('open', () => {
-        success('1', ' [SERVER] Connected')
+        success('1', '[SERVER] Terhubung')
+        console.log('🤖',color('KryPtoN Bot Sudah siap!!', 'green'))
     })
 
     // Create file for sessions
@@ -43,11 +44,12 @@ async function krypton () {
     fs.writeFileSync('./sessions/krypton-sessions.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
 
     await client.on('chat-update', async (chat) => {
+        client.pingStart = Date.now()
         if (!chat.hasNewMessage) return
         const prefix = '!'
         chat = JSON.parse(JSON.stringify(chat)).messages[0]
         if (!chat.message) return
-        if (chat.key && chat.key.remoteJid == 'status@broadcast') return
+        if (chat.key.remoteJid == 'status@broadcast') return
         if (chat.key.fromMe) return
         const from = chat.key.remoteJid
         const type = Object.keys(chat.message)[0]
@@ -86,8 +88,9 @@ async function krypton () {
 
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000
-                return message.reply(
-                    `please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`
+                return client.sendMessage(from,
+                    `Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah ini *${command.name}*.`,
+                    MessageType.text
                 )
             }
         }
@@ -99,7 +102,7 @@ async function krypton () {
             command.execute(client, from, args)
         } catch (error) {
             console.error(error)
-            client.sendMessage(from, 'There was an error executing that command.', MessageType.text).catch(console.error)
+            client.sendMessage(from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text).catch(console.error)
         }
     })
 }

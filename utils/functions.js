@@ -1,4 +1,5 @@
 const Spin = require('spinnies')
+const moment = require('moment-timezone')
 
 const spinner = {
     interval: 120,
@@ -35,7 +36,18 @@ const success = (id, text) => {
     spins.succeed(id, { text: text })
 }
 
+/**
+ * Get Time duration
+ * @param  {Date} timestamp
+ * @param  {Date} now
+ */
+const processTime = (timestamp, now) => {
+    // timestamp => timestamp when message was received
+    return moment.duration(now - moment(timestamp)).asSeconds()
+}
+
 module.exports = {
     start,
-    success
+    success,
+    processTime
 }
