@@ -1,0 +1,33 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Kry9toN",
+      "name": "Dhimas Bagus Prayoga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/44697929?v=4",
+      "profile": "http://kry9ton.tech",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rzlamrr",
+      "name": "dαvιѕтα",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/46296998?v=4",
+      "profile": "http://rzlamrr.github.io",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "KryPtoN-WhatsApp-Bot",
+  "projectOwner": "Kry9toN",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

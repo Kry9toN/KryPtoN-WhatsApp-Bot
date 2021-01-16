@@ -1,0 +1,51 @@
+{
+  "name": "krypton-whatsapp-bot",
+  "version": "0.0.1",
+  "private": true,
+  "description": "KryPtoN Whatsapp Bot",
+  "main": "krypton.js",
+  "scripts": {
+    "start": "node krypton.js",
+    "changelog": "auto-changelog -p && git add CHANGELOG.md",
+    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
+  },
+  "author": "KryPtoN",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot"
+  },
+  "keywords": [
+    "Whatsapp",
+    "WhatsApp-Bot",
+    "bot",
+    "wabot"
+  ],
+  "release-it": {
+    "github": {
+      "release": true
+    }
+  },
+  "auto-changelog": {
+    "commitLimit": false
+  },
+  "bugs": {
+    "url": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot/issues"
+  },
+  "homepage": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot",
+  "license": "ISC",
+  "dependencies": {
+    "@adiwajshing/baileys": "^3.4.1",
+    "spinnies": "^0.5.1",
+    "chalk": "^4.1.0",
+    "discord.js": "^12.5.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.14.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^5.0.0"
+  }
+}
