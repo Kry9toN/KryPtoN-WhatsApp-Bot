@@ -46,8 +46,17 @@ const processTime = (timestamp, now) => {
     return moment.duration(now - moment(timestamp)).asSeconds()
 }
 
+const getGroupAdmins = (participants) => {
+	admins = []
+	for (let i of participants) {
+		i.isAdmin ? admins.push(i.jid) : ''
+	}
+	return admins
+}
+
 module.exports = {
     start,
     success,
-    processTime
+    processTime,
+    getGroupAdmins
 }
