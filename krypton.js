@@ -4,7 +4,7 @@ const {
 const { Collection } = require('discord.js')
 const { readdirSync } = require('fs')
 const { join } = require('path')
-const { start, success, getGroupAdmins, getBuffer } = require('./utils/functions')
+const { start, success, getGroupAdmins } = require('./utils/functions')
 const { color } = require('./utils/color')
 const fs = require('fs')
 const moment = require('moment-timezone')
@@ -48,29 +48,20 @@ async function krypton () {
     await client.on('group-participants-update', async (greeting) => {
         try {
             const mdata = await client.groupMetadata(greeting.jid)
-            console.log(greeting)
             if (greeting.action == 'add') {
+                console.log(console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
                 num = greeting.participants[0]
-                try {
-                    ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
-                } catch {
-                    ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-                }
-                // teks = `Halo @${num.split('@')[0]}\nSelamat datang di group *${mdata.subject}*`
-                const buff = await getBuffer(ppimg)
-                await welcome('uwu', mdata.subject, buff).then(async (hasil) => {
+                ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
+                await welcome('uwu', mdata.subject, ppimg).then(async (hasil) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             } else if (greeting.action == 'remove') {
+                console.log(console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
                 num = greeting.participants[0]
-                try {
-                    ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
-                } catch {
-                    ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-                }
-                teks = `Sayonara @${num.split('@')[0]}👋`
-                const buff = await getBuffer(ppimg)
-                client.sendMessage(mdata.id, buff, MessageType.image, { caption: teks, contextInfo: { mentionedJid: [num] } })
+                ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
+                await goodbye('uwu', mdata.subject, ppimg).then(async (hasil) => {
+                    await client.sendMessage(mdata.id, hasil, MessageType.image)
+                })
             }
         } catch (e) {
             console.log('Error : %s', color(e, 'red'))
@@ -176,8 +167,8 @@ async function krypton () {
 
         try {
             command.execute(client, args)
-        } catch (error) {
-            console.error(error)
+        } catch (e) {
+            console.log('Error : %s', color(e, 'red'))
             client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text).catch(console.error)
         }
     })
