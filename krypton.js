@@ -8,6 +8,7 @@ const { start, success, getGroupAdmins, getBuffer } = require('./utils/functions
 const { color } = require('./utils/color')
 const fs = require('fs')
 const moment = require('moment-timezone')
+const { welcome, goodbye } = require('./utils/greeting')
 
 async function krypton () {
     const client = new WAConnection()
@@ -44,35 +45,37 @@ async function krypton () {
     await client.connect({ timeoutMs: 30 * 1000 })
     fs.writeFileSync('./sessions/krypton-sessions.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
 
-        await client.on('group-participants-update', async (greeting) => {
-		try {
-			const mdata = await client.groupMetadata(greeting.jid)
-			console.log(greeting)
-			if (greeting.action == 'add') {
-				num = greeting.participants[0]
-				try {
-					ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
-				} catch {
-					ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-				}
-				teks = `Halo @${num.split('@')[0]}\nSelamat datang di group *${mdata.subject}*`
-				let buff = await getBuffer(ppimg)
-				client.sendMessage(mdata.id, buff, MessageType.image, {caption: teks, contextInfo: {"mentionedJid": [num]}})
-			} else if (greeting.action == 'remove') {
-				num = greeting.participants[0]
-				try {
-					ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
-				} catch {
-					ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
-				}
-				teks = `Sayonara @${num.split('@')[0]}👋`
-				let buff = await getBuffer(ppimg)
-				client.sendMessage(mdata.id, buff, MessageType.image, {caption: teks, contextInfo: {"mentionedJid": [num]}})
-			}
-		} catch (e) {
-			console.log('Error : %s', color(e, 'red'))
-		}
-	})
+    await client.on('group-participants-update', async (greeting) => {
+        try {
+            const mdata = await client.groupMetadata(greeting.jid)
+            console.log(greeting)
+            if (greeting.action == 'add') {
+                num = greeting.participants[0]
+                try {
+                    ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
+                } catch {
+                    ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
+                }
+                // teks = `Halo @${num.split('@')[0]}\nSelamat datang di group *${mdata.subject}*`
+                const buff = await getBuffer(ppimg)
+                await welcome('uwu', mdata.subject, buff).then(async (hasil) => {
+                    await client.sendMessage(mdata.id, hasil, MessageType.image)
+                })
+            } else if (greeting.action == 'remove') {
+                num = greeting.participants[0]
+                try {
+                    ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
+                } catch {
+                    ppimg = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
+                }
+                teks = `Sayonara @${num.split('@')[0]}👋`
+                const buff = await getBuffer(ppimg)
+                client.sendMessage(mdata.id, buff, MessageType.image, { caption: teks, contextInfo: { mentionedJid: [num] } })
+            }
+        } catch (e) {
+            console.log('Error : %s', color(e, 'red'))
+        }
+    })
 
     await client.on('chat-update', async (chat) => {
         client.pingStart = Date.now()
@@ -84,7 +87,6 @@ async function krypton () {
         if (chat.key.fromMe) return
 
         // Variable
-        const from = chat.key.remoteJid
         const type = Object.keys(chat.message)[0]
         body = (type === 'conversation' && chat.message.conversation.startsWith(prefix)) ? chat.message.conversation : (type == 'imageMessage') && chat.message.imageMessage.caption.startsWith(prefix) ? chat.message.imageMessage.caption : (type == 'videoMessage') && chat.message.videoMessage.caption.startsWith(prefix) ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') && chat.message.extendedTextMessage.text.startsWith(prefix) ? chat.message.extendedTextMessage.text : ''
         const args = body.trim().split(/ +/).slice(1)
@@ -94,41 +96,43 @@ async function krypton () {
         const content = JSON.stringify(chat.message)
 
         const botNumber = client.user.jid
-			const ownerNumber = ["6285892766102@s.whatsapp.net"] // replace this with your number
-			const isGroup = from.endsWith('@g.us')
-			const sender = isGroup ? chat.participant : chat.key.remoteJid
-			const groupMetadata = isGroup ? await client.groupMetadata(from) : ''
-			const groupName = isGroup ? groupMetadata.subject : ''
-			const groupId = isGroup ? groupMetadata.jid : ''
-			const groupMembers = isGroup ? groupMetadata.participants : ''
-			const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : ''
-			const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-			const isGroupAdmins = groupAdmins.includes(sender) || false
-			const isOwner = ownerNumber.includes(sender)
-			const isUrl = (url) => {
-			    return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
-			}
-			const reply = (teks) => {
-				client.sendMessage(from, teks, text, {quoted:chat})
-			}
-			const sendMess = (hehe, teks) => {
-				client.sendMessage(hehe, teks, text)
-			}
-			const mentions = (teks, memberr, id) => {
-				(id == null || id == undefined || id == false) ? client.sendMessage(from, teks.trim(), extendedText, {contextInfo: {"mentionedJid": memberr}}) : client.sendMessage(from, teks.trim(), extendedText, {quoted: chat, contextInfo: {"mentionedJid": memberr}})
-			}
+        const ownerNumber = ['6285892766102@s.whatsapp.net'] // replace this with your number
+        const sender = client.isGroup ? chat.participant : chat.key.remoteJid
+        const groupMetadata = client.isGroup ? await client.groupMetadata(client.from) : ''
+        const groupName = client.isGroup ? groupMetadata.subject : ''
+        const groupMembers = client.isGroup ? groupMetadata.participants : ''
+        const groupAdmins = client.isGroup ? getGroupAdmins(groupMembers) : ''
+        client.from = chat.key.remoteJid
+        client.isGroup = client.from.endsWith('@g.us')
+        client.groupId = client.isGroup ? groupMetadata.jid : ''
+        client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
+        client.isGroupAdmins = groupAdmins.includes(sender) || false
+        client.isOwner = ownerNumber.includes(sender)
+        client.isUrl = (url) => {
+            // eslint-disable-next-line prefer-regex-literals
+            return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
+        }
+        client.reply = (teks) => {
+            client.sendMessage(client.from, teks, text, { quoted: chat })
+        }
+        client.sendMess = (hehe, teks) => {
+            client.sendMessage(hehe, teks, text)
+        }
+        client.mentions = (teks, memberr, id) => {
+            (id == null || id == undefined || id == false) ? client.sendMessage(client.from, teks.trim(), extendedText, { contextInfo: { mentionedJid: memberr } }) : client.sendMessage(client.from, teks.trim(), extendedText, { quoted: chat, contextInfo: { mentionedJid: memberr } })
+        }
 
-			colors = ['red','white','black','blue','yellow','green']
-			const isMedia = (type === 'imageMessage' || type === 'videoMessage')
-			const isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
-			const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
-			const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
+        colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
+        client.isMedia = (type === 'imageMessage' || type === 'videoMessage')
+        client.isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
+        client.isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
+        client.isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
 
         // Logging Message
-        if (!isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'from', color(sender.split('@')[0]), 'args :', color(args.length))
-        if (!isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'args :', color(args.length))
-        if (isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
-        if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
+        if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(sender.split('@')[0]), 'args :', color(args.length))
+        if (!client.isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'args :', color(args.length))
+        if (isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
+        if (!isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
 
         /**
             * Import all commands
@@ -155,26 +159,26 @@ async function krypton () {
         const timestamps = cooldowns.get(command.name)
         const cooldownAmount = (command.cooldown || 1) * 1000
 
-        if (timestamps.has(from)) {
-            const expirationTime = timestamps.get(from) + cooldownAmount
+        if (timestamps.has(client.from)) {
+            const expirationTime = timestamps.get(client.from) + cooldownAmount
 
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000
-                return client.sendMessage(from,
+                return client.sendMessage(client.from,
                     `Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah ini *${command.name}*.`,
                     MessageType.text
                 )
             }
         }
 
-        timestamps.set(from, now)
-        setTimeout(() => timestamps.delete(from), cooldownAmount)
+        timestamps.set(client.from, now)
+        setTimeout(() => timestamps.delete(client.from), cooldownAmount)
 
         try {
-            command.execute(client, from, args)
+            command.execute(client, args)
         } catch (error) {
             console.error(error)
-            client.sendMessage(from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text).catch(console.error)
+            client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text).catch(console.error)
         }
     })
 }

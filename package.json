@@ -40,7 +40,8 @@
     "discord.js": "^12.5.1",
     "auto-changelog": "^2.2.1",
     "moment-timezone": "^0.5.32",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "canvas": "^2.6.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
