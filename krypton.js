@@ -4,7 +4,7 @@ const {
 const { Collection } = require('discord.js')
 const { readdirSync } = require('fs')
 const { join } = require('path')
-const { start, success, getGroupAdmins } = require('./utils/functions')
+const { start, success, getGroupAdmins, banner } = require('./utils/functions')
 const { color } = require('./utils/color')
 const fs = require('fs')
 const moment = require('moment-timezone')
@@ -17,7 +17,7 @@ async function krypton () {
     client.runtimeDb = new Collection()
     const cooldowns = new Collection()
     client.logger.level = 'warn'
-    // console.log(banner.string)
+    console.log(banner.string)
     await client.on('qr', () => {
         console.log(color('[', 'white'), color('!', 'red'), color(']', 'white'), color(' Scan the QR code above'))
     })

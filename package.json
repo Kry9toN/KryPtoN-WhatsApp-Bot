@@ -42,7 +42,8 @@
     "moment-timezone": "^0.5.32",
     "axios": "^0.21.1",
     "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git",
-    "release-it": "^14.2.2"
+    "release-it": "^14.2.2",
+    "cfonts": "^2.9.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

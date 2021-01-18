@@ -1,6 +1,7 @@
 const Spin = require('spinnies')
 const moment = require('moment-timezone')
 const axios = require('axios')
+const cfonts = require('cfonts')
 
 const spinner = {
     interval: 120,
@@ -55,9 +56,17 @@ const getGroupAdmins = (participants) => {
 	return admins
 }
 
+const banner = cfonts.render(('KRYPTON|WHATSAPP|BOT'), {
+    font: 'block',
+    colors: ['red', 'blue'],
+    align: 'center',
+    lineHeight: 2
+})
+
 module.exports = {
     start,
     success,
     processTime,
-    getGroupAdmins
+    getGroupAdmins,
+    banner
 }
