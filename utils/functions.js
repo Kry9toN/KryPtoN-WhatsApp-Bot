@@ -44,7 +44,7 @@ const success = (id, text) => {
  */
 const processTime = (timestamp, now) => {
     // timestamp => timestamp when message was received
-    return moment.duration(now - moment(timestamp)).asSeconds()
+    return moment.duration(now - moment(timestamp * 1000)).asSeconds()
 }
 
 const getGroupAdmins = (participants) => {

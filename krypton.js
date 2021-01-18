@@ -9,10 +9,12 @@ const { color } = require('./utils/color')
 const fs = require('fs')
 const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
+const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
 
 async function krypton () {
     const client = new WAConnection()
     client.cmd = new Collection()
+    client.runtimeDb = new Collection()
     const cooldowns = new Collection()
     client.logger.level = 'warn'
     // console.log(banner.string)
@@ -49,17 +51,17 @@ async function krypton () {
         try {
             const mdata = await client.groupMetadata(greeting.jid)
             if (greeting.action == 'add') {
-                console.log(console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
+                console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
                 num = greeting.participants[0]
                 ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
-                await welcome('uwu', mdata.subject, ppimg).then(async (hasil) => {
+                await welcome(num.split('@')[0], mdata.subject, ppimg).then(async (hasil) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             } else if (greeting.action == 'remove') {
-                console.log(console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
+                console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
                 num = greeting.participants[0]
                 ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
-                await goodbye('uwu', mdata.subject, ppimg).then(async (hasil) => {
+                await goodbye(num.split('@')[0], mdata.subject, ppimg).then(async (hasil) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             }
@@ -69,7 +71,7 @@ async function krypton () {
     })
 
     await client.on('chat-update', async (chat) => {
-        client.pingStart = Date.now()
+        client.pingStart = chat.t
         if (!chat.hasNewMessage) return
         const prefix = '!'
         chat = JSON.parse(JSON.stringify(chat)).messages[0]
@@ -79,23 +81,23 @@ async function krypton () {
 
         // Variable
         const type = Object.keys(chat.message)[0]
-        body = (type === 'conversation' && chat.message.conversation.startsWith(prefix)) ? chat.message.conversation : (type == 'imageMessage') && chat.message.imageMessage.caption.startsWith(prefix) ? chat.message.imageMessage.caption : (type == 'videoMessage') && chat.message.videoMessage.caption.startsWith(prefix) ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') && chat.message.extendedTextMessage.text.startsWith(prefix) ? chat.message.extendedTextMessage.text : ''
-        const args = body.trim().split(/ +/).slice(1)
-        const isCmd = body.startsWith(prefix)
-        const commandName = body.slice(1).trim().split(/ +/).shift().toLowerCase()
-        const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+        client.body = (type === 'conversation' && chat.message.conversation.startsWith(prefix)) ? chat.message.conversation : (type == 'imageMessage') && chat.message.imageMessage.caption.startsWith(prefix) ? chat.message.imageMessage.caption : (type == 'videoMessage') && chat.message.videoMessage.caption.startsWith(prefix) ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') && chat.message.extendedTextMessage.text.startsWith(prefix) ? chat.message.extendedTextMessage.text : ''
+        const args = client.body.trim().split(/ +/).slice(1)
+        const isCmd = client.body.startsWith(prefix)
+        const commandName = client.body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const content = JSON.stringify(chat.message)
 
         const botNumber = client.user.jid
         const ownerNumber = ['6285892766102@s.whatsapp.net'] // replace this with your number
+        client.from = chat.key.remoteJid
+        client.isGroup = client.from.endsWith('@g.us')
         const sender = client.isGroup ? chat.participant : chat.key.remoteJid
         const groupMetadata = client.isGroup ? await client.groupMetadata(client.from) : ''
         const groupName = client.isGroup ? groupMetadata.subject : ''
-        const groupMembers = client.isGroup ? groupMetadata.participants : ''
-        const groupAdmins = client.isGroup ? getGroupAdmins(groupMembers) : ''
-        client.from = chat.key.remoteJid
-        client.isGroup = client.from.endsWith('@g.us')
+        client.groupMembers = client.isGroup ? groupMetadata.participants : ''
+        const groupAdmins = client.isGroup ? getGroupAdmins(client.groupMembers) : ''
         client.groupId = client.isGroup ? groupMetadata.jid : ''
+        client.isGroup = client.from.endsWith('@g.us')
         client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         client.isGroupAdmins = groupAdmins.includes(sender) || false
         client.isOwner = ownerNumber.includes(sender)
@@ -104,13 +106,13 @@ async function krypton () {
             return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
         }
         client.reply = (teks) => {
-            client.sendMessage(client.from, teks, text, { quoted: chat })
+            client.sendMessage(client.from, teks, MessageType.text, { quoted: chat })
         }
-        client.sendMess = (hehe, teks) => {
-            client.sendMessage(hehe, teks, text)
+        client.sendMess = (id, text) => {
+            client.sendMessage(id, text, MessageType.text)
         }
-        client.mentions = (teks, memberr, id) => {
-            (id == null || id == undefined || id == false) ? client.sendMessage(client.from, teks.trim(), extendedText, { contextInfo: { mentionedJid: memberr } }) : client.sendMessage(client.from, teks.trim(), extendedText, { quoted: chat, contextInfo: { mentionedJid: memberr } })
+        client.mentions = (teks, id, bolean) => {
+            (bolean == null || bolean == undefined || bolean == false) ? client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { contextInfo: { mentionedJid: id } }) : client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { quoted: chat, contextInfo: { mentionedJid: id } })
         }
 
         colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
@@ -124,6 +126,19 @@ async function krypton () {
         if (!client.isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'args :', color(args.length))
         if (isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
         if (!isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
+
+        pesan = {
+              tunggu: '⌛ Sedang di Prosess ⌛',
+              berhasil: '✔️ Berhasil ✔️',
+              hanya: {
+                  admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
+                  botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌'
+              },
+              error: {
+                 group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
+                 args: '❌ Perintah anda salah! ❌'
+              }
+        }
 
         /**
             * Import all commands
@@ -166,10 +181,10 @@ async function krypton () {
         setTimeout(() => timestamps.delete(client.from), cooldownAmount)
 
         try {
-            command.execute(client, args)
+            command.execute(client, chat, pesan, args)
         } catch (e) {
             console.log('Error : %s', color(e, 'red'))
-            client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text).catch(console.error)
+            client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text)
         }
     })
 }

@@ -4,12 +4,17 @@ module.exports = {
     name: 'help',
     aliases: ['h'],
     description: 'Menampilkan semua perintah dan deskripsi',
-    execute (client) {
+    execute (client, chat, pesan, args) {
         const commands = client.cmd.array()
-        let text = 'Command di bot ini\n\nPrefix: !\n'
-        commands.forEach((cmd) => {
-            text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n${cmd.description}\n`
-        })
-        return client.sendMessage(client.from, text, MessageType.text)
+        if (args.length == 0) {
+           let text = `Daftar perintah di bot ini\n\nPrefix: !\n`
+           commands.forEach((cmd) => {
+               text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
+           })
+           return client.reply(text)
+        } else {
+           const text = client.cmd.get(args[0]).description
+           return client.reply(text)
+        }
     }
 }
