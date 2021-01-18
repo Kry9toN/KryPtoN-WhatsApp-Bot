@@ -41,7 +41,8 @@
     "auto-changelog": "^2.2.1",
     "moment-timezone": "^0.5.32",
     "axios": "^0.21.1",
-    "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git"
+    "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git",
+    "release-it": "^14.2.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
