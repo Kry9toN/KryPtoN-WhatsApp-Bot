@@ -13,6 +13,7 @@ module.exports = {
            })
            return client.reply(text)
         } else {
+           if (!client.cmd.has(args[0])) return client.reply('Perintah yang anda maksut tidak ada bro')
            const text = client.cmd.get(args[0]).description
            return client.reply(text)
         }

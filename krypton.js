@@ -72,6 +72,7 @@ async function krypton () {
 
     await client.on('chat-update', async (chat) => {
         client.pingStart = chat.t
+        client.apiKey = 'EgUxT1qnZ8gtO8ArahNZ'
         if (!chat.hasNewMessage) return
         const prefix = '!'
         chat = JSON.parse(JSON.stringify(chat)).messages[0]
@@ -91,7 +92,7 @@ async function krypton () {
         const ownerNumber = ['6285892766102@s.whatsapp.net'] // replace this with your number
         client.from = chat.key.remoteJid
         client.isGroup = client.from.endsWith('@g.us')
-        const sender = client.isGroup ? chat.participant : chat.key.remoteJid
+        client.sender = client.isGroup ? chat.participant : chat.key.remoteJid
         const groupMetadata = client.isGroup ? await client.groupMetadata(client.from) : ''
         const groupName = client.isGroup ? groupMetadata.subject : ''
         client.groupMembers = client.isGroup ? groupMetadata.participants : ''
@@ -99,8 +100,8 @@ async function krypton () {
         client.groupId = client.isGroup ? groupMetadata.jid : ''
         client.isGroup = client.from.endsWith('@g.us')
         client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-        client.isGroupAdmins = groupAdmins.includes(sender) || false
-        client.isOwner = ownerNumber.includes(sender)
+        client.isGroupAdmins = groupAdmins.includes(client.sender) || false
+        client.isOwner = ownerNumber.includes(client.sender)
         client.isUrl = (url) => {
             // eslint-disable-next-line prefer-regex-literals
             return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
@@ -122,10 +123,10 @@ async function krypton () {
         client.isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
 
         // Logging Message
-        if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(sender.split('@')[0]), 'args :', color(args.length))
-        if (!client.isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'args :', color(args.length))
-        if (isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
-        if (!isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
+        if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
+        if (!client.isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
+        if (isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(client.sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
+        if (!isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
 
         pesan = {
               tunggu: '⌛ Sedang di Prosess ⌛',
@@ -189,4 +190,4 @@ async function krypton () {
     })
 }
 
-krypton().catch((err) => console.log(err))
+krypton().catch((err) => console.log('Error : %s', color(err, 'red')))
