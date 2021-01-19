@@ -12,7 +12,7 @@
   "author": "KryPtoN",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot"
+    "url": "git+https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot.git"
   },
   "keywords": [
     "Whatsapp",
@@ -32,7 +32,7 @@
     "url": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot/issues"
   },
   "homepage": "https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "spinnies": "^0.5.1",
