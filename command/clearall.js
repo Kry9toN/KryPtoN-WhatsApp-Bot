@@ -3,7 +3,6 @@ module.exports = {
     aliases: ['ca'],
     description: 'Untuk benghapus semua chat _only owner_',
     execute (client, chat, pesan) {
-        if (!client.isGroup) return client.reply(pesan.error.group)
         if (!isOwner) return reply('Kamu siapa?')
         chatAll = client.chats.all()
         client.setMaxListeners(25)

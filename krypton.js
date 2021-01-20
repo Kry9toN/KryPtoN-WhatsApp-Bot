@@ -88,7 +88,7 @@ async function krypton () {
         const content = JSON.stringify(chat.message)
 
         const botNumber = client.user.jid
-        const ownerNumber = ['6285892766102@s.whatsapp.net'] // replace this with your number
+        const ownerNumber = process.env.OWNER_PHONE // Isi di .env
         client.from = chat.key.remoteJid
         client.isGroup = client.from.endsWith('@g.us')
         client.sender = client.isGroup ? chat.participant : chat.key.remoteJid
@@ -100,7 +100,7 @@ async function krypton () {
         client.isGroup = client.from.endsWith('@g.us')
         client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         client.isGroupAdmins = groupAdmins.includes(client.sender) || false
-        client.isOwner = ownerNumber.includes(client.sender)
+        client.isOwner = client.sender.includes(ownerNumber)
         client.isUrl = (url) => {
             // eslint-disable-next-line prefer-regex-literals
             return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
