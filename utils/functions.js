@@ -82,11 +82,16 @@ const getBuffer = async (url, options) => {
     }
 }
 
+const getRandom = (ext) => {
+    return `${Math.floor(Math.random() * 10000)}${ext}`
+}
+
 module.exports = {
     start,
     success,
     processTime,
     getGroupAdmins,
     banner,
-    getBuffer
+    getBuffer,
+    getRandom
 }
