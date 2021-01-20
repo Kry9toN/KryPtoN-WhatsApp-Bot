@@ -49,19 +49,18 @@ async function krypton () {
 
     await client.on('group-participants-update', async (greeting) => {
         try {
+            const num = greeting.participants[0]
             const mdata = await client.groupMetadata(greeting.jid)
+            const name = client.contacts[num] != undefined ? client.contacts[num].vname || client.contacts[num].notify : undefined
+            const ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
             if (greeting.action == 'add') {
                 console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
-                num = greeting.participants[0]
-                ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
-                await welcome(num.split('@')[0], mdata.subject, ppimg).then(async (hasil) => {
+                await welcome(name, mdata.subject, ppimg).then(async (hasil) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             } else if (greeting.action == 'remove') {
                 console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
-                num = greeting.participants[0]
-                ppimg = await client.getProfilePicture(`${num.split('@')[0]}@c.us`)
-                await goodbye(num.split('@')[0], mdata.subject, ppimg).then(async (hasil) => {
+                await goodbye(name, mdata.subject, ppimg).then(async (hasil) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             }
