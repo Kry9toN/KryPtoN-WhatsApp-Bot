@@ -14,8 +14,7 @@ const welcome = (pushname, gcname, picprofil) => new Promise((resolve, reject) =
             .toAttachment()
 
         const buff = image.toBuffer()
-        const base64 = `data:image/png;base64,${buff.toString('base64')}`
-        return base64
+        return buff
     }
     welcome().then((hasil) => resolve(hasil)).catch((err) => {
         reject(err)
@@ -36,8 +35,7 @@ const goodbye = (pushname, gcname, picprofil) => new Promise((resolve, reject) =
             .toAttachment()
 
         const buff = image.toBuffer()
-        const base64 = `data:image/png;base64,${buff.toString('base64')}`
-        return base64
+        return buff
     }
     goodbye().then((hasil) => resolve(hasil)).catch((err) => {
         reject(err)
