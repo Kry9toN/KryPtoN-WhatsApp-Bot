@@ -1,5 +1,3 @@
-const { MessageType } = require('@adiwajshing/baileys')
-
 module.exports = {
     name: 'hidetag',
     aliases: ['ht'],
@@ -8,9 +6,8 @@ module.exports = {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         const value = client.body.slice(9)
-        const group = client.groupMetadata(client.from)
         const memberList = []
-        for (let member of client.groupMembers) {
+        for (const member of client.groupMembers) {
             memberList.push(member.jid)
         }
         const options = {

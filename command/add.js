@@ -1,10 +1,10 @@
-const { MessageType } = require('@adiwajshing/baileys')
 const { color } = require('../utils/color')
 
 module.exports = {
     name: 'add',
     aliases: ['ad'],
     description: 'Untuk menambahkan orang ke group dengan nomor\nPenggunaan: !add 6285xxxx',
+    // eslint-disable-next-line no-shadow-restricted-names
     execute (client, undefined, pesan, args) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
@@ -17,6 +17,6 @@ module.exports = {
         } catch (e) {
             console.log('Error : %s', color(e, 'red'))
             client.reply('Gagal menambahkan target, mungkin karena di private')
-       }
+        }
     }
 }

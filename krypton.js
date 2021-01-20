@@ -129,16 +129,16 @@ async function krypton () {
         if (!isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'in', color(groupName), 'args :', color(args.length))
 
         pesan = {
-              tunggu: '⌛ Sedang di Prosess ⌛',
-              berhasil: '✔️ Berhasil ✔️',
-              hanya: {
-                  admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
-                  botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌'
-              },
-              error: {
-                 group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
-                 args: '❌ Perintah anda salah! ❌'
-              }
+            tunggu: '⌛ Sedang di Prosess ⌛',
+            berhasil: '✔️ Berhasil ✔️',
+            hanya: {
+                admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
+                botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌'
+            },
+            error: {
+                group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
+                args: '❌ Perintah anda salah! ❌'
+            }
         }
 
         /**

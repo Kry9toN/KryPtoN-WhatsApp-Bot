@@ -1,6 +1,5 @@
 const { MessageType } = require('@adiwajshing/baileys')
 const { getBuffer } = require('../utils/functions')
-const { fetchJson } = require('../utils/fetcher')
 
 module.exports = {
     name: 'nulis2',
@@ -9,9 +8,9 @@ module.exports = {
     execute (client, chat, pesan, args) {
         const value = args.slice().join(' ')
         getBuffer(`https://api.zeks.xyz/api/nulis?text=${value}&apikey=administrator`)
-          .then((hasil) => {
-              client.reply(pesan.tunggu)
-              client.sendMessage(client.from, hasil, MessageType.image, {quoted: chat, caption: pesan.berhasil})
-          }).catch((err) => console.log(err))
+            .then((hasil) => {
+                client.reply(pesan.tunggu)
+                client.sendMessage(client.from, hasil, MessageType.image, { quoted: chat, caption: pesan.berhasil })
+            }).catch((err) => console.log(err))
     }
 }

@@ -1,5 +1,3 @@
-const { MessageType } = require('@adiwajshing/baileys')
-
 module.exports = {
     name: 'help',
     aliases: ['h'],
@@ -7,15 +5,15 @@ module.exports = {
     execute (client, chat, pesan, args) {
         const commands = client.cmd.array()
         if (args.length == 0) {
-           let text = `Daftar perintah di bot ini\n\nPrefix: !\n`
-           commands.forEach((cmd) => {
-               text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
-           })
-           return client.reply(text)
+            let text = 'Daftar perintah di bot ini\n\nPrefix: !\n'
+            commands.forEach((cmd) => {
+                text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
+            })
+            return client.reply(text)
         } else {
-           if (!client.cmd.has(args[0])) return client.reply('Perintah yang anda maksut tidak ada bro')
-           const text = client.cmd.get(args[0]).description
-           return client.reply(text)
+            if (!client.cmd.has(args[0])) return client.reply('Perintah yang anda maksut tidak ada bro')
+            const text = client.cmd.get(args[0]).description
+            return client.reply(text)
         }
     }
 }

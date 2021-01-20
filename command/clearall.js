@@ -1,5 +1,3 @@
-const { MessageType } = require('@adiwajshing/baileys')
-
 module.exports = {
     name: 'clearall',
     aliases: ['ca'],
@@ -9,8 +7,8 @@ module.exports = {
         if (!isOwner) return reply('Kamu siapa?')
         chatAll = client.chats.all()
         client.setMaxListeners(25)
-        for (let chat of chatAll) {
-           client.deleteChat(chat.jid)
+        for (const chat of chatAll) {
+            client.deleteChat(chat.jid)
         }
         client.reply('Berhasil menghapus semua chat')
     }

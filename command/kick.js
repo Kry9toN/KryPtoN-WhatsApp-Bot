@@ -1,5 +1,3 @@
-const { MessageType } = require('@adiwajshing/baileys')
-
 module.exports = {
     name: 'kick',
     aliases: ['k'],
@@ -12,7 +10,7 @@ module.exports = {
         mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
         if (mentioned.length > 1) {
             teks = 'Perintah di terima, mengeluarkan :\n'
-            for (let _ of mentioned) {
+            for (const _ of mentioned) {
                 teks += `@${_.split('@')[0]}\n`
             }
             client.mentions(teks, mentioned, true)

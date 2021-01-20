@@ -49,11 +49,11 @@ const processTime = (timestamp, now) => {
 }
 
 const getGroupAdmins = (participants) => {
-	admins = []
-	for (let i of participants) {
-		i.isAdmin ? admins.push(i.jid) : ''
-	}
-	return admins
+    admins = []
+    for (const i of participants) {
+        i.isAdmin ? admins.push(i.jid) : ''
+    }
+    return admins
 }
 
 const banner = cfonts.render(('KRYPTON|WHATSAPP|BOT'), {
@@ -64,22 +64,22 @@ const banner = cfonts.render(('KRYPTON|WHATSAPP|BOT'), {
 })
 
 const getBuffer = async (url, options) => {
-	try {
-		options ? options : {}
-		const res = await axios({
-			method: "get",
-			url,
-			headers: {
-				'DNT': 1,
-				'Upgrade-Insecure-Request': 1
-			},
-			...options,
-			responseType: 'arraybuffer'
-		})
-		return res.data
-	} catch (e) {
-		console.log(`Error : ${e}`)
-	}
+    try {
+        options || {}
+        const res = await axios({
+            method: 'get',
+            url,
+            headers: {
+                DNT: 1,
+                'Upgrade-Insecure-Request': 1
+            },
+            ...options,
+            responseType: 'arraybuffer'
+        })
+        return res.data
+    } catch (e) {
+        console.log(`Error : ${e}`)
+    }
 }
 
 module.exports = {
