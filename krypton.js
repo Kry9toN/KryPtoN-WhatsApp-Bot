@@ -10,6 +10,7 @@ const fs = require('fs')
 const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
 const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+const { databaseView } = require('./utils/db')
 
 async function krypton () {
     const client = new WAConnection()
@@ -86,7 +87,6 @@ async function krypton () {
         const isCmd = client.body.startsWith(prefix)
         const commandName = client.body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const content = JSON.stringify(chat.message)
-
         const botNumber = client.user.jid
         const ownerNumber = process.env.OWNER_PHONE // Isi di .env
         client.from = chat.key.remoteJid
@@ -115,11 +115,19 @@ async function krypton () {
             (bolean == null || bolean == undefined || bolean == false) ? client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { contextInfo: { mentionedJid: id } }) : client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { quoted: chat, contextInfo: { mentionedJid: id } })
         }
 
-        colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
         client.isMedia = (type === 'imageMessage' || type === 'videoMessage')
         client.isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
         client.isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
         client.isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
+
+        // Premuim
+        const viewPm = await databaseView('SELECT * FROM pmium')
+        const pmWhiteList = JSON.stringify(viewPm)
+        client.isPmium = pmWhiteList.includes(client.sender)
+
+        const viewGc = await databaseView('SELECT * FROM gmium')
+        const gcWhiteList = JSON.stringify(viewGc)
+        client.isGmium = gcWhiteList.includes(client.groupId)
 
         // Logging Message
         if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
@@ -136,7 +144,8 @@ async function krypton () {
             },
             error: {
                 group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
-                args: '❌ Perintah anda salah! ❌'
+                args: '❌ Perintah anda salah! ❌',
+                premium: '❌ Perintah hanya untuk pelanggan premium! ❌'
             }
         }
 
@@ -161,6 +170,7 @@ async function krypton () {
             cooldowns.set(command.name, new Collection())
         }
 
+        // Time durations
         const now = Date.now()
         const timestamps = cooldowns.get(command.name)
         const cooldownAmount = (command.cooldown || 1) * 1000
