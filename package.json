@@ -44,7 +44,8 @@
     "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git",
     "release-it": "^14.2.2",
     "cfonts": "^2.9.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
