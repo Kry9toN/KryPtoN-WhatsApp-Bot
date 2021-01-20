@@ -20,7 +20,6 @@ EXPOSE 8080
 #
 RUN git clone -b master https://Kry9toN:468213790d@github.com/Kry9toN/KryPtoN-WhatsApp-Bot /home/wabot
 WORKDIR /home/wabot
-COPY sessions/session.data.json /home/wabot/session.data.json
 
 RUN npm i
 
