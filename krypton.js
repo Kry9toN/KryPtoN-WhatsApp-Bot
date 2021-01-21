@@ -72,7 +72,7 @@ async function krypton () {
 
     await client.on('chat-update', async (chat) => {
         client.pingStart = chat.t
-        client.apiKey = 'EgUxT1qnZ8gtO8ArahNZ'
+        client.apiKey = process.env.API_KEY
         if (!chat.hasNewMessage) return
         const prefix = '!'
         chat = JSON.parse(JSON.stringify(chat)).messages[0]
