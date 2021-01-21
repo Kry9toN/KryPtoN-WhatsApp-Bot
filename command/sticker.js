@@ -7,7 +7,7 @@ module.exports = {
     aliases: ['s', 'st'],
     description: 'Untuk menyimpan note atau catatan di group\nPenggunaan: !notes <save/remove> <key> <value>',
     async execute (client, chat, pesan, args) {
-        if (!client.isPmium) return client.client.reply(pesan.error.premium)
+        if (!client.isPmium) return client.reply(pesan.error.premium)
         const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
         const media = await client.downloadAndSaveMediaMessage(encmedia)
         ranw = getRandom('.webp')
