@@ -1,6 +1,7 @@
 /* eslint-disable no-mixed-operators */
 const { exec } = require('child_process')
 const { getRandom } = require('../utils/functions')
+const ffmpeg = require('fluent-ffmpeg')
 
 module.exports = {
     name: 'sticker',
