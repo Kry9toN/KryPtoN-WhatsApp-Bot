@@ -171,6 +171,7 @@ async function krypton () {
         }
 
         // Time durations
+        if (!client.isPmium || !client.isGmium) {
         const now = Date.now()
         const timestamps = cooldowns.get(command.name)
         const cooldownAmount = (command.cooldown || 1) * 1000
@@ -189,6 +190,7 @@ async function krypton () {
 
         timestamps.set(client.from, now)
         setTimeout(() => timestamps.delete(client.from), cooldownAmount)
+        }
 
         try {
             command.execute(client, chat, pesan, args)
