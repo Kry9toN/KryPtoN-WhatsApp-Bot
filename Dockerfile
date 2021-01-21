@@ -1,5 +1,7 @@
 FROM ubuntu:focal
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update \
 && apt-get install wget gconf-service libasound2 \
 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
