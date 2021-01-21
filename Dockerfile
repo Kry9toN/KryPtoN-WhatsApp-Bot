@@ -13,7 +13,7 @@ libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 \
 libxrandr2 libxrender1 libxss1 libxtst6 python3 \
 libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev \
 ca-certificates fonts-liberation libappindicator1 \
-libnss3 lsb-release xdg-utils wget \
+libnss3 lsb-release xdg-utils wget git nodejs npm \
 ffmpeg libwebp-dev --yes --fix-missing --no-install-recommends\
 && wget --no-check-certificate https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
 && dpkg -i google-chrome-stable_current_amd64.deb || apt -y -f install \
