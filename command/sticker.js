@@ -83,6 +83,9 @@ module.exports = {
                 })
             })
         } else if ((client.isMedia || client.isQuotedImage) && colors.includes(args[0])) {
+            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
+            const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
+            const media = await client.downloadAndSaveMediaMessage(encmedia)
             await ffmpeg(`./${media}`)
                 .on('start', function (cmd) {
                     console.log('[SERVER] Started :', cmd)
