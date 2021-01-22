@@ -202,7 +202,7 @@ async function krypton () {
         }
 
         // Time durations
-        if (!client.isPmium || !client.isGmium) {
+        if (!client.isPmium || !client.isGmium || !client.isOwner) {
         const now = Date.now()
         const timestamps = cooldowns.get(command.name)
         const cooldownAmount = (command.cooldown || 1) * 1000
