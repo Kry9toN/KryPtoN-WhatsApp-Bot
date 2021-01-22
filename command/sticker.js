@@ -9,10 +9,11 @@ module.exports = {
     name: 'sticker',
     aliases: ['s', 'st'],
     cooldown: 600,
-    description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <opsional: color = red, white, black, blue, yellow, green>',
+    description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <rbg/nobg> rbg: remove background, nobg: no background on sticker, default sticker dengan background',
     async execute (client, chat, pesan, args) {
         const colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
-        if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args.length == 0) {
+        if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args[0] == 'nobg') {
+            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             ranw = getRandom('.webp')
@@ -62,7 +63,7 @@ module.exports = {
                 .addOutputOptions(['-vcodec', 'libwebp', '-vf', 'scale=\'min(320,iw)\':min\'(320,ih)\':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse'])
                 .toFormat('webp')
                 .save(ranw)
-        } else if ((client.isMedia || client.isQuotedImage) && args[0] == 'nobg') {
+        } else if ((client.isMedia || client.isQuotedImage) && args[0] == 'rbg') {
             if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
@@ -82,8 +83,7 @@ module.exports = {
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                 })
             })
-        } else if ((client.isMedia || client.isQuotedImage) && colors.includes(args[0])) {
-            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
+        } else if ((client.isMedia || client.isQuotedImage) && args.length == 0) {
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             ranw = getRandom('.webp')
@@ -101,7 +101,7 @@ module.exports = {
                     fs.unlinkSync(media)
                     fs.unlinkSync(ranw)
                 })
-                .addOutputOptions(['-vcodec', 'libwebp', '-vf', `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=${args[0]}@0.0, split [a][b]; [a] palettegen=reserve_transparent=off [p]; [b][p] paletteuse`])
+                .addOutputOptions(['-vcodec', 'libwebp', '-vf', `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=off [p]; [b][p] paletteuse`])
                 .toFormat('webp')
                 .save(ranw)
         } else {
