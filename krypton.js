@@ -161,7 +161,7 @@ async function krypton () {
 
         const sudo = await databaseView('SELECT * FROM sudo')
         const sList = JSON.stringify(sudo)
-        client.isSudo = sList.includes(sender.id)
+        client.isSudo = sList.includes(client.sender)
 
         // Logging Message
         if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
