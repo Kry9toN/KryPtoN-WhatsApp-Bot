@@ -97,11 +97,11 @@ module.exports = {
                 })
                 .on('end', function () {
                     console.log('[SERVER] Berhasil membuat sticker')
+                    client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(media)
-                    client.sendMessage(client.from, fs.readFileSync(ran), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(ranw)
                 })
-                .addOutputOptions(['-vcodec', 'libwebp', '-vf', `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=${args[0]}@0.0, split [a][b]; [a] palettegen=reserve_transparent=off; [b][p] paletteuse`])
+                .addOutputOptions(['-vcodec', 'libwebp', '-vf', `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=${args[0]}@0.0, split [a][b]; [a] palettegen=reserve_transparent=off [p]; [b][p] paletteuse`])
                 .toFormat('webp')
                 .save(ranw)
         } else {
