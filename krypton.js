@@ -13,7 +13,6 @@ const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
 const { databaseView, databaseInput } = require('./utils/db')
 
 async function krypton () {
-
     /***
      * Initial Database
     **/
@@ -160,6 +159,10 @@ async function krypton () {
         const gcWhiteList = JSON.stringify(viewGc)
         client.isGmium = gcWhiteList.includes(client.groupId)
 
+        const sudo = await databaseView('SELECT * FROM sudo')
+        const sList = JSON.stringify(sudo)
+        client.isSudo = sList.includes(sender.id)
+
         // Logging Message
         if (!client.isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', time, color(commandName), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
         if (!client.isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
@@ -168,10 +171,12 @@ async function krypton () {
 
         pesan = {
             tunggu: '⌛ Sedang di Prosess ⌛',
+            gagal: '❌ Gagal melaksanakan perintah ❌',
             berhasil: '✔️ Berhasil ✔️',
             hanya: {
                 admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
-                botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌'
+                botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌',
+                owner: '❌ Perintah hanya untuk owner/sudo! ❌'
             },
             error: {
                 group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
@@ -203,24 +208,24 @@ async function krypton () {
 
         // Time durations
         if (!client.isPmium || !client.isGmium || !client.isOwner) {
-        const now = Date.now()
-        const timestamps = cooldowns.get(command.name)
-        const cooldownAmount = (command.cooldown || 1) * 1000
+            const now = Date.now()
+            const timestamps = cooldowns.get(command.name)
+            const cooldownAmount = (command.cooldown || 1) * 1000
 
-        if (timestamps.has(client.from)) {
-            const expirationTime = timestamps.get(client.from) + cooldownAmount
+            if (timestamps.has(client.from)) {
+                const expirationTime = timestamps.get(client.from) + cooldownAmount
 
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000
-                return client.sendMessage(client.from,
-                    `Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah ini *${command.name}*.`,
-                    MessageType.text
-                )
+                if (now < expirationTime) {
+                    const timeLeft = (expirationTime - now) / 1000
+                    return client.sendMessage(client.from,
+                        `Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah ini *${command.name}*.`,
+                        MessageType.text
+                    )
+                }
             }
-        }
 
-        timestamps.set(client.from, now)
-        setTimeout(() => timestamps.delete(client.from), cooldownAmount)
+            timestamps.set(client.from, now)
+            setTimeout(() => timestamps.delete(client.from), cooldownAmount)
         }
 
         try {
