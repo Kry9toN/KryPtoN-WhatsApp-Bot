@@ -218,7 +218,7 @@ async function krypton () {
                 if (now < expirationTime) {
                     const timeLeft = (expirationTime - now) / 1000
                     return client.sendMessage(client.from,
-                        `Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah ini *${command.name}*.`,
+                        `[Slow mode] Mohon tunggu lebih dari ${timeLeft.toFixed(1)} detik sebelum menggunakan perintah *${command.name}* kembali.\n\n Berlangganan lah agar tidak selalu menunggu seperti ini, ketik *!pricing* untuk info harga, dll`,
                         MessageType.text
                     )
                 }
