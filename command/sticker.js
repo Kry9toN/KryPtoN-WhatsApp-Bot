@@ -85,14 +85,14 @@ module.exports = {
         } else if ((client.isMedia || client.isQuotedImage) && colors.includes(args[0])) {
             await ffmpeg(`./${media}`)
                 .on('start', function (cmd) {
-                    console.log('Started :', cmd)
+                    console.log('[SERVER] Started :', cmd)
                 })
                 .on('error', function (err) {
                     fs.unlinkSync(media)
-                    console.log('Error :', err)
+                    console.log('[SERVER] Error :', err)
                 })
                 .on('end', function () {
-                    console.log('Finish')
+                    console.log('[SERVER] Berhasil membuat sticker')
                     fs.unlinkSync(media)
                     client.sendMessage(client.from, fs.readFileSync(ran), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(ran)
