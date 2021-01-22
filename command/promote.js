@@ -1,5 +1,3 @@
-const { MessageType } = require('@adiwajshing/baileys')
-
 module.exports = {
     name: 'promote',
     aliases: ['pm'],
@@ -8,11 +6,11 @@ module.exports = {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
-        if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di tendang!')
+        if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di promote!')
         mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
         if (mentioned.length > 1) {
             teks = 'Perintah di terima, promote :\n'
-            for (let _ of mentioned) {
+            for (const _ of mentioned) {
                 teks += `@${_.split('@')[0]}\n`
             }
             client.mentions(teks, mentioned, true)

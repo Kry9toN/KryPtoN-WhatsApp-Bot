@@ -6,7 +6,7 @@ module.exports = {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
-        if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di tendang!')
+        if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di demote!')
         mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
         if (mentioned.length > 1) {
             teks = 'Perintah di terima, demote :\n'
