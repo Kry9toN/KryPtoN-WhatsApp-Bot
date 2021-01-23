@@ -1,3 +1,4 @@
+export {}
 const { databaseView, databaseInput } = require('../utils/db')
 
 module.exports = {

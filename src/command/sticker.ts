@@ -1,9 +1,11 @@
 /* eslint-disable no-mixed-operators */
+export {}
 const { MessageType } = require('@adiwajshing/baileys')
 const { exec } = require('child_process')
 const { getRandom } = require('../utils/functions')
 const ffmpeg = require('fluent-ffmpeg')
 const fs = require('fs')
+const { removeBackgroundclient } = require('remove.bg')
 
 module.exports = {
     name: 'sticker',
@@ -11,12 +13,11 @@ module.exports = {
     cooldown: 600,
     description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <rbg/nobg> rbg: remove background, nobg: no background on sticker, default sticker dengan background',
     async execute (client, chat, pesan, args) {
-        const colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
         if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args[0] == 'nobg') {
             if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
-            ranw = getRandom('.webp')
+            const ranw = getRandom('.webp')
             client.reply(pesan.tunggu)
             await ffmpeg(`./${media}`)
                 .input(media)
@@ -41,7 +42,7 @@ module.exports = {
             if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
             const encmedia = client.isQuotedVideo ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
-            ranw = getRandom('.webp')
+            const ranw = getRandom('.webp')
             client.reply(pesan.tunggu)
             await ffmpeg(`./${media}`)
                 .inputFormat(media.split('.')[1])
@@ -51,7 +52,7 @@ module.exports = {
                 .on('error', function (err) {
                     console.log(`[SERVER] Error : ${err}`)
                     fs.unlinkSync(media)
-                    tipe = media.endsWith('.mp4') ? 'video' : 'gif'
+                    const tipe = media.endsWith('.mp4') ? 'video' : 'gif'
                     client.reply(`❌ Gagal, pada saat mengkonversi ${tipe} ke stiker`)
                 })
                 .on('end', function () {
@@ -67,13 +68,13 @@ module.exports = {
             if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
-            ranw = getRandom('.webp')
-            ranp = getRandom('.png')
+            const ranw = getRandom('.webp')
+            const ranp = getRandom('.png')
             client.reply(pesan.tunggu)
-            keyrmbg = process.env.KEY_REMOVEBG
-            await removeBackgroundclient.fromImageFile({ path: media, apiKey: keyrmbg.result, size: 'auto', type: 'auto', ranp }).then(res => {
+            const keyrmbg = process.env.KEY_REMOVEBG
+            await removeBackgroundclient.fromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then(res => {
                 fs.unlinkSync(media)
-                const buffer = Buffer.client.from(res.base64img, 'base64')
+                const buffer = Buffer.from(res.base64img, 'base64')
                 fs.writeFileSync(ranp, buffer, (err) => {
                     if (err) return client.reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
                 })
@@ -86,7 +87,7 @@ module.exports = {
         } else if ((client.isMedia || client.isQuotedImage) && args.length == 0) {
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
-            ranw = getRandom('.webp')
+            const ranw = getRandom('.webp')
             await ffmpeg(`./${media}`)
                 .on('start', function (cmd) {
                     console.log('[SERVER] Started :', cmd)
@@ -101,7 +102,7 @@ module.exports = {
                     fs.unlinkSync(media)
                     fs.unlinkSync(ranw)
                 })
-                .addOutputOptions(['-vcodec', 'libwebp', '-vf', `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=off [p]; [b][p] paletteuse`])
+                .addOutputOptions(['-vcodec', 'libwebp', '-vf', 'scale=\'min(320,iw)\':min\'(320,ih)\':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=off [p]; [b][p] paletteuse'])
                 .toFormat('webp')
                 .save(ranw)
         } else {

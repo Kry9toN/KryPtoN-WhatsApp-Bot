@@ -1,3 +1,4 @@
+export {}
 const { MessageType } = require('@adiwajshing/baileys')
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
         const arg = client.body.slice(9)
         const targets = arg.split('|')[1]
         const bot = arg.split('|')[2]
-        mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
+        const mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
         client.sendMessage(client.from, `${bot}`, MessageType.text, { quoted: { key: { fromMe: false, participant: `${mentioned}`, ...(client.from ? { remoteJid: client.from } : {}) }, message: { conversation: `${targets}` } } })
     }
 }

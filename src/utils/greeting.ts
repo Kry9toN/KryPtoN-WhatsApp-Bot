@@ -1,3 +1,4 @@
+export {}
 const Canvas = require('wa-canvas')
 
 const welcome = (pushname, gcname, picprofil) => new Promise((resolve, reject) => {

@@ -5,7 +5,8 @@
   "description": "KryPtoN Whatsapp Bot",
   "main": "krypton.js",
   "scripts": {
-    "start": "node krypton.js",
+    "start": "node start",
+    "compile": "tsc --build tsconfig.json",
     "changelog": "auto-changelog -p && git add CHANGELOG.md",
     "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
   },
@@ -25,6 +26,9 @@
       "release": true
     }
   },
+  "eslintConfig": {
+    "ignorePatterns": "build/*/**"
+  },
   "auto-changelog": {
     "commitLimit": false
   },
@@ -35,23 +39,28 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "@adiwajshing/baileys": "^3.4.1",
-    "spinnies": "^0.5.1",
-    "chalk": "^4.1.0",
-    "discord.js": "^12.5.1",
     "auto-changelog": "^2.2.1",
-    "moment-timezone": "^0.5.32",
     "axios": "^0.21.1",
-    "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git",
-    "release-it": "^14.2.2",
     "cfonts": "^2.9.1",
+    "chalk": "^4.1.0",
+    "child_process": "^1.0.2",
+    "discord.js": "^12.5.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "moment-timezone": "^0.5.32",
     "node-fetch": "^2.6.1",
     "pg": "^8.5.1",
-    "child_process": "^1.0.2",
-    "fluent-ffmpeg": "^2.1.2"
+    "release-it": "^14.2.2",
+    "remove.bg": "^1.3.0",
+    "source-map-loader": "^2.0.0",
+    "spinnies": "^0.5.1",
+    "typescript": "^4.1.3",
+    "wa-canvas": "git+https://github.com/Kry9toN/wa-canvas.git"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^7.14.0",
+    "ts-loader": "^8.0.14",
+    "ts-node": "^9.1.1",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
