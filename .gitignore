@@ -16,3 +16,4 @@ lib/jiwa.js
 package-lock.json
 .env
 dist
+.cache
