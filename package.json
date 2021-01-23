@@ -8,7 +8,9 @@
     "start": "node start",
     "compile": "tsc --build tsconfig.json",
     "changelog": "auto-changelog -p && git add CHANGELOG.md",
-    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
+    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it",
+    "lint": "eslint . --ignore-path .gitignore --ext .ts --cache --cache-location .cache/eslintcache",
+    "lint:fix": "eslint . --ignore-path .gitignore --ext .ts --fix --cache --cache-location .cache/eslintcache"
   },
   "author": "KryPtoN",
   "repository": {
