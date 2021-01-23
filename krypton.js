@@ -17,7 +17,7 @@ async function krypton () {
      * Initial Database
     **/
     // Black List
-    databaseInput('CREATE TABLE IF NOT EXISTS blacklist( id VARCHAR(20) PRIMARY KEY NOT NULL , reason CHAR(225) DEFAULT \'No Reason\')')
+    databaseInput('CREATE TABLE IF NOT EXISTS blacklist( id VARCHAR(30) PRIMARY KEY NOT NULL , reason CHAR(225) DEFAULT \'No Reason\')')
         .catch(err => console.log(err))
     // Filters
     databaseInput('CREATE TABLE IF NOT EXISTS filters( gid VARCHAR(50) NOT NULL , key VARCHAR(225) NOT NULL, res VARCHAR(225) NOT NULL )')
@@ -26,7 +26,7 @@ async function krypton () {
     databaseInput('CREATE TABLE IF NOT EXISTS notes( gid VARCHAR(50) NOT NULL , key VARCHAR(225) NOT NULL, res VARCHAR(225) NOT NULL )')
         .catch(err => console.log(err))
     // Premium
-    databaseInput('CREATE TABLE IF NOT EXISTS gmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, lifetime VARCHAR(10) NOT NULL, signature VARCHAR(25) NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
+    databaseInput('CREATE TABLE IF NOT EXISTS gmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, lifetime VARCHAR(10) NOT NULL, signature VARCHAR(30) NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
         .catch(err => console.log(err))
     databaseInput('CREATE TABLE IF NOT EXISTS pmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
         .catch(err => console.log(err))
@@ -34,13 +34,13 @@ async function krypton () {
     databaseInput('CREATE TABLE IF NOT EXISTS bllist( gid VARCHAR(50) NOT NULL , text VARCHAR(225) NOT NULL)')
         .catch(err => console.log(err))
     // Blacklist user
-    databaseInput('CREATE TABLE IF NOT EXISTS warn( gid VARCHAR(50) NOT NULL, uid VARCHAR(20) NOT NULL , warn VARCHAR(100) NOT NULL)')
+    databaseInput('CREATE TABLE IF NOT EXISTS warn( gid VARCHAR(50) NOT NULL, uid VARCHAR(30) NOT NULL , warn VARCHAR(100) NOT NULL)')
         .catch(err => console.log(err))
     // Sudo
-    databaseInput('CREATE TABLE IF NOT EXISTS sudo( id VARCHAR(20) PRIMARY KEY NOT NULL )')
+    databaseInput('CREATE TABLE IF NOT EXISTS sudo( id VARCHAR(30) PRIMARY KEY NOT NULL )')
         .catch(err => console.log(err))
     // Sudo
-    databaseInput('CREATE TABLE IF NOT EXISTS afks( uid VARCHAR(20) PRIMARY KEY NOT NULL, afk VARCHAR(10) NOT NULL, reason CHAR(225) NOT NULL, timestart VARCHAR(100) NOT NULL )')
+    databaseInput('CREATE TABLE IF NOT EXISTS afks( uid VARCHAR(30) PRIMARY KEY NOT NULL, afk VARCHAR(10) NOT NULL, reason CHAR(225) NOT NULL, timestart VARCHAR(100) NOT NULL )')
         .catch(err => console.log(err))
 
     const client = new WAConnection()
