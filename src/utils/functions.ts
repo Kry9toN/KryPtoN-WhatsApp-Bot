@@ -57,13 +57,6 @@ const getGroupAdmins = (participants) => {
     return admins
 }
 
-const banner = cfonts.render(('KRYPTON|WHATSAPP|BOT'), {
-    font: 'block',
-    colors: ['red', 'blue'],
-    align: 'center',
-    lineHeight: 2
-})
-
 const getBuffer = async (url, options) => {
     try {
         options || {}
@@ -92,7 +85,6 @@ module.exports = {
     success,
     processTime,
     getGroupAdmins,
-    banner,
     getBuffer,
     getRandom
 }
