@@ -20,6 +20,7 @@ module.exports = {
                     }).catch((err) => {
                         client.reply(pesan.gagal)
                         console.log(err)
+                        client.log(err)
                     })
             } else {
                 databaseInput(`INSERT INTO gmium(gid, lifetime, signature) VALUES('${gid}', 'standard', '${sign}')`)
@@ -28,6 +29,7 @@ module.exports = {
                     }).catch((err) => {
                         client.reply(pesan.gagal)
                         console.log(err)
+                        client.log(err)
                     })
             }
         } else if (args[0] === 'del') {
@@ -37,6 +39,7 @@ module.exports = {
                 }).catch((err) => {
                     client.reply(pesan.gagal)
                     console.log(err)
+                    client.log(err)
                 })
         } else if (args.length === 0) {
             await databaseView('SELECT * FROM gmium')
@@ -63,6 +66,7 @@ module.exports = {
                 }).catch((err) => {
                     client.reply('Error mengambil database')
                     console.log(err)
+                    client.log(err)
                 })
         }
     }

@@ -12,6 +12,9 @@ module.exports = {
             .then((hasil) => {
                 client.reply(pesan.tunggu)
                 client.sendMessage(client.from, hasil, MessageType.image, { quoted: chat, caption: pesan.berhasil })
-            }).catch((err) => console.log(err))
+            }).catch((err) => {
+                console.log(err)
+                client.log(err)
+            })
     }
 }

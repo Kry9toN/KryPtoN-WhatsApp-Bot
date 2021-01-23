@@ -17,6 +17,7 @@ module.exports = {
         } catch (e) {
             console.log('Error : %s', color(e, 'red'))
             client.reply('Gagal menambahkan target, mungkin karena di private')
+            client.log(e)
         }
     }
 }

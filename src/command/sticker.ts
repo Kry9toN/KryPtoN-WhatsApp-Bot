@@ -28,6 +28,7 @@ module.exports = {
                     console.log(`[INFO] Error : ${err}`)
                     fs.unlinkSync(media)
                     client.reply('Error saat membuat sticker')
+                    client.log(err)
                 })
                 .on('end', function () {
                     console.log('[INFO] Berhasil membuat sticker')
@@ -54,6 +55,7 @@ module.exports = {
                     fs.unlinkSync(media)
                     const tipe = media.endsWith('.mp4') ? 'video' : 'gif'
                     client.reply(`❌ Gagal, pada saat mengkonversi ${tipe} ke stiker`)
+                    client.log(err)
                 })
                 .on('end', function () {
                     console.log('[INFO] Berhasil membuat sticker')
@@ -95,6 +97,8 @@ module.exports = {
                 .on('error', function (err) {
                     fs.unlinkSync(media)
                     console.log('[INFO] Error :', err)
+                    client.reply('Error saat membuat sticker')
+                    client.log(err)
                 })
                 .on('end', function () {
                     console.log('[INFO] Berhasil membuat sticker')

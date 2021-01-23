@@ -14,6 +14,9 @@ module.exports = {
                 client.reply(pesan.tunggu)
                 const image = await getBuffer(hasil.image)
                 client.sendMessage(client.from, image, MessageType.image, { quoted: chat, caption: pesan.berhasil })
-            }).catch((err) => console.log(err))
+            }).catch((err) => {
+                console.log(err)
+                client.log(err)
+            })
     }
 }

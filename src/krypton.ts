@@ -118,6 +118,7 @@ async function krypton () {
         const content = JSON.stringify(chat.message)
         const botNumber = client.user.jid
         const ownerNumber = process.env.OWNER_PHONE // Isi di .env
+        const logGroup = process.env.LOGGING // Isi di .env
         client.from = chat.key.remoteJid
         client.isGroup = client.from.endsWith('@g.us')
         client.sender = client.isGroup ? chat.participant : chat.key.remoteJid
@@ -141,6 +142,9 @@ async function krypton () {
         }
         client.mentions = (teks, id, bolean) => {
             (bolean == null || bolean == undefined || bolean == false) ? client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { contextInfo: { mentionedJid: id } }) : client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { quoted: chat, contextInfo: { mentionedJid: id } })
+        }
+        client.log = (error: string) => {
+            client.sendMessage(logGroup, `[LOGGING] command: *${commandName}* ${error}`, MessageType.text)
         }
 
         client.isMedia = (type === 'imageMessage' || type === 'videoMessage')
@@ -231,6 +235,7 @@ async function krypton () {
         } catch (e) {
             console.log('[INFO] : %s', color(e, 'red'))
             client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text)
+            client.log(e)
         }
     })
 }
