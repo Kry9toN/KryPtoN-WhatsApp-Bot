@@ -5,7 +5,7 @@ const { getBuffer } = require('../utils/functions')
 module.exports = {
     name: 'nulis2',
     aliases: ['n2'],
-    description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis _tulisan_',
+    description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis2 _tulisan_',
     execute (client, chat, pesan, args) {
         const value = args.slice().join(' ')
         getBuffer(`https://api.zeks.xyz/api/nulis?text=${value}&apikey=administrator`)

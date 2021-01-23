@@ -2,7 +2,6 @@ export {}
 let Spin = require('spinnies')
 const moment = require('moment-timezone')
 const axios = require('axios')
-const cfonts = require('cfonts')
 
 const spinner = {
     interval: 120,
