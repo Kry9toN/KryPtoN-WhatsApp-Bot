@@ -54,7 +54,7 @@ module.exports = {
                         client.mentions(`${text}`, mentioned, true)
                     } else {
                         text += '- Belum ada member'
-                        client.reply(from, text, id)
+                        client.reply(text)
                     }
                 }).catch((err) => {
                     client.reply('Error mengambil database')
