@@ -7,12 +7,13 @@ module.exports = {
     description: 'Untuk mengelola member premium group _only owner_',
     async execute (client, chat, pesan, args) {
         if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
-        const gid = args[2]
+        const gid = args[1]
         if (args[0] === 'add') {
             const mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
             const sign = mentioned[0]
             if (args[1] === 'unlimited') {
                 if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag yang bersangkutan!')
+                const gid = args[2]
                 databaseInput(`INSERT INTO gmium(gid, lifetime, signature) VALUES('${gid}', 'unlimited', '${sign}')`)
                     .then(() => {
                         client.reply(pesan.berhasil)

@@ -57,20 +57,20 @@ async function krypton () {
     if (fs.existsSync('./sessions/krypton-sessions.json')) {
         await client.loadAuthInfo('./sessions/krypton-sessions.json')
         await client.on('connecting', () => {
-            start('1', '[SERVER] Menyambungkan ke sessions yang sudah ada...')
+            start('1', '[INFO] Menyambungkan ke sessions yang sudah ada...')
         })
     }
 
     // Server connecting
     if (!fs.existsSync('./sessions/krypton-sessions.json')) {
         await client.on('connecting', () => {
-            start('1', '[SERVER] Menunggu scan code QR untuk menyambungkan...')
+            start('1', '[INFO] Menunggu scan code QR untuk menyambungkan...')
         })
     }
 
     // Server connected
     await client.on('open', () => {
-        success('1', '[SERVER] Terhubung')
+        success('1', '[INFO] Terhubung')
         console.log('🤖', color('KryPtoN Bot Sudah siap!!', 'green'))
     })
 
@@ -96,7 +96,7 @@ async function krypton () {
                 })
             }
         } catch (e) {
-            console.log('Error : %s', color(e, 'red'))
+            console.log('[INFO] : %s', color(e, 'red'))
         }
     })
 
@@ -126,8 +126,7 @@ async function krypton () {
         const groupName = client.isGroup ? groupMetadata.subject : ''
         client.groupMembers = client.isGroup ? groupMetadata.participants : ''
         const groupAdmins = client.isGroup ? getGroupAdmins(client.groupMembers) : ''
-        client.groupId = client.isGroup ? groupMetadata.jid : ''
-        client.isGroup = client.from.endsWith('@g.us')
+        client.groupId = client.isGroup ? groupMetadata.id : ''
         client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         client.isGroupAdmins = groupAdmins.includes(client.sender) || false
         client.isOwner = client.sender.includes(ownerNumber)
@@ -202,12 +201,12 @@ async function krypton () {
 
         if (!command) return
 
-        if (!cooldowns.has(command.name)) {
-            cooldowns.set(command.name, new Collection())
-        }
-
         // Time durations
-        if (!client.isPmium || !client.isGmium || !client.isOwner) {
+        if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) {
+            if (!cooldowns.has(command.name)) {
+                cooldowns.set(command.name, new Collection())
+            }
+
             const now = Date.now()
             const timestamps = cooldowns.get(command.name)
             const cooldownAmount = (command.cooldown || 1) * 1000
@@ -231,10 +230,10 @@ async function krypton () {
         try {
             command.execute(client, chat, pesan, args)
         } catch (e) {
-            console.log('Error : %s', color(e, 'red'))
+            console.log('[INFO] : %s', color(e, 'red'))
             client.sendMessage(client.from, 'Telah terjadi error setelah menggunakan command ini.', MessageType.text)
         }
     })
 }
 
-krypton().catch((err) => console.log('Error : %s', color(err, 'red')))
+krypton().catch((err) => console.log('[INFO] : %s', color(err, 'red')))

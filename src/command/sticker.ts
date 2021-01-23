@@ -22,15 +22,15 @@ module.exports = {
             await ffmpeg(`./${media}`)
                 .input(media)
                 .on('start', function (cmd) {
-                    console.log(`[SERVER] Started : ${cmd}`)
+                    console.log(`[INFO] Started : ${cmd}`)
                 })
                 .on('error', function (err) {
-                    console.log(`[SERVER] Error : ${err}`)
+                    console.log(`[INFO] Error : ${err}`)
                     fs.unlinkSync(media)
                     client.reply('Error saat membuat sticker')
                 })
                 .on('end', function () {
-                    console.log('[SERVER] Berhasil membuat sticker')
+                    console.log('[INFO] Berhasil membuat sticker')
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(media)
                     fs.unlinkSync(ranw)
@@ -47,16 +47,16 @@ module.exports = {
             await ffmpeg(`./${media}`)
                 .inputFormat(media.split('.')[1])
                 .on('start', function (cmd) {
-                    console.log(`[SERVER] Started : ${cmd}`)
+                    console.log(`[INFO] Started : ${cmd}`)
                 })
                 .on('error', function (err) {
-                    console.log(`[SERVER] Error : ${err}`)
+                    console.log(`[INFO] Error : ${err}`)
                     fs.unlinkSync(media)
                     const tipe = media.endsWith('.mp4') ? 'video' : 'gif'
                     client.reply(`❌ Gagal, pada saat mengkonversi ${tipe} ke stiker`)
                 })
                 .on('end', function () {
-                    console.log('[SERVER] Berhasil membuat sticker')
+                    console.log('[INFO] Berhasil membuat sticker')
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(media)
                     fs.unlinkSync(ranw)
@@ -90,14 +90,14 @@ module.exports = {
             const ranw = getRandom('.webp')
             await ffmpeg(`./${media}`)
                 .on('start', function (cmd) {
-                    console.log('[SERVER] Started :', cmd)
+                    console.log('[INFO] Started :', cmd)
                 })
                 .on('error', function (err) {
                     fs.unlinkSync(media)
-                    console.log('[SERVER] Error :', err)
+                    console.log('[INFO] Error :', err)
                 })
                 .on('end', function () {
-                    console.log('[SERVER] Berhasil membuat sticker')
+                    console.log('[INFO] Berhasil membuat sticker')
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                     fs.unlinkSync(media)
                     fs.unlinkSync(ranw)
