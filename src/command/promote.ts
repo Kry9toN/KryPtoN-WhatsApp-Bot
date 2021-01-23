@@ -1,6 +1,7 @@
 module.exports = {
     name: 'promote',
     aliases: ['pm'],
+    cooldown: 10,
     description: 'Untuk manjadikan admin anggota di group\nPenggunaan: !promote _tag_',
     execute (client, chat, pesan) {
         if (!client.isGroup) return client.reply(pesan.error.group)

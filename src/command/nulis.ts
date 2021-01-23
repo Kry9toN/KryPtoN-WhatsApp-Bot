@@ -6,6 +6,7 @@ const { fetchJson } = require('../utils/fetcher')
 module.exports = {
     name: 'nulis',
     aliases: ['n'],
+    cooldown: 50,
     description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis _tulisan_',
     execute (client, chat, pesan, args) {
         const value = args.slice().join(' ')

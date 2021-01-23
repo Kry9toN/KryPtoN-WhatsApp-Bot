@@ -1,6 +1,7 @@
 module.exports = {
     name: 'kick',
     aliases: ['k'],
+    cooldown: 10,
     description: 'Untuk mengeluarkan angota di group\nPenggunaan: !kick _tag_',
     execute (client, chat, pesan) {
         if (!client.isGroup) return client.reply(pesan.error.group)

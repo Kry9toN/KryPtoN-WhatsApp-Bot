@@ -4,6 +4,7 @@ const { MessageType } = require('@adiwajshing/baileys')
 module.exports = {
     name: 'fakereply',
     aliases: ['fr', 'fake', 'fitnah'],
+    cooldown: 35,
     description: 'Untuk memfitnah atau menjahili teman\nPenggunaan !fakereply _tag_',
     execute (client, chat, pesan) {
         if (!client.isGroup) return client.reply(pesan.error.group)

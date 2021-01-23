@@ -1,5 +1,6 @@
 module.exports = {
     name: 'slap',
+    cooldown: 10,
     description: 'Untuk menampol orang\nPenggunaan !slap _tag_',
     execute (client, chat, pesan, args) {
         if (!client.isGroup) return client.reply(pesan.error.group)

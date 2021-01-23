@@ -1,6 +1,7 @@
 module.exports = {
     name: 'help',
     aliases: ['h'],
+    cooldown: 10,
     description: 'Menampilkan semua perintah dan deskripsi',
     execute (client, chat, pesan, args) {
         const commands = client.cmd.array()

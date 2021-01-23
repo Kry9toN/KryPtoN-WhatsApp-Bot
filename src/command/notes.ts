@@ -4,6 +4,7 @@ const { databaseView, databaseInput } = require('../utils/db')
 module.exports = {
     name: 'notes',
     aliases: ['nt'],
+    cooldown: 15,
     description: 'Untuk menyimpan note atau catatan di group\nPenggunaan: !notes <save/remove> <key> <value>',
     async execute (client, chat, pesan, args) {
         if (!client.isGroup) return client.reply(pesan.error.group)

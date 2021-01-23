@@ -1,6 +1,7 @@
 module.exports = {
     name: 'demote',
     aliases: ['dm'],
+    cooldown: 10,
     description: 'Untuk manghapus admin anggota group\nPenggunaan: !demote _tag_',
     execute (client, chat, pesan) {
         if (!client.isGroup) return client.reply(pesan.error.group)
