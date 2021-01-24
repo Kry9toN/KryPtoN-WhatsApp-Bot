@@ -57,7 +57,7 @@ const web = async (client) => {
     })
 
     // Run the server
-    const PORT = 3000
+    const PORT = process.env.PORT || 8080
     httpServer.listen(PORT, () => {
         console.log(color('[INFO] Web api Server on port: ', 'green') + color(`${PORT}`, 'yellow'))
     })
