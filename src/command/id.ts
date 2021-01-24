@@ -5,10 +5,10 @@ module.exports = {
     execute (client, chat, pesan) {
         const uid = client.sender
         if (client.isGroup) {
-           const gid = client.groupId
-           client.reply(`*ID* kamu : ${uid}\nGroup *ID* : ${gid}`)
+            const gid = client.groupId
+            client.reply(`*ID* kamu : ${uid}\nGroup *ID* : ${gid}`)
         } else {
-           client.reply(`*ID* kamu : ${uid}`)
+            client.reply(`*ID* kamu : ${uid}`)
         }
     }
 }

@@ -1,3 +1,4 @@
+export {}
 const {
     WAConnection, MessageType
 } = require('@adiwajshing/baileys')
@@ -11,8 +12,14 @@ const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
 const time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
 const { databaseView, databaseInput } = require('./utils/db')
+const { web } = require('./utils/web')
 
 async function krypton () {
+    const client = new WAConnection()
+    client.cmd = new Collection()
+    client.runtimeDb = new Collection()
+    const cooldowns = new Collection()
+
     /***
      * Initial Database
     **/
@@ -43,10 +50,6 @@ async function krypton () {
     databaseInput('CREATE TABLE IF NOT EXISTS afks( uid VARCHAR(30) PRIMARY KEY NOT NULL, afk VARCHAR(10) NOT NULL, reason CHAR(225) NOT NULL, timestart VARCHAR(100) NOT NULL )')
         .catch(err => console.log(err))
 
-    const client = new WAConnection()
-    client.cmd = new Collection()
-    client.runtimeDb = new Collection()
-    const cooldowns = new Collection()
     client.logger.level = 'warn'
     await client.on('qr', () => {
         console.log(color('[', 'white'), color('!', 'red'), color(']', 'white'), color(' Scan the QR code above'))
@@ -76,6 +79,9 @@ async function krypton () {
     // Create file for sessions
     await client.connect({ timeoutMs: 30 * 1000 })
     fs.writeFileSync('./sessions/krypton-sessions.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
+
+    // Web api proses
+    web(client)
 
     await client.on('group-participants-update', async (greeting) => {
         try {
