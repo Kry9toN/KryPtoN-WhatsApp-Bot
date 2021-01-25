@@ -5,7 +5,7 @@ const { exec } = require('child_process')
 const { getRandom } = require('../utils/functions')
 const ffmpeg = require('fluent-ffmpeg')
 const fs = require('fs')
-const { removeBackgroundclient } = require('remove.bg')
+const { removeBackgroundFromImageFile } = require('remove.bg')
 
 module.exports = {
     name: 'sticker',
@@ -14,7 +14,7 @@ module.exports = {
     description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <rbg/nobg> rbg: remove background, nobg: no background on sticker, default sticker dengan background',
     async execute (client, chat, pesan, args) {
         if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args[0] == 'nobg') {
-            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
+            if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             const ranw = getRandom('.webp')
@@ -40,7 +40,7 @@ module.exports = {
                 .toFormat('webp')
                 .save(ranw)
         } else if ((client.isMedia && chat.message.videoMessage.seconds < 11 || client.isQuotedVideo && chat.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
-            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
+            if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedVideo ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             const ranw = getRandom('.webp')
@@ -67,14 +67,14 @@ module.exports = {
                 .toFormat('webp')
                 .save(ranw)
         } else if ((client.isMedia || client.isQuotedImage) && args[0] == 'rbg') {
-            if (!client.isPmium && !client.isOwner) return client.reply(pesan.error.premium)
+            if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             const ranw = getRandom('.webp')
             const ranp = getRandom('.png')
             client.reply(pesan.tunggu)
             const keyrmbg = process.env.KEY_REMOVEBG
-            await removeBackgroundclient.fromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then(res => {
+            await removeBackgroundFromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then(res => {
                 fs.unlinkSync(media)
                 const buffer = Buffer.from(res.base64img, 'base64')
                 fs.writeFileSync(ranp, buffer, (err) => {

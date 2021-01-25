@@ -8,7 +8,7 @@ module.exports = {
     description: 'Untuk menyimpan note atau catatan di group\nPenggunaan: !notes <save/remove> <key> <value>',
     async execute (client, chat, pesan, args) {
         if (!client.isGroup) return client.reply(pesan.error.group)
-        if (!client.isGmium && !client.isOwner) return client.reply(pesan.error.premium)
+        if (!client.isGmium) return client.reply(pesan.hanya.premium)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
         const key = args[1]
