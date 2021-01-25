@@ -20,11 +20,11 @@ socket.on('ram-usage', ({ ram, cpu, username, osInfo, chat, uptime }) => {
     // Set ram label
     labelRam.innerHTML = `<span>RAM ${ram} % </span>`;
     // Set Ram bar
-    $('.innerBar-ram').animate({ width: `${ram}%` }, 2000);
+    $('.innerBar-ram').animate({ width: `${ram}%` }, 500);
     // Set cpu label
     labelCpu.innerHTML = `<span>CPU ${cpu} % </span>`;
     // Set cpu bar
-    $('.innerBar-cpu').animate({ width: `${cpu}%` }, 2000);
+    $('.innerBar-cpu').animate({ width: `${cpu}%` }, 500);
     // Check
     if (cpu > 90) {
         notify(cpu)

@@ -41,13 +41,13 @@ label {
 .innerBar-ram,
 .innerBar-cpu {
    background: linear-gradient(to right, #3fffa2 0%, #ffdb3a 50%, #e5405e 100%);
-   height: 24px;
+   height: 20px;
    width: 0%;
 }
 .outerContainer-ram,
 .outerContainer-cpu {
-   width: 400px;
-   height: 24px;
+   width: 250px;
+   height: 20px;
    border-radius: 5px;
    overflow: hidden;
    background: lightgray;
