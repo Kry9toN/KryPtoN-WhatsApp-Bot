@@ -29,7 +29,7 @@ const web = async (client) => {
         client.sendMessage(id, text, MessageType.text)
             .then(() => {
                 res.json({ info: 'Berhasil mengirim', status: 200 })
-            }).catch((err) => res.json({ info: 'Gagal mengirim', status: 502 }))
+            }).catch((err) => res.json({ info: err, status: 502 }))
     })
 
     // CPU USAGE
@@ -51,8 +51,9 @@ const web = async (client) => {
             // Uptime and Chat
             const chat = await client.chats.all().length
             const uptime = Math.round(process.uptime()).toFixed(0)
+
             // CPU USAGE PERCENTAGE
-            cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, username, osInfo, chat, uptime }))
+            cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, username, osInfo, chat, uptime, loging }))
         }, 1000)
     })
 
@@ -63,6 +64,16 @@ const web = async (client) => {
     })
 }
 
+const loging = (client) => {
+    let loging
+    if (!client.isGroup && client.isCmd) loging = `=> ${client.time} ${client.commandName} from ${client.sender.split('@')[0]}`
+    if (!client.isGroup && !client.isCmd) loging = `=> ${client.time} Message from ${client.sender.split('@')[0]}`
+    if (client.isCmd && client.isGroup) loging = `=> ${client.time} ${client.commandName} from ${client.sender.split('@')[0]} in ${client.groupName}`
+    if (!client.isCmd && client.isGroup) loging = `=> ${client.time} Message from ${client.sender.split('@')[0]} in ${client.groupName}`
+    io.emit('log', { loging })
+}
+
 module.exports = {
-    web
+    web,
+    loging
 }

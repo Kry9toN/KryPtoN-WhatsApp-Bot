@@ -7,13 +7,14 @@ const user = document.querySelector('.user');
 const os = document.querySelector('.os');
 const chatTotal = document.querySelector('.chat');
 const onTime = document.querySelector('.uptime');
+const log = document.querySelector('.log');
 
 // ON CONNECT EVENT
 socket.on('connect', () => {
     console.log('Connected');
 });
 // ON RAM USAGE EVENT
-socket.on('ram-usage', ({ ram, cpu, username, osInfo, chat, uptime }) => {
+socket.on('ram-usage', ({ ram, cpu, username, osInfo, chat, uptime, loging }) => {
     // SHOW OS USER INFO
     user.innerHTML = `<span>Hello ${username}</span>`;
     os.innerHTML = `<span>OS type: ${osInfo === 'Windows_NT' ? 'Microsoft Windows' : osInfo}</span>`
@@ -40,12 +41,15 @@ function botUpTime(seconds){
   var seconds = Math.floor(seconds % 60);
 
   //return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds)
-  return onTime.innerHTML = `<span>${pad(hours)}Jam ${pad(minutes)}Menit ${pad(seconds)}Detik</span>`
+  return onTime.innerHTML = `Uptime: <span>${pad(hours)}Jam ${pad(minutes)}Menit ${pad(seconds)}Detik</span>`
 }
-
 botUpTime(uptime)
 
 });
+
+socket.on('log', ({ loging }) => {
+  log.innerHTML = `<span>${loging}</span>`;
+})
 
 // NOTIFICATION FUNCTION
 let notify = (info) => {

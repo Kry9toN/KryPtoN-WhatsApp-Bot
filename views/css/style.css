@@ -25,7 +25,8 @@ h1 {
     height: 100%;
 }
 
-.uptime-label,
+.log-label,
+.uptime,
 .bot,
 .server,
 .chat,
