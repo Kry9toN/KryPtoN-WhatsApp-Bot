@@ -2,13 +2,20 @@ module.exports = {
     name: 'demote',
     aliases: ['dm'],
     cooldown: 10,
-    description: 'Untuk manghapus admin anggota group\nPenggunaan: !demote _tag_',
+    description: 'Untuk manghapus admin anggota group\nPenggunaan: !demote _quoted/tag_',
     execute (client, chat, pesan) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
         if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di demote!')
-        const mentioned = chat.message.extendedTextMessage.contextInfo.mentionedJid
+        const mentions = client.quotedId || client.mentioned
+        let mentioned
+        if (!Array.isArray(mentions)) {
+            mentioned = []
+            mentioned.push(mentions)
+        } else {
+            mentioned = mentions
+        }
         if (mentioned.length > 1) {
             let teks = 'Perintah di terima, demote :\n'
             for (const _ of mentioned) {

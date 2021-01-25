@@ -157,6 +157,8 @@ async function krypton () {
         client.isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
         client.isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
         client.isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
+        client.quotedId = type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.participant : ''
+        client.mentioned = type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.mentionedJid : ''
 
         // Premuim
         const viewPm = await databaseView('SELECT * FROM pmium')
