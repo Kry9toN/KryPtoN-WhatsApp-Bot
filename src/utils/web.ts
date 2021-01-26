@@ -19,7 +19,7 @@ const web = async (client: any) => {
     app.use(express.static('./views'))
 
     // Root Route
-    app.get('/', (res: any) => {
+    app.get('/', (req: any, res: any) => {
         res.render('index.ejs')
     })
 
