@@ -3,7 +3,6 @@ const { databaseView, databaseInput } = require('../utils/db')
 
 module.exports = {
     name: 'notes',
-    aliases: ['nt'],
     cooldown: 15,
     description: 'Untuk menyimpan note atau catatan di group\nPenggunaan: !notes <save/remove> <key> <value>',
     async execute (client, chat, pesan, args) {
@@ -11,8 +10,9 @@ module.exports = {
         if (!client.isGmium) return client.reply(pesan.hanya.premium)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
-        const key = args[1]
-        const res = args[2]
+        const arg = client.body.slice(6)
+        const key = arg.split('|')[1].trim()
+        const res = arg.split('|')[2].trim()
         if (args == 0) {
             await databaseView('SELECT * FROM notes')
                 .then((hasil) => {
@@ -29,10 +29,10 @@ module.exports = {
                         client.reply(text)
                     }
                 })
-        } else if (args > 0 && args[0] == 'save') {
+        } else if (args > 0 && arg.split('|')[0].trim() == 'save') {
             databaseInput(`INSERT INTO notes(gid, key, res) VALUES ('${client.groupId}', '#${key}', '${res}')`)
                 .then(() => client.reply('Berhasil menambahkan notes'))
-        } else if (args > 0 && args[0] == 'remove') {
+        } else if (args > 0 && arg.split('|')[0].trim() == 'remove') {
             databaseInput(`DELETE FROM notes WHERE key = ${key} AND gid = ${client.groupId}`)
                 .then(() => client.reply(`Berhasil menghapus notes #${key}`))
         }
