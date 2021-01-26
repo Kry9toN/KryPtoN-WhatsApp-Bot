@@ -12,24 +12,24 @@ const os = require('os')
 const io = require('socket.io')(httpServer)
 const { color } = require('./color')
 
-const web = async (client) => {
+const web = async (client: any) => {
     const apiKey = process.env.WEB_API
     // View Engine and static public folder
     app.set('view engine', 'ejs')
     app.use(express.static('./views'))
 
     // Root Route
-    app.get('/', (req, res) => {
+    app.get('/', (res: any) => {
         res.render('index.ejs')
     })
 
-    app.get('/send/:id/:text/:api', (req, res) => {
+    app.get('/send/:id/:text/:api', (req: any, res: any) => {
         const { id, text, api } = req.params
         if (api !== apiKey) return res.json({ info: 'Api Key salah', status: 502 })
         client.sendMessage(id, text, MessageType.text)
             .then(() => {
                 res.json({ info: 'Berhasil mengirim', status: 200 })
-            }).catch((err) => res.json({ info: err, status: 502 }))
+            }).catch((err: string) => res.json({ info: err, status: 502 }))
     })
 
     // CPU USAGE
@@ -40,7 +40,7 @@ const web = async (client) => {
     const osInfo = os.type()
 
     // SOCKET IO
-    io.on('connection', socket => {
+    io.on('connection', (socket: any) => {
         console.log(color(`[INFO] ${socket.id} Server socket connected`, 'green'))
         // USE SET INTERVAL TO CHECK RAM USAGE EVERY SECOND
         setInterval(async () => {
@@ -53,7 +53,7 @@ const web = async (client) => {
             const uptime = Math.round(process.uptime()).toFixed(0)
 
             // CPU USAGE PERCENTAGE
-            cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, username, osInfo, chat, uptime, loging }))
+            cpu.usage().then((cpu: number) => socket.emit('ram-usage', { ram, cpu, username, osInfo, chat, uptime, loging }))
         }, 1000)
     })
 
@@ -64,7 +64,7 @@ const web = async (client) => {
     })
 }
 
-const loging = (client) => {
+const loging = (client: any) => {
     let loging
     if (!client.isGroup && client.isCmd) loging = `=> ${client.time} ${client.commandName} from ${client.sender.split('@')[0]}`
     if (!client.isGroup && !client.isCmd) loging = `=> ${client.time} Message from ${client.sender.split('@')[0]}`

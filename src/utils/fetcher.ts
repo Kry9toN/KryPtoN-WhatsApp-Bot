@@ -2,7 +2,7 @@ export {}
 const fetch = require('node-fetch')
 const fs = require('fs')
 
-const getBase64 = async (url) => {
+const getBase64 = async (url: string) => {
     const response = await fetch(url, { headers: { 'User-Agent': 'okhttp/4.5.0' } })
     if (!response.ok) throw new Error(`unexpected response ${response.statusText}`)
     const buffer = await response.buffer()
@@ -10,7 +10,7 @@ const getBase64 = async (url) => {
     if (buffer) { return videoBase64 }
 }
 
-const getBuffer = async (url) => {
+const getBuffer = async (url: string) => {
     const res = await fetch(url, { headers: { 'User-Agent': 'okhttp/4.5.0' }, method: 'GET' })
     const anu = fs.readFileSync('./src/emror.jpg')
     if (!res.ok) return { type: 'image/jpeg', result: anu }
@@ -18,26 +18,26 @@ const getBuffer = async (url) => {
     if (buff) { return { type: res.headers.get('content-type'), result: buff } }
 }
 
-const fetchJson = (url, options) => new Promise((resolve, reject) => {
+const fetchJson = (url: string, options: Array<any>) => new Promise((resolve, reject) => {
     fetch(url, options)
-        .then(response => response.json())
-        .then(json => {
+        .then((response: any) => response.json())
+        .then((json: object) => {
             // console.log(json)
             resolve(json)
         })
-        .catch((err) => {
+        .catch((err: string) => {
             reject(err)
         })
 })
 
-const fetchText = (url, options) => new Promise((resolve, reject) => {
+const fetchText = (url: string, options: Array<any>) => new Promise((resolve, reject) => {
     fetch(url, options)
-        .then(response => response.text())
-        .then(text => {
+        .then((response: any) => response.text())
+        .then((text: string) => {
             // console.log(text)
             resolve(text)
         })
-        .catch((err) => {
+        .catch((err: string) => {
             reject(err)
         })
 })

@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['ad'],
     cooldown: 20,
     description: 'Untuk menambahkan orang ke group dengan nomor\nPenggunaan: !add 6285xxxx',
-    execute (client: any, chat: any, pesan: any, args:any) {
+    execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)

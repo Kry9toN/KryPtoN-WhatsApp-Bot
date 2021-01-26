@@ -5,7 +5,7 @@ module.exports = {
     name: 'notes',
     cooldown: 15,
     description: 'Untuk menyimpan note atau catatan di group\nPenggunaan: !notes <save/remove> <key> <value>',
-    async execute (client, chat, pesan, args) {
+    async execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGmium) return client.reply(pesan.hanya.premium)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
@@ -15,7 +15,7 @@ module.exports = {
         const res = arg.split('|')[2].trim()
         if (args == 0) {
             await databaseView('SELECT * FROM notes')
-                .then((hasil) => {
+                .then((hasil: any) => {
                     let text = 'Daftar *notes* di group ini\n\n'
                     if (hasil.length > 0) {
                         for (const list of hasil) {

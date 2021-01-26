@@ -1,7 +1,7 @@
 export {}
 const Canvas = require('wa-canvas')
 
-const welcome = (pushname, gcname, picprofil) => new Promise((resolve, reject) => {
+const welcome = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
     async function welcome () {
         const image = await new Canvas.Welcome()
             .setUsername(pushname)
@@ -22,7 +22,7 @@ const welcome = (pushname, gcname, picprofil) => new Promise((resolve, reject) =
     })
 })
 
-const goodbye = (pushname, gcname, picprofil) => new Promise((resolve, reject) => {
+const goodbye = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
     async function goodbye () {
         const image = await new Canvas.Goodbye()
             .setUsername(pushname)

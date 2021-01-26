@@ -1,11 +1,11 @@
 export {}
 const chalk = require('chalk')
 
-const color = (text, color) => {
+const color = (text: string, color: string) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
 }
 
-const bgcolor = (text, bgcolor) => {
+const bgcolor = (text: string, bgcolor: string) => {
     return !bgcolor ? chalk.green(text) : chalk.bgKeyword(bgcolor)(text)
 }
 

@@ -8,14 +8,14 @@ module.exports = {
     aliases: ['n3'],
     cooldown: 50,
     description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis3 _tulisan_',
-    execute (client, chat, pesan, args) {
+    execute (client: any, chat: any, pesan: any, args: any) {
         const value = args.slice().join(' ')
         fetchJson(`https://tools.zone-xsec.com/api/nulis.php?q=${value}`)
-            .then(async (hasil) => {
+            .then(async (hasil: any) => {
                 client.reply(pesan.tunggu)
                 const image = await getBuffer(hasil.image)
                 client.sendMessage(client.from, image, MessageType.image, { quoted: chat, caption: pesan.berhasil })
-            }).catch((err) => {
+            }).catch((err: string) => {
                 console.log(err)
                 client.log(err)
             })

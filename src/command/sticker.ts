@@ -12,7 +12,7 @@ module.exports = {
     aliases: ['s', 'st'],
     cooldown: 600,
     description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <rbg/nobg> rbg: remove background, nobg: no background on sticker, default sticker dengan background',
-    async execute (client, chat, pesan, args) {
+    async execute (client: any, chat: any, pesan: any, args: any) {
         if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args[0] == 'nobg') {
             if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
@@ -21,10 +21,10 @@ module.exports = {
             client.reply(pesan.tunggu)
             await ffmpeg(`./${media}`)
                 .input(media)
-                .on('start', function (cmd) {
+                .on('start', function (cmd: string) {
                     console.log(`[INFO] Started : ${cmd}`)
                 })
-                .on('error', function (err) {
+                .on('error', function (err: string) {
                     console.log(`[INFO] Error : ${err}`)
                     fs.unlinkSync(media)
                     client.reply('Error saat membuat sticker')
@@ -47,10 +47,10 @@ module.exports = {
             client.reply(pesan.tunggu)
             await ffmpeg(`./${media}`)
                 .inputFormat(media.split('.')[1])
-                .on('start', function (cmd) {
+                .on('start', function (cmd: string) {
                     console.log(`[INFO] Started : ${cmd}`)
                 })
-                .on('error', function (err) {
+                .on('error', function (err: string) {
                     console.log(`[INFO] Error : ${err}`)
                     fs.unlinkSync(media)
                     const tipe = media.endsWith('.mp4') ? 'video' : 'gif'
@@ -74,13 +74,13 @@ module.exports = {
             const ranp = getRandom('.png')
             client.reply(pesan.tunggu)
             const keyrmbg = process.env.KEY_REMOVEBG
-            await removeBackgroundFromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then(res => {
+            await removeBackgroundFromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then((res: any) => {
                 fs.unlinkSync(media)
                 const buffer = Buffer.from(res.base64img, 'base64')
-                fs.writeFileSync(ranp, buffer, (err) => {
+                fs.writeFileSync(ranp, buffer, (err: string) => {
                     if (err) return client.reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
                 })
-                exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err) => {
+                exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err: string) => {
                     fs.unlinkSync(ranp)
                     if (err) return client.reply('Error saat membuat sticker')
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
@@ -91,10 +91,10 @@ module.exports = {
             const media = await client.downloadAndSaveMediaMessage(encmedia)
             const ranw = getRandom('.webp')
             await ffmpeg(`./${media}`)
-                .on('start', function (cmd) {
+                .on('start', function (cmd: any) {
                     console.log('[INFO] Started :', cmd)
                 })
-                .on('error', function (err) {
+                .on('error', function (err: any) {
                     fs.unlinkSync(media)
                     console.log('[INFO] Error :', err)
                     client.reply('Error saat membuat sticker')

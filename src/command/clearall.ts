@@ -2,7 +2,7 @@ module.exports = {
     name: 'clearall',
     aliases: ['ca'],
     description: 'Untuk benghapus semua chat _only owner_',
-    execute (client, chat, pesan) {
+    execute (client: any, chat: any, pesan: any) {
         if (!client.isOwner) return client.reply('Kamu siapa?')
         const chatAll = client.chats.all()
         client.setMaxListeners(25)

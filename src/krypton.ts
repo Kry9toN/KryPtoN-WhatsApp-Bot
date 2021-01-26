@@ -24,30 +24,30 @@ async function krypton () {
     **/
     // Black List
     databaseInput('CREATE TABLE IF NOT EXISTS blacklist( id VARCHAR(30) PRIMARY KEY NOT NULL , reason CHAR(225) DEFAULT \'No Reason\')')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Filters
     databaseInput('CREATE TABLE IF NOT EXISTS filters( gid VARCHAR(50) NOT NULL , key VARCHAR(225) NOT NULL, res VARCHAR(225) NOT NULL )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Notes
     databaseInput('CREATE TABLE IF NOT EXISTS notes( gid VARCHAR(50) NOT NULL , key VARCHAR(225) NOT NULL, res VARCHAR(225) NOT NULL )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Premium
     databaseInput('CREATE TABLE IF NOT EXISTS gmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, lifetime VARCHAR(10) NOT NULL, signature VARCHAR(30) NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     databaseInput('CREATE TABLE IF NOT EXISTS pmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Blacklist text
     databaseInput('CREATE TABLE IF NOT EXISTS bllist( gid VARCHAR(50) NOT NULL , text VARCHAR(225) NOT NULL)')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Blacklist user
     databaseInput('CREATE TABLE IF NOT EXISTS warn( gid VARCHAR(50) NOT NULL, uid VARCHAR(30) NOT NULL , warn VARCHAR(100) NOT NULL)')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Sudo
     databaseInput('CREATE TABLE IF NOT EXISTS sudo( id VARCHAR(30) PRIMARY KEY NOT NULL )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
     // Sudo
     databaseInput('CREATE TABLE IF NOT EXISTS afks( uid VARCHAR(30) PRIMARY KEY NOT NULL, afk VARCHAR(10) NOT NULL, reason CHAR(225) NOT NULL, timestart VARCHAR(100) NOT NULL )')
-        .catch(err => console.log(err))
+        .catch((err: string) => console.log(err))
 
     client.logger.level = 'warn'
     await client.on('qr', () => {
@@ -82,7 +82,7 @@ async function krypton () {
     // Web api proses
     web(client)
 
-    await client.on('group-participants-update', async (greeting) => {
+    await client.on('group-participants-update', async (greeting: any) => {
         try {
             const num = greeting.participants[0]
             const mdata = await client.groupMetadata(greeting.jid)
@@ -90,12 +90,12 @@ async function krypton () {
             const ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
             if (greeting.action == 'add') {
                 console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
-                await welcome(name, mdata.subject, ppimg).then(async (hasil) => {
+                await welcome(name, mdata.subject, ppimg).then(async (hasil: Array<any>) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             } else if (greeting.action == 'remove') {
                 console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
-                await goodbye(name, mdata.subject, ppimg).then(async (hasil) => {
+                await goodbye(name, mdata.subject, ppimg).then(async (hasil: Array<any>) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             }
@@ -104,7 +104,7 @@ async function krypton () {
         }
     })
 
-    await client.on('chat-update', async (chat) => {
+    await client.on('chat-update', async (chat: any) => {
         client.time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
         client.pingStart = chat.t
         client.apiKey = process.env.API_KEY
@@ -136,17 +136,17 @@ async function krypton () {
         client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         client.isGroupAdmins = groupAdmins.includes(client.sender) || false
         client.isOwner = client.sender.includes(ownerNumber)
-        client.isUrl = (url) => {
+        client.isUrl = (url: string) => {
             // eslint-disable-next-line prefer-regex-literals
             return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
         }
-        client.reply = (teks) => {
+        client.reply = (teks: string) => {
             client.sendMessage(client.from, teks, MessageType.text, { quoted: chat })
         }
-        client.sendMess = (id, text) => {
+        client.sendMess = (id: number, text: string) => {
             client.sendMessage(id, text, MessageType.text)
         }
-        client.mentions = (teks, id, bolean) => {
+        client.mentions = (teks: string, id: number, bolean: boolean) => {
             (bolean == null || bolean == undefined || bolean == false) ? client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { contextInfo: { mentionedJid: id } }) : client.sendMessage(client.from, teks.trim(), MessageType.extendedText, { quoted: chat, contextInfo: { mentionedJid: id } })
         }
         client.log = (error: string) => {
@@ -201,7 +201,7 @@ async function krypton () {
         /**
             * Import all commands
         */
-        const commandFiles = readdirSync(join(__dirname, 'command')).filter((file) => file.endsWith('.js'))
+        const commandFiles = readdirSync(join(__dirname, 'command')).filter((file: string) => file.endsWith('.js'))
         for (const file of commandFiles) {
             const command = require(join(__dirname, 'command', `${file}`))
             client.cmd.set(command.name, command)
@@ -211,7 +211,7 @@ async function krypton () {
 
         const command =
         client.cmd.get(client.commandName) ||
-        client.cmd.find((cmd) => cmd.aliases && cmd.aliases.includes(client.commandName))
+        client.cmd.find((cmd: any) => cmd.aliases && cmd.aliases.includes(client.commandName))
 
         if (!command) return
 

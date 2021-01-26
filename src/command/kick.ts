@@ -3,7 +3,7 @@ module.exports = {
     aliases: ['k'],
     cooldown: 10,
     description: 'Untuk mengeluarkan angota di group\nPenggunaan: !kick _quoted/tag_',
-    execute (client, chat, pesan) {
+    execute (client: any, chat: any, pesan: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)

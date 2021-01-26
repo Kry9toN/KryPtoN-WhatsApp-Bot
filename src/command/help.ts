@@ -3,11 +3,11 @@ module.exports = {
     aliases: ['h'],
     cooldown: 10,
     description: 'Menampilkan semua perintah dan deskripsi',
-    execute (client, chat, pesan, args) {
+    execute (client: any, chat: any, pesan: any, args: any) {
         const commands = client.cmd.array()
         if (args.length == 0) {
             let text = 'Daftar perintah di bot ini\n\nPrefix: !\n'
-            commands.forEach((cmd) => {
+            commands.forEach((cmd: any) => {
                 text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
             })
             text += '\nMasih bingung? ketik *!help <perintah>* akan menampilkan penggunaan perintah tersebut'

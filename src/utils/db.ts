@@ -7,8 +7,8 @@ const pool = new Pool({
     max: 10000
 })
 
-const databaseInput = (value) => new Promise((resolve, reject) => {
-    pool.query(value, (err, result) => {
+const databaseInput = (value: string) => new Promise((resolve, reject) => {
+    pool.query(value, (err: string, result: any) => {
         if (err) {
             console.error(err)
             reject(err)
@@ -17,8 +17,8 @@ const databaseInput = (value) => new Promise((resolve, reject) => {
     })
 })
 
-const databaseView = (value) => new Promise((resolve, reject) => {
-    pool.query(value, (err, result) => {
+const databaseView = (value: string) => new Promise((resolve, reject) => {
+    pool.query(value, (err: string, result: any) => {
         if (err) {
             console.error(err)
             reject(err)

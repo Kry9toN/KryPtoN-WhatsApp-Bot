@@ -3,7 +3,7 @@ module.exports = {
     aliases: ['ht'],
     cooldown: 45,
     description: 'Untuk mengetag semua orang tanpa @\nPenggunaan !hidetag _text_',
-    execute (client, chat, pesan) {
+    execute (client: any, chat: any, pesan: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         const value = client.body.slice(9)

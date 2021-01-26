@@ -5,7 +5,7 @@ module.exports = {
     name: 'gmium',
     aliases: ['gm'],
     description: 'Untuk mengelola member premium group _only owner_',
-    async execute (client, chat, pesan, args) {
+    async execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
         const gid = args[1]
         if (args[0] === 'add') {
@@ -17,7 +17,7 @@ module.exports = {
                 databaseInput(`INSERT INTO gmium(gid, lifetime, signature) VALUES('${gid}', 'unlimited', '${sign}')`)
                     .then(() => {
                         client.reply(pesan.berhasil)
-                    }).catch((err) => {
+                    }).catch((err: string) => {
                         client.reply(pesan.gagal)
                         console.log(err)
                         client.log(err)
@@ -26,7 +26,7 @@ module.exports = {
                 databaseInput(`INSERT INTO gmium(gid, lifetime, signature) VALUES('${gid}', 'standard', '${sign}')`)
                     .then(() => {
                         client.reply(pesan.berhasil)
-                    }).catch((err) => {
+                    }).catch((err: string) => {
                         client.reply(pesan.gagal)
                         console.log(err)
                         client.log(err)
@@ -36,14 +36,14 @@ module.exports = {
             databaseInput(`DELETE FROM gmium WHERE gid = '${gid}'`)
                 .then(() => {
                     client.reply(pesan.berhasil)
-                }).catch((err) => {
+                }).catch((err: string) => {
                     client.reply(pesan.gagal)
                     console.log(err)
                     client.log(err)
                 })
         } else if (args.length === 0) {
             await databaseView('SELECT * FROM gmium')
-                .then((result) => {
+                .then((result: any) => {
                     let text = '📝 Daftar *Premium* di bot ini\n'
                     const mentioned = []
                     if (result.length > 0) {
@@ -63,7 +63,7 @@ module.exports = {
                         text += '- Belum ada member'
                         client.reply(text)
                     }
-                }).catch((err) => {
+                }).catch((err: string) => {
                     client.reply('Error mengambil database')
                     console.log(err)
                     client.log(err)

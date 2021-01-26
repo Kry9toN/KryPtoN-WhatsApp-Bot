@@ -21,7 +21,7 @@ const spinner = {
     ]
 }
 
-let globalSpinner
+let globalSpinner: string
 
 const getGlobalSpinner = (disableSpins = false) => {
     if (!globalSpinner) globalSpinner = new Spin({ color: 'blue', succeedColor: 'green', spinner, disableSpins })
@@ -30,11 +30,11 @@ const getGlobalSpinner = (disableSpins = false) => {
 
 Spin = getGlobalSpinner(false)
 
-const start = (id, text) => {
+const start = (id: number, text: string) => {
     Spin.add(id, { text: text })
 }
 
-const success = (id, text) => {
+const success = (id: number, text: string) => {
     Spin.succeed(id, { text: text })
 }
 
@@ -43,12 +43,12 @@ const success = (id, text) => {
  * @param  {Date} timestamp
  * @param  {Date} now
  */
-const processTime = (timestamp, now) => {
+const processTime = (timestamp: number, now: number) => {
     // timestamp => timestamp when message was received
     return moment.duration(now - moment(timestamp * 1000)).asSeconds()
 }
 
-const getGroupAdmins = (participants) => {
+const getGroupAdmins = (participants: Array<any>) => {
     const admins = []
     for (const i of participants) {
         i.isAdmin ? admins.push(i.jid) : ''
@@ -56,7 +56,7 @@ const getGroupAdmins = (participants) => {
     return admins
 }
 
-const getBuffer = async (url, options) => {
+const getBuffer = async (url: string, options: Array<any>) => {
     try {
         options || {}
         const res = await axios({
@@ -75,7 +75,7 @@ const getBuffer = async (url, options) => {
     }
 }
 
-const getRandom = (ext) => {
+const getRandom = (ext: string) => {
     return `${Math.floor(Math.random() * 10000)}${ext}`
 }
 

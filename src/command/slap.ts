@@ -2,7 +2,7 @@ module.exports = {
     name: 'slap',
     cooldown: 10,
     description: 'Untuk menampol orang\nPenggunaan !slap _quoted/tag_',
-    execute (client, chat, pesan, args) {
+    execute (client: any, chat: any, pesan: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Tag target yang ingin di tonjok!')
         const mentions = client.quotedId || client.mentioned
