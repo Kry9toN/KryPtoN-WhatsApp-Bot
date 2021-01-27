@@ -10,9 +10,7 @@ module.exports = {
         if (!client.isGmium) return client.reply(pesan.hanya.premium)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
         if (!client.isBotGroupAdmins) return client.reply(pesan.hanya.botAdmin)
-        const arg = client.body.slice(6)
-        const key = arg.split('|')[1].trim()
-        const res = arg.split('|')[2].trim()
+        const arg = client.body.slice(7)
         if (args == 0) {
             await databaseView('SELECT * FROM notes')
                 .then((hasil: any) => {
@@ -29,10 +27,13 @@ module.exports = {
                         client.reply(text)
                     }
                 })
-        } else if (args > 0 && arg.split('|')[0].trim() == 'save') {
+        } else if (arg.split('|')[0].trim() == 'save') {
+            const key = arg.split('|')[1]
+            const res = arg.split('|')[2]
             databaseInput(`INSERT INTO notes(gid, key, res) VALUES ('${client.groupId}', '#${key}', '${res}')`)
                 .then(() => client.reply('Berhasil menambahkan notes'))
-        } else if (args > 0 && arg.split('|')[0].trim() == 'remove') {
+        } else if (arg.split('|')[0].trim() == 'remove') {
+            const key = arg.split('|')[1].trim()
             databaseInput(`DELETE FROM notes WHERE key = ${key} AND gid = ${client.groupId}`)
                 .then(() => client.reply(`Berhasil menghapus notes #${key}`))
         }

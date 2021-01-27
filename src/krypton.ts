@@ -12,6 +12,7 @@ const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
 const { databaseView, databaseInput } = require('./utils/db')
 const { web, loging } = require('./utils/web')
+require('dotenv').config()
 
 async function krypton () {
     const client = new WAConnection()
