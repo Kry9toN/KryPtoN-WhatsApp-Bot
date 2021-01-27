@@ -106,15 +106,15 @@ async function krypton () {
     })
 
     await client.on('chat-update', async (chat: any) => {
-        client.time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
-        client.pingStart = chat.t
-        client.apiKey = process.env.API_KEY
         if (!chat.hasNewMessage) return
-        const prefix = '!'
-        chat = JSON.parse(JSON.stringify(chat)).messages[0]
+        client.pingStart = chat.t
+        chat = chat.messages.all()[0]
         if (!chat.message) return
         if (chat.key.remoteJid == 'status@broadcast') return
         if (chat.key.fromMe) return
+        client.time = moment.tz('Asia/Jakarta').format('DD/MM HH:mm:ss')
+        client.apiKey = process.env.API_KEY
+        const prefix = '!'
 
         // Variable
         const type = Object.keys(chat.message)[0]
