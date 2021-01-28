@@ -58,7 +58,7 @@ const web = async (client: any) => {
     })
 
     // Run the server
-    const PORT = process.env.PORT || 8080
+    const PORT = process.env.PORT || 4242
     httpServer.listen(PORT, () => {
         console.log(color('[INFO] Web api Server on port: ', 'green') + color(`${PORT}`, 'yellow'))
     })
@@ -73,7 +73,12 @@ const loging = (client: any) => {
     io.emit('log', { loging })
 }
 
+const qrCode = (qr: string) => {
+    io.emit('qr-regen', { qr })
+}
+
 module.exports = {
     web,
-    loging
+    loging,
+    qrCode
 }

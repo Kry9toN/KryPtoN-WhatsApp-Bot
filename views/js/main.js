@@ -8,6 +8,7 @@ const os = document.querySelector('.os');
 const chatTotal = document.querySelector('.chat');
 const onTime = document.querySelector('.uptime');
 const log = document.querySelector('.log');
+const qrCode = document.querySelector('.qr');
 
 // ON CONNECT EVENT
 socket.on('connect', () => {
@@ -49,6 +50,10 @@ botUpTime(uptime)
 
 socket.on('log', ({ loging }) => {
   log.innerHTML = `<span>${loging}</span>`;
+})
+
+socket.on('qr-regen', ({ qr }) => {
+  qrCode.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${qr}&amp;size=250x250" />`;
 })
 
 // NOTIFICATION FUNCTION

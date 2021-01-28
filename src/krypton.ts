@@ -11,7 +11,7 @@ const fs = require('fs')
 const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
 const { databaseView, databaseInput } = require('./utils/db')
-const { web, loging } = require('./utils/web')
+const { web, loging, qrCode } = require('./utils/web')
 require('dotenv').config()
 
 async function krypton () {
@@ -19,6 +19,9 @@ async function krypton () {
     client.cmd = new Collection()
     client.runtimeDb = new Collection()
     const cooldowns = new Collection()
+
+    // Web API client
+    web(client)
 
     /***
      * Initial Database
@@ -51,8 +54,13 @@ async function krypton () {
         .catch((err: string) => console.log(err))
 
     client.logger.level = 'warn'
-    await client.on('qr', () => {
+
+    client.browserDescription = ['KryPtoN', 'Chrome', '87']
+
+    await client.on('qr', (qr: string) => {
         console.log(color('[', 'white'), color('!', 'red'), color(']', 'white'), color(' Scan the QR code above'))
+        qr = encodeURIComponent(qr)
+        qrCode(qr)
     })
 
     // Connect to sessions if already exist
@@ -79,9 +87,6 @@ async function krypton () {
     // Create file for sessions
     await client.connect({ timeoutMs: 30 * 1000 })
     fs.writeFileSync('./sessions/krypton-sessions.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
-
-    // Web api proses
-    web(client)
 
     await client.on('group-participants-update', async (greeting: any) => {
         try {
