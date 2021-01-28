@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 export {}
 const { MessageType } = require('@adiwajshing/baileys')
 const { exec } = require('child_process')
@@ -13,7 +12,7 @@ module.exports = {
     cooldown: 600,
     description: 'Untuk menjadikan video atau gambar menjadi sticker\nPenggunaan: quoted gambar/vidio !sticker <rbg/nobg> rbg: remove background, nobg: no background on sticker, default sticker dengan background',
     async execute (client: any, chat: any, pesan: any, args: any) {
-        if ((client.isMedia && !chat.message.videoMessage || client.isQuotedImage) && args[0] == 'nobg') {
+        if ((client.isMedia && (!chat.message.videoMessage || client.isQuotedImage)) && args[0] == 'nobg') {
             if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
@@ -39,7 +38,7 @@ module.exports = {
                 .addOutputOptions(['-vcodec', 'libwebp', '-vf', 'scale=\'min(320,iw)\':min\'(320,ih)\':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse'])
                 .toFormat('webp')
                 .save(ranw)
-        } else if ((client.isMedia && chat.message.videoMessage.seconds < 11 || client.isQuotedVideo && chat.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
+        } else if ((client.isMedia && (chat.message.videoMessage.seconds < 11 || client.isQuotedVideo) && chat.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
             if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) return client.reply(pesan.hanya.premium)
             const encmedia = client.isQuotedVideo ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const media = await client.downloadAndSaveMediaMessage(encmedia)
