@@ -16,6 +16,7 @@ module.exports = {
         } else {
             mentioned = mentions
         }
+        if (mentioned.includes(client.botNumber)) return client.reply('UDAH BOCIL KEK KONTOL IDUP PULA')
         if (mentioned.length > 1) {
             let teks = 'Perintah di terima, mengeluarkan :\n'
             for (const _ of mentioned) {

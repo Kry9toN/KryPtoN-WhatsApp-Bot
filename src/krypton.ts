@@ -18,6 +18,7 @@ async function krypton () {
     const client = new WAConnection()
     client.cmd = new Collection()
     client.runtimeDb = new Collection()
+    client.botNumber = process.env.BOT_NUMBER
     const cooldowns = new Collection()
 
     // Web API client
