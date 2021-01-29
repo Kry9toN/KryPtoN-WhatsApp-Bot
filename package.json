@@ -1,6 +1,6 @@
 {
   "name": "krypton-whatsapp-bot",
-  "version": "0.4.2",
+  "version": "1.7.9",
   "private": true,
   "description": "KryPtoN Whatsapp Bot",
   "main": "krypton.js",
