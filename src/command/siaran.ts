@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 export {}
 const { MessageType } = require('@adiwajshing/baileys')
 
@@ -8,7 +9,7 @@ module.exports = {
         if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
         if (args.length < 1) return client.reply('Ra onok tulisan')
         const chatAll = await client.chats.all()
-        if (client.isMedia && (!chat.message.videoMessage || client.isQuotedImage)) {
+        if (client.isMedia && !chat.message.videoMessage || client.isQuotedImage) {
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat
             const buff = await client.downloadMediaMessage(encmedia)
             for (const _ of chatAll) {
