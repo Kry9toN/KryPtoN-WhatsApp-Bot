@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 // SOCKET IO
 const socket = io()
 // SELECT ELEMENTS
@@ -9,14 +10,13 @@ const chatTotal = document.querySelector('.chat')
 const onTime = document.querySelector('.uptime')
 const log = document.querySelector('.log')
 const qrCode = document.querySelector('.qr')
-const notif = new Notification()
 
 // ON CONNECT EVENT
 socket.on('connect', () => {
     console.log('Connected')
 })
 // ON RAM USAGE EVENT
-socket.on('ram-usage', ({ ram, cpu, username, osInfo, chat, uptime, loging }) => {
+socket.on('ram-usage', ({ ram, cpu, username, osInfo, chat, uptime }) => {
     // SHOW OS USER INFO
     user.innerHTML = `<span>Hello ${username}</span>`
     os.innerHTML = `<span>OS type: ${osInfo === 'Windows_NT' ? 'Microsoft Windows' : osInfo}</span>`
@@ -60,7 +60,7 @@ socket.on('qr-regen', ({ qr }) => {
 const notify = (info) => {
     // If granted
     if (Notification.permission === 'granted') {
-        notif('Title', {
+        new Notification('Title', {
             body: `CPU over ${info} %`
         })
     }
@@ -69,7 +69,7 @@ const notify = (info) => {
         Notification.requestPermission()
             .then((permission) => {
                 if (permission === 'granted') {
-                    notif('Title', {
+                    new Notification('Title', {
                         body: `CPU over ${info} %`
                     })
                 };
