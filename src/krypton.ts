@@ -123,8 +123,8 @@ async function krypton () {
         const prefix = '!'
 
         // Variable
-        const type = Object.keys(chat.message)[0]
-        client.body = type === 'conversation' ? chat.message.conversation : (type == 'imageMessage') ? chat.message.imageMessage.caption : (type == 'videoMessage') ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') ? chat.message.extendedTextMessage.text : ''
+        client.type = Object.keys(chat.message)[0]
+        client.body = client.type === 'conversation' ? chat.message.conversation : (client.type == 'imageMessage') ? chat.message.imageMessage.caption : (client.type == 'videoMessage') ? chat.message.videoMessage.caption : (client.type == 'extendedTextMessage') ? chat.message.extendedTextMessage.text : ''
         const args = client.body.trim().split(/ +/).slice(1)
         client.isCmd = client.body.startsWith(prefix)
         client.commandName = client.body.slice(1).trim().split(/ +/).shift().toLowerCase()
@@ -160,12 +160,13 @@ async function krypton () {
             client.sendMessage(logGroup, `[LOGGING] command: *${client.commandName}* ${error}`, MessageType.text)
         }
 
-        client.isMedia = (type === 'imageMessage' || type === 'videoMessage')
-        client.isQuotedImage = type === 'extendedTextMessage' && content.includes('imageMessage')
-        client.isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
-        client.isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
-        client.quotedId = type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.participant : ''
-        client.mentioned = type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.mentionedJid : ''
+        client.isMedia = (client.type === 'imageMessage' || client.type === 'videoMessage')
+        client.isQuotedImage = client.type === 'extendedTextMessage' && content.includes('imageMessage')
+        client.isQuotedVideo = client.type === 'extendedTextMessage' && content.includes('videoMessage')
+        client.isQuotedSticker = client.type === 'extendedTextMessage' && content.includes('stickerMessage')
+        client.quotedId = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.participant : ''
+        client.mentioned = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.mentionedJid : ''
+        client.quotedMsg = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.quotedMessage : ''
 
         // Premuim
         const viewPm = await databaseView('SELECT * FROM pmium')

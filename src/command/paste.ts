@@ -8,10 +8,10 @@ module.exports = {
         if (chat.message.extendedTextMessage === undefined || chat.message.extendedTextMessage === null) return client.reply('Reply pesan yang mau di paste!')
         client.reply(pesan.tunggu)
         const DOGBIN = 'https://del.dog/'
-        const text = client.body.slice(7)
+        const text = client.type === 'extendedTextMessage' ? client.quotedMsg : client.body.slice(7)
         const options = {
             method: 'POST',
-            body: `data=${text}`
+            body: `${text}`
         }
         fetchJson(DOGBIN + 'documents', options)
             .then((hasil: any) => {
