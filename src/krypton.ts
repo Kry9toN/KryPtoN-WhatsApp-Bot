@@ -206,7 +206,7 @@ async function krypton () {
             }
         }
 
-        if (client.body.startsWith('#')) client.emit('message', client)
+        if (client.body.startsWith('#')) client.emit('message', { client })
 
         /**
             * Import all commands

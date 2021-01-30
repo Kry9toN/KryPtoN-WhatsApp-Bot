@@ -1,7 +1,7 @@
 const { WAConnection } = require('@adiwajshing/baileys')
 const { databaseView } = require('./db')
 const client = new WAConnection()
-client.on('message', async (client: any) => {
+client.on('message', async ({ client }: any) => {
     const keyWord = client.body.toLowerCase()
     // Notes
     await databaseView('SELECT * FROM notes')
