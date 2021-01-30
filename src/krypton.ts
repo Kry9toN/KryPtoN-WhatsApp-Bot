@@ -166,7 +166,7 @@ async function krypton () {
         client.isQuotedSticker = client.type === 'extendedTextMessage' && content.includes('stickerMessage')
         client.quotedId = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.participant : ''
         client.mentioned = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.mentionedJid : ''
-        client.quotedMsg = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.quotedMessage : ''
+        client.quotedMsg = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.quotedMessage.conversation : ''
 
         // Premuim
         const viewPm = await databaseView('SELECT * FROM pmium')
