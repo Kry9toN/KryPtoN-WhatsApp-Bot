@@ -124,7 +124,7 @@ async function krypton () {
 
         // Variable
         const type = Object.keys(chat.message)[0]
-        client.body = (type === 'conversation' && chat.message.conversation.startsWith(prefix)) ? chat.message.conversation : (type == 'imageMessage') && chat.message.imageMessage.caption.startsWith(prefix) ? chat.message.imageMessage.caption : (type == 'videoMessage') && chat.message.videoMessage.caption.startsWith(prefix) ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') && chat.message.extendedTextMessage.text.startsWith(prefix) ? chat.message.extendedTextMessage.text : ''
+        client.body = type === 'conversation' ? chat.message.conversation : (type == 'imageMessage') ? chat.message.imageMessage.caption : (type == 'videoMessage') ? chat.message.videoMessage.caption : (type == 'extendedTextMessage') ? chat.message.extendedTextMessage.text : ''
         const args = client.body.trim().split(/ +/).slice(1)
         client.isCmd = client.body.startsWith(prefix)
         client.commandName = client.body.slice(1).trim().split(/ +/).shift().toLowerCase()
@@ -205,7 +205,7 @@ async function krypton () {
             }
         }
 
-        if (chat.message.conversation.startWith('#')) client.emit('message', client, chat.message.conversation)
+        if (client.body.startWith('#')) client.emit('message', client)
 
         /**
             * Import all commands
