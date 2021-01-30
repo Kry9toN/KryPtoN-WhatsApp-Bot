@@ -39,7 +39,7 @@ async function krypton () {
     // Premium
     databaseInput('CREATE TABLE IF NOT EXISTS gmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, lifetime VARCHAR(10) NOT NULL, signature VARCHAR(30) NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
         .catch((err: string) => console.log(err))
-    databaseInput('CREATE TABLE IF NOT EXISTS pmium( gid VARCHAR(50) PRIMARY KEY NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
+    databaseInput('CREATE TABLE IF NOT EXISTS pmium( uid VARCHAR(50) PRIMARY KEY NOT NULL, waktu TIMESTAMP NOT NULL DEFAULT now() )')
         .catch((err: string) => console.log(err))
     // Blacklist text
     databaseInput('CREATE TABLE IF NOT EXISTS bllist( gid VARCHAR(50) NOT NULL , text VARCHAR(225) NOT NULL)')
