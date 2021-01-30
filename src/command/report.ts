@@ -2,9 +2,9 @@ module.exports = {
     name: 'report',
     cooldown: 10,
     description: 'Untuk mereport user\nPenggunaan: _reply_ !report <alasan>',
-    execute (client: any, chat: any, pesan: any, args: any) {
+    async execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
-        const memberList = client.groupAdmins
+        const memberList = await client.groupAdmins
         memberList.push(client.sender)
         if (args > 0) {
             const options = {

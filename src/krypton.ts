@@ -138,10 +138,10 @@ async function krypton () {
         const groupMetadata = client.isGroup ? await client.groupMetadata(client.from) : ''
         client.groupName = client.isGroup ? groupMetadata.subject : ''
         client.groupMembers = client.isGroup ? groupMetadata.participants : ''
-        const groupAdmins = client.isGroup ? getGroupAdmins(client.groupMembers) : ''
+        client.groupAdmins = client.isGroup ? getGroupAdmins(client.groupMembers) : ''
         client.groupId = client.isGroup ? groupMetadata.id : ''
-        client.isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-        client.isGroupAdmins = groupAdmins.includes(client.sender) || false
+        client.isBotGroupAdmins = client.groupAdmins.includes(botNumber) || false
+        client.isGroupAdmins = client.groupAdmins.includes(client.sender) || false
         client.isOwner = client.sender.includes(ownerNumber)
         client.isUrl = (url: string) => {
             // eslint-disable-next-line prefer-regex-literals
@@ -166,7 +166,6 @@ async function krypton () {
         client.isQuotedSticker = client.type === 'extendedTextMessage' && content.includes('stickerMessage')
         client.quotedId = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.participant : ''
         client.mentioned = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.mentionedJid : ''
-        client.quotedMsg = client.type === 'extendedTextMessage' ? chat.message.extendedTextMessage.contextInfo.quotedMessage.conversation : ''
 
         // Premuim
         const viewPm = await databaseView('SELECT * FROM pmium')
