@@ -205,6 +205,8 @@ async function krypton () {
             }
         }
 
+        if (chat.message.conversation.startWith('#')) client.emit('message', client, chat.message.conversation)
+
         /**
             * Import all commands
         */
