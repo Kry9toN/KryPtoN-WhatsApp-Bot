@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const { google } = require('googleapis')
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
         // The file token.json stores the user's access and refresh tokens, and is
         // created automatically when the authorization flow completes for the first
         // time.
-        const TOKEN_PATH = '../utils/token.json'
+        const TOKEN_PATH = path.join(__dirname, '../../token.json')
         const BASE_GD = 'https://drive.google.com/uc?id={}&export=download'
 
         /**
@@ -87,7 +88,7 @@ module.exports = {
             }
 
             // Load client secrets from a local file.
-            fs.readFile('../utils/credentials.json', (err: boolean, content: string) => {
+            fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: string) => {
                 if (err) return console.log('Error loading client secret file:', err)
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), uploadFile)
@@ -114,7 +115,7 @@ module.exports = {
             }
 
             // Load client secrets from a local file.
-            fs.readFile('../utils/credentials.json', (err: boolean, content: string) => {
+            fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: string) => {
                 if (err) return console.log('Error loading client secret file:', err)
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), listFiles)
