@@ -18,7 +18,7 @@ module.exports = {
             client.reply('Berhasil mengirim siaran')
         } else {
             for (const _ of chatAll) {
-                client.sendMess(_.jid, `❮ *KryPtoN Bot Broadcast* ❯\n\n${client.body.slice(7)}`)
+                client.sendMess(_.jid, `❮ *KryPtoN Bot Broadcast* ❯\n\n${client.body.slice(8)}`)
             }
             client.reply('*Berhasil mengirim siaran*')
         }
