@@ -2,9 +2,8 @@ export {}
 const { databaseView, databaseInput } = require('../utils/db')
 
 module.exports = {
-    name: 'gmium',
-    aliases: ['gm'],
-    description: 'Untuk mengelola member premium group _only owner_',
+    name: 'pmium',
+    description: 'Untuk mengelola member premium user _only owner_',
     async execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
         const uid = args[1]
