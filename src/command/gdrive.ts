@@ -41,7 +41,7 @@ module.exports = {
             })
         }
 
-        if (args.length <= 1 && client.isUrl(args[0])) {
+        if (args.length <= 1 && (client.isUrl(args[0]) || args[0].startsWith('magnet'))) {
             /**
              * Describe with given media and metaData and upload it using google.drive.create method()
              */
