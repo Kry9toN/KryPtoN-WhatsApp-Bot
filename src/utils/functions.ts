@@ -2,6 +2,7 @@ export {}
 let Spin = require('spinnies')
 const moment = require('moment-timezone')
 const axios = require('axios')
+const { exec } = require('child_process')
 
 const spinner = {
     interval: 120,
@@ -79,11 +80,28 @@ const getRandom = (ext: string) => {
     return `${Math.floor(Math.random() * 10000)}${ext}`
 }
 
+const term = (param: string) => new Promise((resolve, reject) => {
+    console.log('Run terminal =>', param)
+    exec(param, (error: any, stdout: string, stderr: string) => {
+        if (error) {
+            console.log(error.message)
+            resolve(error.message)
+        }
+        if (stderr) {
+            console.log(stderr)
+            resolve(stderr)
+        }
+        console.log(stdout)
+        resolve(stdout)
+    })
+})
+
 module.exports = {
     start,
     success,
     processTime,
     getGroupAdmins,
     getBuffer,
-    getRandom
+    getRandom,
+    term
 }
