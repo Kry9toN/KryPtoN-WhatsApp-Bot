@@ -12,6 +12,7 @@ module.exports = {
     aliases: ['gd'],
     description: 'Untuk mendownload mengupload file ke Google Drive _only owner / VIP_',
     async execute (client: any, chat: any, pesan: any, args: any) {
+        if (!client.isOwner && !client.isSudo) return client.reply('Anda bukan user VIP di bot ini')
         // If modifying these scopes, delete token.json.
         const SCOPES = ['https://www.googleapis.com/auth/drive']
         // The file token.json stores the user's access and refresh tokens, and is
