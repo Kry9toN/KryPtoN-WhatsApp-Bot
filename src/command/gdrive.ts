@@ -1,3 +1,6 @@
+const {
+    MessageType
+} = require('@adiwajshing/baileys')
 const fs = require('fs')
 const path = require('path')
 const { google } = require('googleapis')
@@ -42,14 +45,16 @@ module.exports = {
              * Describe with given media and metaData and upload it using google.drive.create method()
              */
             async function uploadFile (auth: string) {
+                const id = client.from
+                const quoted = chat
                 const url = args[0]
                 client.reply('Mulai Download file')
                 await term(`aria2c '${url}' --dir=$(pwd)/downloads`).then(() => {
-                    client.reply('Download selesai')
-                    client.reply('Mulai mengupload ke Google Drive\nMungkin membutuhkan waktu yang lama, tunggu aja')
+                    client.sendMessage(id, 'Download selesai', MessageType.text, { quoted: quoted })
+                    client.sendMessage(id, 'Mulai mengupload ke Google Drive\nMungkin membutuhkan waktu yang lama, tunggu aja', MessageType.text, { quoted: quoted })
                 }).catch((err: string) => {
                     client.log(err)
-                    client.reply('Download file gagal')
+                    client.sendMessage(id, 'Download file gagal', MessageType.text, { quoted: quoted })
                     console.log(err)
                 })
 
@@ -83,9 +88,9 @@ module.exports = {
                         // Handle error
                         console.error(err)
                         client.log(`${err}`)
-                        client.reply('Gagal saat mengupload file ke Google Drive')
+                        client.sendMessage(id, 'Gagal saat mengupload file ke Google Drive', MessageType.text, { quoted: quoted })
                     } else {
-                        client.reply(`Berhasil mengupload file\n🗒️ ${file.data.name}\nLink: ${BASE_GD.replace(/{}/g, file.data.id)}`)
+                        client.sendMessage(id, `Berhasil mengupload file\n🗒️ ${file.data.name}\nLink: ${BASE_GD.replace(/{}/g, file.data.id)}`, MessageType.text, { quoted: quoted })
                         term('rm -rf downloads/*')
                     }
                 })
