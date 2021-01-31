@@ -22,6 +22,7 @@ module.exports = {
          * @param {function} callback The callback to call with the authorized client.
          */
         function authorize (credentials: any, callback: any) {
+            // eslint-disable-next-line camelcase
             const { client_secret, client_id, redirect_uris } = credentials.installed
             const oAuth2Client = new google.auth.OAuth2(
                 client_id, client_secret, redirect_uris[0])
@@ -93,6 +94,44 @@ module.exports = {
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), uploadFile)
             })
+        } else if (args[0] == 'auth') {
+            if (args < 1) {
+                fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, credentials: any) => {
+                    if (err) return client.reply(`Error loading client secret file: ${err}`)
+                    // eslint-disable-next-line camelcase
+                    const { client_secret, client_id, redirect_uris } = credentials.installed
+                    const oAuth2Client = new google.auth.OAuth2(
+                        client_id, client_secret, redirect_uris[0])
+                    // Check if we have previously stored a token.
+                    fs.readFile(TOKEN_PATH, (err: boolean, token: string) => {
+                        if (err) {
+                            const authUrl = oAuth2Client.generateAuthUrl({
+                                access_type: 'offline',
+                                scope: SCOPES
+                            })
+                            client.reply(`Bukan url ini untuk mendapat kan code auth:  ${authUrl}\n\nKetik: !gdrive auth <code> untuk confirmasi`)
+                        }
+                    })
+                })
+            } else {
+                fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, credentials: any) => {
+                    if (err) return client.reply(`Error loading client secret file: ${err}`)
+                    // eslint-disable-next-line camelcase
+                    const { client_secret, client_id, redirect_uris } = credentials.installed
+                    const oAuth2Client = new google.auth.OAuth2(
+                        client_id, client_secret, redirect_uris[0])
+                    const code = args[1] == 'token' ? args[2] : ''
+                    oAuth2Client.getToken(code, (err: boolean, token: string) => {
+                        if (err) return client.reply(`Gagal mengakses token: ${err}`)
+                        oAuth2Client.setCredentials(token)
+                        // Store the token to disk for later program executions
+                        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: string) => {
+                            if (err) return console.error(err)
+                            client.reply('Token refresh berhasil di buat')
+                        })
+                    })
+                })
+            }
         } else if (args[0] == 'list') {
             function listFiles (auth: string) {
                 const drive = google.drive({ version: 'v3', auth })
@@ -104,6 +143,7 @@ module.exports = {
                     const files = res.data.files
                     if (files.length) {
                         let text = 'Gdrive list files:'
+                        // eslint-disable-next-line array-callback-return
                         files.map((file: any) => {
                             text += `${file.name} ${BASE_GD.replace(/{}/g, file.id)}`
                         })
