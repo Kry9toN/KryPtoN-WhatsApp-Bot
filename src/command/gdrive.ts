@@ -83,7 +83,8 @@ module.exports = {
                 await drive.files.create({
                     resource: fileMetadata,
                     media: media,
-                    fields: 'id, name'
+                    fields: 'id, name',
+                    supportsAllDrives: true
                 }, (err: string, file: any) => {
                     if (err) {
                         // Handle error
