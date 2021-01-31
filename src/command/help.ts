@@ -6,7 +6,7 @@ module.exports = {
     execute (client: any, chat: any, pesan: any, args: any) {
         const commands = client.cmd.array()
         if (args.length == 0) {
-            let text = 'Daftar perintah di bot ini\n\nPrefix: !\n'
+            let text = 'Daftar perintah di bot ini\n\nGabung ke group KryPtoN Bot: https://is.gd/wa0p84\nMonitoring Bot: https://wa.kry9ton.tech\n\nPrefix: !\n'
             commands.forEach((cmd: any) => {
                 text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
             })
