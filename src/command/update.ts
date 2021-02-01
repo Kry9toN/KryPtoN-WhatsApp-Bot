@@ -44,7 +44,7 @@ module.exports = {
                             if (data.length < 4) {
                                 client.reply('Bot dalam kondisi terbaru')
                             } else {
-                                client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\nKetik *!update now* untuk mengupdatenya`)
+                                client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\n\nKetik *!update now* untuk mengupdatenya`)
                             }
                         }).catch((err) => console.error(err))
                     }).catch((err: string) => console.error(err))
