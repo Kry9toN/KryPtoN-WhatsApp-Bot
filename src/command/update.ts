@@ -42,7 +42,7 @@ module.exports = {
                 .then(() => {
                     term('git fetch upstream').then(() => {
                         genLog().then((data: any) => {
-                            if (data.length < 4) {
+                            if (data == 'undefined') {
                                 client.reply('Bot dalam kondisi terbaru')
                             } else {
                                 client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\n\nKetik *!update now* untuk mengupdatenya`)
