@@ -8,6 +8,7 @@ module.exports = {
     description: 'OTA UPDATE Untuk mengupdate bot _only owner_',
     async execute (client: any, chat: any, pesan: any, args: any) {
         const remote = 'https://' + process.env.GIT_PW + '@github.com/Kry9toN/KryPtoN-WhatsApp-Bot'
+        const herokuRemote = 'https://api:' + process.env.HEROKU_API + '@git.heroku.com/krypton-wa.git'
         const genLog = () => new Promise((resolve, reject) => {
             // start get log process
             const git = spawn('git', ['log', '--oneline', '--no-decorate', 'HEAD..upstream/master'])
@@ -55,6 +56,29 @@ module.exports = {
             term('git reset --hard FETCH_HEAD').then(() => {
                 client.reply('OTA Update berhasil\n Restarting bot....')
                 restart()
+            }).catch((err: string) => {
+                console.log(err)
+                client.log(err)
+                client.reply('OTA Update gagal/error')
+            })
+        } else if (args.length > 0 && args[0] == 'deploy') {
+            if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
+            client.reply('Tunggu... bot sedang updating')
+            term('git reset --hard FETCH_HEAD').then(() => {
+                term(`git remote add heroku ${herokuRemote}`).then(() => {
+                    term('git push heroku HEAD:refs/heads/master -f').then(() => {
+                        client.reply('OTA Update berhasil\n Restarting bot....')
+                        restart()
+                    }).catch((err: string) => {
+                        console.log(err)
+                        client.log(err)
+                        client.reply('OTA Update gagal/error saat menambah remote')
+                    })
+                }).catch((err: string) => {
+                    console.log(err)
+                    client.log(err)
+                    client.reply('OTA Update gagal/error saat deploying')
+                })
             }).catch((err: string) => {
                 console.log(err)
                 client.log(err)
