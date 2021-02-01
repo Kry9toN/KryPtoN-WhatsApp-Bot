@@ -36,7 +36,7 @@ module.exports = {
                 // log all subject names
                 let text = 'Changelog KryPtoN bot:\n'
                 subjects.forEach((sub) => {
-                    text += `*${sub}*`
+                    text += `*${sub}*\n`
                 })
                 resolve(text)
             })
@@ -50,7 +50,7 @@ module.exports = {
                             if (data.length < 30) {
                                 client.sendMessage(id, 'Bot dalam kondisi terbaru', MessageType.text, { quoted: quoted })
                             } else {
-                                client.sendMessage(id, `OTA UPDATE\n\n${data}\n\nKetik *!update now/deploy* untuk mengupdatenya`, MessageType.text, { quoted: quoted })
+                                client.sendMessage(id, `OTA UPDATE\n\n${data}\nKetik *!update now/deploy* untuk mengupdatenya`, MessageType.text, { quoted: quoted })
                             }
                         }).catch((err) => console.error(err))
                     }).catch((err: string) => console.error(err))
