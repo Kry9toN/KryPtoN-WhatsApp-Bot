@@ -96,6 +96,20 @@ const term = (param: string) => new Promise((resolve, reject) => {
     })
 })
 
+const restart = () => {
+    setTimeout(function () {
+        // Kapan NodeJs keluar
+        process.on('exit', function () {
+            require('child_process').spawn(process.argv.shift(), process.argv, {
+                cwd: process.cwd(),
+                detached: true,
+                stdio: 'inherit'
+            })
+        })
+        process.exit()
+    }, 2000)
+}
+
 module.exports = {
     start,
     success,
@@ -103,5 +117,6 @@ module.exports = {
     getGroupAdmins,
     getBuffer,
     getRandom,
-    term
+    term,
+    restart
 }
