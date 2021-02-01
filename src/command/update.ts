@@ -30,7 +30,7 @@ module.exports = {
                 // log all subject names
                 let text: any
                 subjects.forEach((sub) => {
-                    text += sub
+                    text += `• *${sub}*\n`
                 })
                 resolve(text)
             })
