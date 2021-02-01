@@ -29,7 +29,7 @@ module.exports = {
                 // pop the last empty string element
                 subjects.pop()
                 // log all subject names
-                let text: any
+                let text = 'Changelog KryPtoN bot:\n'
                 subjects.forEach((sub) => {
                     text += `*${sub}*`
                 })
@@ -42,10 +42,10 @@ module.exports = {
                 .then(() => {
                     term('git fetch upstream').then(() => {
                         genLog().then((data: any) => {
-                            if (data == 'undefined') {
+                            if (data.length < 30) {
                                 client.reply('Bot dalam kondisi terbaru')
                             } else {
-                                client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\n\nKetik *!update now/deploy* untuk mengupdatenya`)
+                                client.reply(`OTA UPDATE\n\n${data}\n\nKetik *!update now/deploy* untuk mengupdatenya`)
                             }
                         }).catch((err) => console.error(err))
                     }).catch((err: string) => console.error(err))
