@@ -31,7 +31,7 @@ module.exports = {
                 // log all subject names
                 let text: any
                 subjects.forEach((sub) => {
-                    text += `• *${sub}*\n`
+                    text += `*${sub}*`
                 })
                 resolve(text)
             })
@@ -45,7 +45,7 @@ module.exports = {
                             if (data == 'undefined') {
                                 client.reply('Bot dalam kondisi terbaru')
                             } else {
-                                client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\n\nKetik *!update now* untuk mengupdatenya`)
+                                client.reply(`OTA UPDATE\n\nChangelog KryPtoN bot:\n${data}\n\nKetik *!update now/deploy* untuk mengupdatenya`)
                             }
                         }).catch((err) => console.error(err))
                     }).catch((err: string) => console.error(err))
