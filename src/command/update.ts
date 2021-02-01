@@ -73,7 +73,6 @@ module.exports = {
                 term(`git remote add heroku ${herokuRemote}`).then(() => {
                     term('git push heroku HEAD:refs/heads/master -f').then(() => {
                         client.sendMessage(id, 'OTA Update berhasil\n Restarting bot....', MessageType.text, { quoted: quoted })
-                        restart()
                     }).catch((err: string) => {
                         console.log(err)
                         client.log(err)
