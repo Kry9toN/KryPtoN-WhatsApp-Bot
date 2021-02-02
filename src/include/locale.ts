@@ -3,18 +3,18 @@ const i18n = require('i18n')
 const path = require('path')
 
 i18n.configure({
-    locales: ['en'],
-    directory: path.join(__dirname, 'locales'),
+    locales: ['en', 'id'],
+    directory: path.join(__dirname, '../../locales'),
     defaultLocale: 'en',
     objectNotation: true,
     register: global,
 
     logWarnFn: function (msg: string) {
-        console.log('warn', msg)
+        console.log('[INFO]', msg)
     },
 
     logErrorFn: function (msg: string) {
-        console.log('error', msg)
+        console.log('[INFO]', msg)
     },
 
     missingKeyFn: function (locale: string, value: string) {

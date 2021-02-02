@@ -12,6 +12,9 @@ const moment = require('moment-timezone')
 const { welcome, goodbye } = require('./utils/greeting')
 const { databaseView } = require('./utils/db')
 const { web, loging, qrCode } = require('./utils/web')
+const i18n = require('i18n')
+const getLocale = require('./utils/locale')
+
 require('dotenv').config()
 
 async function krypton () {
@@ -200,6 +203,8 @@ async function krypton () {
         client.cmd.find((cmd: any) => cmd.aliases && cmd.aliases.includes(client.commandName))
 
         if (!command) return
+
+        getLocale(i18n, client.from)
 
         // Time durations
         if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) {
