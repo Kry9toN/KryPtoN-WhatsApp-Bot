@@ -23,8 +23,10 @@ const web = async (client: any) => {
         res.render('index.ejs')
     })
 
-    app.get('/send/:id/:text/:api', (req: any, res: any) => {
-        const { id, text, api } = req.params
+    app.get('/send', (req: any, res: any) => {
+        const id = req.query.id
+        const text = req.query.text
+        const api = req.query.api
         if (api !== apiKey) return res.json({ info: 'Api Key salah', status: 502 })
         client.sendMessage(id, text, MessageType.text)
             .then(() => {
