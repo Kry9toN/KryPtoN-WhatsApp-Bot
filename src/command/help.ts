@@ -1,9 +1,6 @@
 const i18n = require('i18n')
-const { dbLocale } = require('../utils/db')
-const { ID } = require('../krypton')
 
-const LOCALE = dbLocale(ID)
-i18n.setLocale(LOCALE)
+i18n.setLocale('id')
 
 module.exports = {
     name: 'help',
