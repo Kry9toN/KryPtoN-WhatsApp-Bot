@@ -1,0 +1,8 @@
+{
+    "help": {
+        "desc": "Menampilkan semua perintah dan deskripsi",
+        "startDialog": "Daftar perintah di bot ini\n\nGabung ke group KryPtoN Bot: https://is.gd/wa0p84\nMonitoring Bot: https://wa.kry9ton.tech\n\nPrefix: !\n",
+        "endDialog": "\nMasih bingung? ketik *!help <perintah>* akan menampilkan penggunaan perintah tersebut",
+        "notMatch": "Perintah yang anda maksut tidak ada"
+    }
+}

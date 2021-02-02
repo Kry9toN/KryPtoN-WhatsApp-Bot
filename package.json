@@ -53,6 +53,7 @@
     "express": "^4.17.1",
     "fluent-ffmpeg": "^2.1.2",
     "googleapis": "^39.2.0",
+    "i18n": "^0.13.2",
     "mime-types": "^2.1.28",
     "moment-timezone": "^0.5.32",
     "node-fetch": "^2.6.1",

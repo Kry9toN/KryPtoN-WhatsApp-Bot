@@ -36,7 +36,32 @@ const databaseView = (value: string) => new Promise((resolve, reject) => {
     })
 })
 
+const dbLocale = (id: any) => new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM locales', (err: string, result: any) => {
+        if (err) {
+            console.error(err)
+            reject(err)
+        }
+        let defLocal = 'en'
+        const rows = result.rows
+        const isInclude = JSON.stringify(rows).includes(id)
+        if (rows.length == 0) {
+            resolve(defLocal)
+        } else if (!isInclude) {
+            resolve(defLocal)
+        } else {
+            for (const local of rows) {
+                if (local.id == id || local.id.includes(id)) {
+                    defLocal = local.lang
+                    resolve(defLocal)
+                }
+            }
+        }
+    })
+})
+
 module.exports = {
     databaseView,
-    databaseInput
+    databaseInput,
+    dbLocale
 }

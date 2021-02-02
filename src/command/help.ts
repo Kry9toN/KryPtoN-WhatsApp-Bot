@@ -1,19 +1,26 @@
+const i18n = require('i18n')
+const { dbLocale } = require('../utils/db')
+const { ID } = require('../krypton')
+
+const LOCALE = dbLocale(ID)
+i18n.setLocale(LOCALE)
+
 module.exports = {
     name: 'help',
     aliases: ['h'],
     cooldown: 10,
-    description: 'Menampilkan semua perintah dan deskripsi',
+    description: i18n.__('help.desc'),
     execute (client: any, chat: any, pesan: any, args: any) {
         const commands = client.cmd.array()
         if (args.length == 0) {
-            let text = 'Daftar perintah di bot ini\n\nGabung ke group KryPtoN Bot: https://is.gd/wa0p84\nMonitoring Bot: https://wa.kry9ton.tech\n\nPrefix: !\n'
+            let text = i18n.__('help.startDialog')
             commands.forEach((cmd: any) => {
                 text += `- *${cmd.name}* ${cmd.aliases ? `(${cmd.aliases})` : ''}\n`
             })
-            text += '\nMasih bingung? ketik *!help <perintah>* akan menampilkan penggunaan perintah tersebut'
+            text += i18n.__('help.endDialog')
             return client.reply(text)
         } else {
-            if (!client.cmd.has(args[0])) return client.reply('Perintah yang anda maksut tidak ada bro')
+            if (!client.cmd.has(args[0])) return client.reply(i18n.__('help.notMatch'))
             const text = client.cmd.get(args[0]).description
             return client.reply(text)
         }
