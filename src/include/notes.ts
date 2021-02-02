@@ -1,6 +1,8 @@
+export {}
 const { WAConnection } = require('@adiwajshing/baileys')
-const { databaseView } = require('./db')
+const { databaseView } = require('../utils/db')
 const client = new WAConnection()
+
 client.on('message', async ({ client }: any) => {
     const keyWord = client.body.toLowerCase()
     // Notes
