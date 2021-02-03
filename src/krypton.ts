@@ -204,7 +204,7 @@ async function krypton () {
 
         if (!command) return
 
-        getLocale(i18n, client.from)
+        await getLocale(i18n, client.from)
 
         // Time durations
         if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) {

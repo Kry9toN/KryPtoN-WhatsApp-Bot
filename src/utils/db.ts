@@ -50,9 +50,9 @@ const dbLocale = (id: any) => new Promise((resolve, reject) => {
         } else if (!isInclude) {
             resolve(defLocal)
         } else {
-            for (const local of rows) {
-                if (local.id == id || local.id.includes(id)) {
-                    defLocal = local.lang
+            for (const lang of rows) {
+                if (lang.id == id || lang.id.includes(id)) {
+                    defLocal = lang.locale
                     resolve(defLocal)
                 }
             }
