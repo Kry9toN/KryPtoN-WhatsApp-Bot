@@ -1,3 +1,4 @@
+export {}
 const {
     MessageType
 } = require('@adiwajshing/baileys')
