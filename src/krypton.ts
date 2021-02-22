@@ -169,22 +169,6 @@ async function krypton () {
         if (client.isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, color(client.commandName), 'client.from', color(client.sender.split('@')[0]), 'in', color(client.groupName), 'args :', color(args.length))
         if (!client.isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', client.time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'in', color(client.groupName), 'args :', color(args.length))
 
-        const pesan = {
-            tunggu: '⌛ Sedang di Prosess ⌛',
-            gagal: '❌ Gagal melaksanakan perintah ❌',
-            berhasil: '✔️ Berhasil ✔️',
-            hanya: {
-                admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
-                botAdmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌',
-                owner: '❌ Perintah hanya untuk owner/sudo! ❌',
-                premium: '❌ Perintah hanya untuk pelanggan premium! ❌'
-            },
-            error: {
-                group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
-                args: '❌ Perintah anda salah! ❌'
-            }
-        }
-
         if (client.body.startsWith('#')) client.emit('message', { client })
 
         /**
@@ -205,6 +189,22 @@ async function krypton () {
         if (!command) return
 
         await getLocale(i18n, client.from)
+
+        const pesan = {
+            tunggu: i18n.__('bot.tunggu'),
+            gagal: i18n.__('bot.gagal'),
+            berhasil: i18n.__('bot.berhasil'),
+            hanya: {
+                admin: i18n.__('bot.admin'),
+                botAdmin: i18n.__('bot.botAdmin'),
+                owner: i18n.__('bot.owner'),
+                premium: i18n.__('bot.premium')
+            },
+            error: {
+                group: i18n.__('bot.group'),
+                args: i18n.__('bot.args')
+            }
+        }
 
         // Time durations
         if ((!client.isGroup && !client.isPmium) || (client.isGroup && !client.isGmium)) {
