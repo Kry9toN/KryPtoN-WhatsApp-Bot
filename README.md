@@ -1,8 +1,9 @@
 <div align="center">
  
 # KryPtoN Whatsapp Bot 
-[![DeepScan grade](https://deepscan.io/api/teams/11540/projects/14446/branches/269535/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11540&pid=14446&bid=269535)
 [![Version](https://img.shields.io/badge/version%20K--wa%20Bot-v0.1.0-brightgreen)](https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot/releases)
+[![Github Badge](https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot/actions/workflows/node.js.yml/badge.svg)](https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot/actions)
+[![DeepScan grade](https://deepscan.io/api/teams/11540/projects/15621/branches/315271/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&tid=11540&pid=15621&bid=315271)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
