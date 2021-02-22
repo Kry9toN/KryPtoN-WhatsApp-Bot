@@ -1,8 +1,10 @@
+const i18n = require('i18n')
+
 module.exports = {
     name: 'demote',
     aliases: ['dm'],
     cooldown: 10,
-    description: 'Untuk manghapus admin anggota group\nPenggunaan: !demote _quoted/tag_',
+    description: 'demote.desc',
     execute (client: any, chat: any, pesan: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
@@ -16,16 +18,16 @@ module.exports = {
         } else {
             mentioned = mentions
         }
-        if (mentioned.includes(client.botNumber)) return client.reply('UDAH BOCIL KEK KONTOL IDUP PULA')
+        if (mentioned.includes(client.botNumber)) return client.reply(i18n.__('demote.demoteSelf'))
         if (mentioned.length > 1) {
-            let teks = 'Perintah di terima, demote :\n'
+            let teks = i18n.__('demote.demoteBulk')
             for (const _ of mentioned) {
                 teks += `@${_.split('@')[0]}\n`
             }
             client.mentions(teks, mentioned, true)
             client.groupDemoteAdmin(client.from, mentioned)
         } else {
-            client.mentions(`Perintah di terima, menghapus admin : @${mentioned[0].split('@')[0]} di group`, mentioned, true)
+            client.mentions(i18n.__('demote.demoted', { user: mentioned[0].split('@')[0] }), mentioned, true)
             client.groupDemoteAdmin(client.from, mentioned)
         }
     }

@@ -6,13 +6,14 @@ const path = require('path')
 const { google } = require('googleapis')
 const { term } = require('../utils/functions')
 const mime = require('mime-types')
+const i18n = require('i18n')
 
 module.exports = {
     name: 'gdrive',
     aliases: ['gd'],
-    description: 'Untuk mendownload mengupload file ke Google Drive _only owner / VIP_',
+    description: 'gdrive.desc',
     async execute (client: any, chat: any, pesan: any, args: any) {
-        if (!client.isOwner && !client.isSudo) return client.reply('Anda bukan user VIP di bot ini')
+        if (!client.isOwner && !client.isSudo) return client.reply(i18n.__('gdrive.vip'))
         // If modifying these scopes, delete token.json.
         const SCOPES = ['https://www.googleapis.com/auth/drive']
         // The file token.json stores the user's access and refresh tokens, and is
@@ -35,7 +36,7 @@ module.exports = {
 
             // Check if we have previously stored a token.
             fs.readFile(TOKEN_PATH, (err: boolean, token: string) => {
-                if (err) return client.reply('Silakan regenerate token dengan cara *!gdrive auth*')
+                if (err) return client.reply(i18n.__('gdrive.regenToken'))
                 oAuth2Client.setCredentials(JSON.parse(token))
                 callback(oAuth2Client)
             })
@@ -49,18 +50,18 @@ module.exports = {
                 const id = client.from
                 const quoted = chat
                 const url = args[0]
-                client.reply('Mulai Download file')
+                client.reply(i18n.__('gdrive.start'))
                 await term(`aria2c '${url}' --dir=$(pwd)/downloads`).then(() => {
-                    client.sendMessage(id, 'Download selesai', MessageType.text, { quoted: quoted })
-                    client.sendMessage(id, 'Mulai mengupload ke Google Drive\nMungkin membutuhkan waktu yang lama, tunggu aja', MessageType.text, { quoted: quoted })
+                    client.sendMessage(id, i18n.__('gdrive.finish'), MessageType.text, { quoted: quoted })
+                    client.sendMessage(id, i18n.__('gdrive.gdStart'), MessageType.text, { quoted: quoted })
                 }).catch((err: string) => {
                     client.log(err)
-                    client.sendMessage(id, 'Download file gagal', MessageType.text, { quoted: quoted })
+                    client.sendMessage(id, i18n.__('gdrive.failed'), MessageType.text, { quoted: quoted })
                     console.log(err)
                 })
 
                 await fs.readdir(path.join(__dirname, '../../downloads/'), async (err: boolean, nameFile: Array<any>) => {
-                    if (err) return client.reply('File tidak di temukan di folder download')
+                    if (err) return client.reply(i18n.__('gdrive.notFound'))
                     // 'files' is an array of the files found in the directory
 
                     const name = nameFile[1]
@@ -90,9 +91,9 @@ module.exports = {
                         // Handle error
                         console.error(err)
                         client.log(`${err}`)
-                        client.sendMessage(id, 'Gagal saat mengupload file ke Google Drive', MessageType.text, { quoted: quoted })
+                        client.sendMessage(id, i18n.__('gdrive.filedGD'), MessageType.text, { quoted: quoted })
                     } else {
-                        client.sendMessage(id, `Berhasil mengupload file\n🗒️ ${file.data.name}\nLink: ${BASE_GD.replace(/{}/g, file.data.id)}`, MessageType.text, { quoted: quoted })
+                        client.sendMessage(id, i18n.__('gdrive.doneGD', { nameFile: file.data.name, link: BASE_GD.replace(/{}/g, file.data.id) }) , MessageType.text, { quoted: quoted })
                         term('rm -rf downloads/*')
                     }
                 })
