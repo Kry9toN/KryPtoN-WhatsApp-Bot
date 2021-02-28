@@ -72,7 +72,7 @@ module.exports = {
             term('git reset --hard FETCH_HEAD').then(() => {
                 term(`git remote add heroku ${herokuRemote}`).then(() => {
                     term('git push heroku HEAD:refs/heads/master -f').then(() => {
-                        client.sendMessage(id, 'OTA Update berhasil\n Restarting bot....', MessageType.text, { quoted: quoted })
+                        client.sendMessage(id, 'OTA Update berhasil\nRestarting bot....', MessageType.text, { quoted: quoted })
                     }).catch((err: string) => {
                         console.log(err)
                         client.log(err)
