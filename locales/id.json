@@ -49,11 +49,28 @@
         "secretErr": "Error saat loading client secret file: {err}",
         "tokenErr": "Gagal mengakses token: {err}",
         "tokenSuc": "Token refresh berhasil di buat",
-        "authUri": "Bukan url ini untuk mendapat kan code auth: {url}\n\nKetik: !gdrive auth token <token> untuk confirmasi",
+        "authUri": "Buka url ini untuk mendapat kan code auth: {url}\n\nKetik: !gdrive auth token <token> untuk confirmasi",
         "apiErr": "Api Google Drive error: {err}",
         "gdFile": "Gdrive list file:\n",
         "gdNoFile": "File tidak ditemukan.",
         "gdDirErr": "Gagal saat membuat folder di Google Drive",
         "gdDriSuc": "Berhasil memebuat folder\n📂️ {nameFolder} {link}"
+    },
+    "gmium": {
+        "desc": "Untuk mengelola member premium group _only owner_",
+        "startDialog": "📝 Daftar *Premium* di bot ini\n",
+        "lifetime": "*Lifetime*: ",
+        "sign": "*Bersangkutan*: ",
+        "start": "*Mulai*: ",
+        "noMember": "- Belum ada member",
+        "errorDb": "Error saat mengambil database"
+    },
+    "hidetag": {
+        "desc": "Untuk mengetag semua orang tanpa @\nPenggunaan !hidetag _text_"
+    },
+    "id": {
+        "desc": "Untuk menampilkan id group/user\nPenggunaan: !id",
+        "gId": "*ID* kamu : {uid}\nGroup *ID* : {gid}",
+        "uId": "*ID* kamu : {uid}"
     }
 }

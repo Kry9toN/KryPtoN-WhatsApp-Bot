@@ -1,10 +1,11 @@
 export {}
 const { databaseView, databaseInput } = require('../utils/db')
+const i18n = require('i18n')
 
 module.exports = {
     name: 'gmium',
     aliases: ['gm'],
-    description: 'Untuk mengelola member premium group _only owner_',
+    description: 'gmium.desc',
     async execute (client: any, chat: any, pesan: any, args: any) {
         if (!client.isOwner && !client.isSudo) return client.reply(pesan.hanya.owner)
         const gid = args[1]
@@ -44,7 +45,7 @@ module.exports = {
         } else if (args.length === 0) {
             await databaseView('SELECT * FROM gmium')
                 .then((result: any) => {
-                    let text = '📝 Daftar *Premium* di bot ini\n'
+                    let text = i18n.__('gmium.startDialog')
                     const mentioned = []
                     if (result.length > 0) {
                         for (let i = 0; i < result.length; i++) {
@@ -54,17 +55,17 @@ module.exports = {
                             mentioned.push(sign)
                             const life = result[i].lifetime
                             text += `${i}. *GID*: ${gid}\n`
-                            text += `    ├> *Lifetime*: ${life}\n`
-                            text += `    ├> *Bersangkutan*: @${sign.replace('@s.whatsapp.net', '')}\n`
-                            text += `    └> *Mulai*: ${waktu}\n`
+                            text += `    ├> ${i18n.__('gmium.lifetime')} ${life}\n`
+                            text += `    ├> ${i18n.__('gmium.sign')} @${sign.replace('@s.whatsapp.net', '')}\n`
+                            text += `    └> ${i18n.__('gmium.start')} ${waktu}\n`
                         }
                         client.mentions(`${text}`, mentioned, true)
                     } else {
-                        text += '- Belum ada member'
+                        text += i18n.__('gmium.noMember')
                         client.reply(text)
                     }
                 }).catch((err: string) => {
-                    client.reply('Error mengambil database')
+                    client.reply(i18n.__('gmium.errorDb'))
                     console.log(err)
                     client.log(err)
                 })
