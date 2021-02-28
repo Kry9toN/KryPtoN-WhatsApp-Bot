@@ -43,7 +43,6 @@
     "@adiwajshing/baileys": "^3.4.1",
     "auto-changelog": "^2.2.1",
     "axios": "^0.21.1",
-    "base64-arraybuffer": "^0.2.0",
     "cfonts": "^2.9.1",
     "chalk": "^4.1.0",
     "child_process": "^1.0.2",
