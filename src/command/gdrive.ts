@@ -94,7 +94,7 @@ module.exports = {
                         client.log(`${err}`)
                         client.sendMessage(id, i18n.__('gdrive.filedGD'), MessageType.text, { quoted: quoted })
                     } else {
-                        client.sendMessage(id, i18n.__('gdrive.doneGD', { nameFile: file.data.name, link: BASE_GD.replace(/{}/g, file.data.id) }) , MessageType.text, { quoted: quoted })
+                        client.sendMessage(id, i18n.__('gdrive.doneGD', { nameFile: file.data.name, link: BASE_GD.replace(/{}/g, file.data.id) }), MessageType.text, { quoted: quoted })
                         term('rm -rf downloads/*')
                     }
                 })
@@ -103,14 +103,14 @@ module.exports = {
 
             // Load client secrets from a local file.
             fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: string) => {
-                if (err) return client.log(`Error loading client secret file: ${err}`)
+                if (err) return client.log(i18n.__('gdrive.secretErr', { err: err }))
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), uploadFile)
             })
         } else if (args[0] == 'auth') {
             if (args.length == 1) {
                 fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: any) => {
-                    if (err) return client.reply(`Error loading client secret file: ${err}`)
+                    if (err) return client.reply(i18n.__('gdrive.secretErr', { err: err }))
                     const credentials = JSON.parse(content)
                     // eslint-disable-next-line camelcase
                     const { client_secret, client_id, redirect_uris } = credentials.installed
@@ -123,13 +123,13 @@ module.exports = {
                                 access_type: 'offline',
                                 scope: SCOPES
                             })
-                            client.reply(`Bukan url ini untuk mendapat kan code auth:  ${authUrl}\n\nKetik: !gdrive auth token <token> untuk confirmasi`)
+                            client.reply(i18n.__('gdrive.authUri', { url: authUrl }))
                         }
                     })
                 })
             } else if (args.length > 1 && args[1] === 'token') {
                 fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: any) => {
-                    if (err) return client.reply(`Error loading client secret file: ${err}`)
+                    if (err) return client.reply(i18n.__('gdrive.secretErr', { err: err }))
                     const credentials = JSON.parse(content)
                     // eslint-disable-next-line camelcase
                     const { client_secret, client_id, redirect_uris } = credentials.installed
@@ -137,12 +137,12 @@ module.exports = {
                         client_id, client_secret, redirect_uris[0])
                     const code = args[1] == 'token' ? args[2] : ''
                     oAuth2Client.getToken(code, (err: boolean, token: string) => {
-                        if (err) return client.reply(`Gagal mengakses token: ${err}`)
+                        if (err) return client.reply(i18n.__('gdrive.tokenErr', { err: err }))
                         oAuth2Client.setCredentials(token)
                         // Store the token to disk for later program executions
                         fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err: string) => {
                             if (err) return console.error(err)
-                            client.reply('Token refresh berhasil di buat')
+                            client.reply(i18n.__('gdrive.tokenSuc'))
                         })
                     })
                 })
@@ -154,10 +154,10 @@ module.exports = {
                     pageSize: 10,
                     fields: 'nextPageToken, files(id, name, mimeType, webViewLink, webContentLink)'
                 }, (err: string, res: any) => {
-                    if (err) return client.reply(`The API returned an error: ${err}`)
+                    if (err) return client.reply(i18n.__('gdrive.apiErr', { err: err }))
                     const files = res.data.files
                     if (files.length) {
-                        let text = 'Gdrive list files:\n'
+                        let text = i18n.__('gdrive.gdFile')
                         // eslint-disable-next-line array-callback-return
                         files.map((file: any) => {
                             if (file.mimeType == 'application/vnd.google-apps.folder') {
@@ -170,14 +170,14 @@ module.exports = {
                         })
                         client.reply(text)
                     } else {
-                        client.reply('No files found.')
+                        client.reply(i18n.__('gdrive.gdNoFile'))
                     }
                 })
             }
 
             // Load client secrets from a local file.
             fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: string) => {
-                if (err) return client.log(`Error loading client secret file: ${err}`)
+                if (err) return client.log(i18n.__('gdrive.secretErr', { err: err }))
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), listFiles)
             })
@@ -210,16 +210,16 @@ module.exports = {
                         // Handle error
                         console.error(err)
                         client.log(`${err}`)
-                        client.reply('Gagal saat mengupload file ke Google Drive')
+                        client.reply(i18n.__('gdrive.gdDirErr'))
                     } else {
-                        client.reply(`Berhasil memebuat folder\n📂️ ${file.data.name} ${file.data.webViewLink}`)
+                        client.reply(i18n.__('gdrive.doneGD', { nameFolder: file.data.name, link: file.data.webViewLink }))
                     }
                 })
             }
 
             // Load client secrets from a local file.
             fs.readFile(path.join(__dirname, '../../credentials.json'), (err: boolean, content: string) => {
-                if (err) return client.log(`Error loading client secret file: ${err}`)
+                if (err) return client.log(i18n.__('gdrive.secretErr', { err: err }))
                 // Authorize a client with credentials, then call the Google Drive API.
                 authorize(JSON.parse(content), createFolder)
             })

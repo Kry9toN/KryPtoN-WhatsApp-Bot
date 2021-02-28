@@ -2,7 +2,7 @@ module.exports = {
     name: 'hidetag',
     aliases: ['ht'],
     cooldown: 45,
-    description: 'Untuk mengetag semua orang tanpa @\nPenggunaan !hidetag _text_',
+    description: 'hidetag.desc',
     execute (client: any, chat: any, pesan: any) {
         if (!client.isGroup) return client.reply(pesan.error.group)
         if (!client.isGroupAdmins) return client.reply(pesan.hanya.admin)
