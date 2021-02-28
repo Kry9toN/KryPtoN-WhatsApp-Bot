@@ -32,6 +32,7 @@
 |       BUG      |   Instagram Video Downloader                    |
 |       ✅       |   Youtube MP3  Downloader                       |
 |       ✅       |   Youtube MP4 Downloader                        |
+|       ✅       |   Mirroring download to gdrive                  |
 
 | Edukasi        |                     Feature                     |
 | :------------: | :---------------------------------------------: |
@@ -45,6 +46,7 @@
 |       ✅       |   check data on the spread of Covid-19 in certain locations|
 |       ✅       |   Check Shipping info (indonesia only)          |
 |       ✅       |   Anti Spam                                     |
+|       ✅       |   Multi Language                                |
 
 | Grup Only      |                     Feature                     |
 | :------------: | :---------------------------------------------: |
@@ -66,7 +68,7 @@
 
 ## Getting Started
 
-This project require NodeJS v12 (Ubuntu 20.04+).
+This project support nodejs vesions 10,12,14,15
 
 ### Install
 Clone this project
