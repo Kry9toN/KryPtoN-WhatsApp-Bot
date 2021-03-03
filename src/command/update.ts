@@ -12,8 +12,8 @@ module.exports = {
     async execute (client: any, chat: any, pesan: any, args: any) {
         const id = client.from
         const quoted = chat
-        const remote = 'https://' + process.env.GIT_PW + '@github.com/Kry9toN/KryPtoN-WhatsApp-Bot'
-        const herokuRemote = 'https://api:' + process.env.HEROKU_API + '@git.heroku.com/krypton-wa.git'
+        const remote = 'https://' + process.env.GIT_PW + '@github.com/Kry9toN/KryPtoN-WhatsApp-Bot' // Change your remote link
+        const herokuRemote = 'https://api:' + process.env.HEROKU_API + '@git.heroku.com/krypton-wa.git' // Change your link git heroku
         const genLog = () => new Promise((resolve, reject) => {
             // start get log process
             const git = spawn('git', ['log', '--oneline', '--no-decorate', 'HEAD..upstream/master'])
