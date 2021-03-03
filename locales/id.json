@@ -1,6 +1,6 @@
 {
     "bot": {
-        "berhasil": "✅ Berhasil ✅"
+        "berhasil": "✅ Berhasil ✅",
         "tunggu": "⌛ Sedang di Prosess ⌛",
         "gagal": "❌ Gagal melaksanakan perintah ❌",
         "admin": "❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌",
