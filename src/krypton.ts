@@ -68,6 +68,24 @@ async function krypton () {
     await client.connect({ timeoutMs: 30 * 1000 })
     fs.writeFileSync('./sessions/krypton-sessions.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
 
+    // Notes event
+    client.on('message', async ({ client }: any) => {
+        const keyWord = client.body.toLowerCase()
+        // Notes
+        await databaseView('SELECT * FROM notes')
+            .then((hasil: Array<any>) => {
+                const filterBaseString = JSON.stringify(hasil)
+                if (filterBaseString.includes(client.groupId)) {
+                    for (let i = 0; i < hasil.length; i++) {
+                        if (keyWord.includes(hasil[i].key && hasil[i].gid == client.groupId)) {
+                            const resMessage = hasil[i].res
+                            client.reply(resMessage)
+                        }
+                    }
+                }
+            }).catch((err: string) => console.log(err))
+    })
+
     await client.on('group-participants-update', async (greeting: any) => {
         try {
             const num = greeting.participants[0]
