@@ -4,7 +4,7 @@ const { databaseView, databaseInput } = require('../utils/db')
 module.exports = {
     name: 'lang',
     cooldown: 15,
-    description: 'Untuk menyeting bahasa di group/pm\nPenggunaan: !lang set <code bahasa>',
+    description: 'lang.desc',
     async execute (client: any, chat: any, pesan: any, args: any) {
         const list = ['en', 'id']
         if (args[0] == 'set' && list.includes(args[1])) {
@@ -18,11 +18,11 @@ module.exports = {
                     .then((hasil: any) => {
                         if (hasil[0].exists == true) {
                             databaseInput(`UPDATE locales SET locale = '${lang}' WHERE id = '${from}'`).then(() => {
-                                client.reply('Bahasa berhasil di update')
+                                client.reply(i18n.__('lang.update'))
                             })
                         } else {
                             databaseInput(`INSERT INTO locales(id, locale) VALUES('${from}' ,'${lang}')`).then(() => {
-                                client.reply('Bahasa berhasil di setup')
+                                client.reply(i18n.__('lang.setup'))
                             })
                         }
                     })
@@ -33,17 +33,17 @@ module.exports = {
                     .then((hasil: any) => {
                         if (hasil[0].exists == true) {
                             databaseInput(`UPDATE locales SET locale = '${lang}' WHERE id = '${from}'`).then(() => {
-                                client.reply('Bahasa berhasil di update')
+                                client.reply(i18n.__('lang.update'))
                             })
                         } else {
                             databaseInput(`INSERT INTO locales(id, locale) VALUES('${from}' ,'${lang}')`).then(() => {
-                                client.reply('Bahasa berhasil di setup')
+                                client.reply(i18n.__('lang.setup'))
                             })
                         }
                     })
             }
         } else {
-            client.reply(`Code bahasa yang anda masukan tidak terdaftar\nBahasa yang terdaftar saat ini: ${list.toString}`)
+            client.reply(i18n.__('lang.notFound', { list: list.toString }))
         }
     }
 }

@@ -73,5 +73,18 @@
         "desc": "Untuk menampilkan id group/user\nPenggunaan: !id",
         "gId": "*ID* kamu : {uid}\nGroup *ID* : {gid}",
         "uId": "*ID* kamu : {uid}"
+    },
+    "kick": {
+        "desc": "Untuk mengeluarkan angota di group\nPenggunaan: !kick _quoted/tag_",
+        "noTag": "Tag target yang ingin di tendang!",
+        "self": "Aku di tulis dengan otak, jadi jangan pikir aku tidak mengerti untuk meng-kick diriku sendiri",
+        "confirmed": "Perintah di terima, mengeluarkan :\n",
+        "confirmedMention": "Perintah di terima, mengeluarkan : @{mentioned}"
+    },
+    "lang": {
+        "desc": "Untuk menyeting bahasa di group/pm\nPenggunaan: !lang set <code bahasa>",
+        "setup": "Bahasa berhasil di setup",
+        "update": "Bahasa berhasil di update",
+        "notFound": "Code bahasa yang anda masukan tidak terdaftar\nBahasa yang terdaftar saat ini: {list}"
     }
 }
