@@ -4,12 +4,16 @@ module.exports = {
         es6: true,
         node: true
     },
-    extends: 'standard',
+    extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly'
     },
-    parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 2018
     },
