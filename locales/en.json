@@ -1,8 +1,0 @@
-{
-    "help": {
-        "desc": "Show all commands and descriptions",
-        "startDialog": "List of commands on this bot \n\nJoin the KryPtoN Bot group: https://is.gd/wa0p84\nMonitoring Bot: https://wa.kry9ton.tech\n\nPrefix: ! \n",
-        "endDialog": "\nStill confused? type *!help <command>* will display the use of the command",
-        "notMatch": "The command you specified does not exist"
-    }
-}

@@ -23,13 +23,3 @@ ffmpeg libwebp-dev --yes --fix-missing --no-install-recommends\
 && apt autoremove --yes
 
 EXPOSE 8080
-
-#
-# Clone repo and prepare working directory
-#
-RUN git clone -b master https://Kry9toN:468213790d@github.com/Kry9toN/KryPtoN-WhatsApp-Bot /home/wabot
-WORKDIR /home/wabot
-
-RUN npm i
-
-CMD ["npm", "start"]
