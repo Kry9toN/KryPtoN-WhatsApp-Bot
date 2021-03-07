@@ -16,13 +16,12 @@
  */
 
 /* eslint-disable no-mixed-operators */
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const { exec } = require('child_process')
-const { getRandom } = require('../utils/functions')
-const ffmpeg = require('fluent-ffmpeg')
-const fs = require('fs')
-const { removeBackgroundFromImageFile } = require('remove.bg')
+import { MessageType } from '@adiwajshing/baileys'
+import { exec } from 'child_process'
+import { getRandom } from '../utils/functions'
+import ffmpeg from 'fluent-ffmpeg'
+import fs from 'fs'
+import { removeBackgroundFromImageFile } from 'remove.bg'
 
 module.exports = {
     name: 'sticker',
@@ -91,17 +90,16 @@ module.exports = {
             const ranp = getRandom('.png')
             client.reply(pesan.tunggu)
             const keyrmbg = process.env.KEY_REMOVEBG
-            await removeBackgroundFromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then((res: any) => {
+            await removeBackgroundFromImageFile({ path: media, apiKey: `${keyrmbg}`, size: 'auto', type: 'auto', outputFile: ranp }).then((res: any) => {
                 fs.unlinkSync(media)
-                const buffer = Buffer.from(res.base64img, 'base64')
-                fs.writeFileSync(ranp, buffer, (err: string) => {
-                    if (err) return client.reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
-                })
-                exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err: string) => {
+                exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err: any) => {
                     fs.unlinkSync(ranp)
                     if (err) return client.reply('Error saat membuat sticker')
                     client.sendMessage(client.from, fs.readFileSync(ranw), MessageType.sticker, { quoted: chat })
                 })
+            }).catch((err: Array<any>) => {
+                client.log(err)
+                return client.reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
             })
         } else if ((client.isMedia || client.isQuotedImage) && args.length == 0) {
             const encmedia = client.isQuotedImage ? JSON.parse(JSON.stringify(chat).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : chat

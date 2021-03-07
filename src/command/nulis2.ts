@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const { getBuffer } = require('../utils/functions')
+import { MessageType } from '@adiwajshing/baileys'
+import { getBuffer } from '../utils/functions'
 
 module.exports = {
     name: 'nulis2',
@@ -26,7 +25,7 @@ module.exports = {
     description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis2 _tulisan_',
     execute (client: any, chat: any, pesan: any, args: any) {
         const value = args.slice().join(' ')
-        getBuffer(`https://api.zeks.xyz/api/nulis?text=${value}&apikey=administrator`)
+        getBuffer(`https://api.zeks.xyz/api/nulis?text=${value}&apikey=administrator`, { method: 'get' })
             .then((hasil: any) => {
                 client.reply(pesan.tunggu)
                 client.sendMessage(client.from, hasil, MessageType.image, { quoted: chat, caption: pesan.berhasil })

@@ -15,11 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const fetch = require('node-fetch')
-const fs = require('fs')
+import fetch from 'node-fetch'
+import fs from 'fs'
 
-const getBase64 = async (url: string) => {
+export const getBase64 = async (url: string) => {
     const response = await fetch(url, { headers: { 'User-Agent': 'okhttp/4.5.0' } })
     if (!response.ok) throw new Error(`unexpected response ${response.statusText}`)
     const buffer = await response.buffer()
@@ -27,18 +26,10 @@ const getBase64 = async (url: string) => {
     if (buffer) { return videoBase64 }
 }
 
-const getBuffer = async (url: string) => {
-    const res = await fetch(url, { headers: { 'User-Agent': 'okhttp/4.5.0' }, method: 'GET' })
-    const anu = fs.readFileSync('./src/emror.jpg')
-    if (!res.ok) return { type: 'image/jpeg', result: anu }
-    const buff = await res.buffer()
-    if (buff) { return { type: res.headers.get('content-type'), result: buff } }
-}
-
-const fetchJson = (url: string, options: Array<any>) => new Promise((resolve, reject) => {
+export const fetchJson = (url: string, options: any) => new Promise((resolve, reject) => {
     fetch(url, options)
         .then((response: any) => response.json())
-        .then((json: object) => {
+        .then((json) => {
             // console.log(json)
             resolve(json)
         })
@@ -47,7 +38,7 @@ const fetchJson = (url: string, options: Array<any>) => new Promise((resolve, re
         })
 })
 
-const fetchText = (url: string, options: Array<any>) => new Promise((resolve, reject) => {
+export const fetchText = (url: string, options: any) => new Promise((resolve, reject) => {
     fetch(url, options)
         .then((response: any) => response.text())
         .then((text: string) => {
@@ -60,10 +51,3 @@ const fetchText = (url: string, options: Array<any>) => new Promise((resolve, re
 })
 
 // exports.getBase64 = getBase64;
-
-module.exports = {
-    getBase64,
-    getBuffer,
-    fetchJson,
-    fetchText
-}

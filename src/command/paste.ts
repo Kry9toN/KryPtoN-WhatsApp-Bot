@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const { fetchJson } = require('../utils/fetcher')
+import { fetchJson } from '../utils/fetcher'
 
 module.exports = {
     name: 'paste',

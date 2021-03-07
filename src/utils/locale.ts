@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const { dbLocale } = require('./db')
+import { dbLocale } from './db'
 
-module.exports = async (i18n: any, id: string) => {
-    await dbLocale(id).then((locale: string) => {
+export default async (i18n: any, id: string) => {
+    await dbLocale(id).then((locale: any) => {
         i18n.setLocale(locale)
     })
 }

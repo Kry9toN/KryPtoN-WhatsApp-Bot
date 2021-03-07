@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 let Spin = require('spinnies')
-const moment = require('moment-timezone')
-const axios = require('axios')
-const { exec } = require('child_process')
+import moment from 'moment-timezone'
+import axios from 'axios'
+import { exec } from 'child_process'
 
 const spinner = {
     interval: 120,
@@ -41,18 +41,18 @@ const spinner = {
 
 let globalSpinner: string
 
-const getGlobalSpinner = (disableSpins = false) => {
+export const getGlobalSpinner = (disableSpins = false) => {
     if (!globalSpinner) globalSpinner = new Spin({ color: 'blue', succeedColor: 'green', spinner, disableSpins })
     return globalSpinner
 }
 
 Spin = getGlobalSpinner(false)
 
-const start = (id: number, text: string) => {
+export const start = (id: string, text: string) => {
     Spin.add(id, { text: text })
 }
 
-const success = (id: number, text: string) => {
+export const success = (id: string, text: string) => {
     Spin.succeed(id, { text: text })
 }
 
@@ -61,12 +61,12 @@ const success = (id: number, text: string) => {
  * @param  {Date} timestamp
  * @param  {Date} now
  */
-const processTime = (timestamp: number, now: number) => {
+export const processTime = (timestamp: number, now: any) => {
     // timestamp => timestamp when message was received
-    return moment.duration(now - moment(timestamp * 1000)).asSeconds()
+    return moment.duration(now - (timestamp * 1000)).asSeconds()
 }
 
-const getGroupAdmins = (participants: Array<any>) => {
+export const getGroupAdmins = (participants: Array<any>) => {
     const admins = []
     for (const i of participants) {
         i.isAdmin ? admins.push(i.jid) : ''
@@ -74,7 +74,7 @@ const getGroupAdmins = (participants: Array<any>) => {
     return admins
 }
 
-const getBuffer = async (url: string, options: Array<any>) => {
+export const getBuffer = async (url: string, options: any) => {
     try {
         options || {}
         const res = await axios({
@@ -93,11 +93,11 @@ const getBuffer = async (url: string, options: Array<any>) => {
     }
 }
 
-const getRandom = (ext: string) => {
+export const getRandom = (ext: string) => {
     return `${Math.floor(Math.random() * 10000)}${ext}`
 }
 
-const term = (param: string) => new Promise((resolve, reject) => {
+export const term = (param: string) => new Promise((resolve, reject) => {
     console.log('Run terminal =>', param)
     exec(param, (error: any, stdout: string, stderr: string) => {
         if (error) {
@@ -113,10 +113,11 @@ const term = (param: string) => new Promise((resolve, reject) => {
     })
 })
 
-const restart = () => {
+export const restart = () => {
     setTimeout(function () {
         // Kapan NodeJs keluar
         process.on('exit', function () {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             require('child_process').spawn(process.argv.shift(), process.argv, {
                 cwd: process.cwd(),
                 detached: true,
@@ -125,15 +126,4 @@ const restart = () => {
         })
         process.exit()
     }, 2000)
-}
-
-module.exports = {
-    start,
-    success,
-    processTime,
-    getGroupAdmins,
-    getBuffer,
-    getRandom,
-    term,
-    restart
 }

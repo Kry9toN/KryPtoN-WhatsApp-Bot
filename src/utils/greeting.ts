@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Canvas = require('wa-canvas')
 
-const welcome = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
+export const welcome = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
     async function welcome () {
         const image = await new Canvas.Welcome()
             .setUsername(pushname)
@@ -39,7 +39,7 @@ const welcome = (pushname: string, gcname: string, picprofil: string) => new Pro
     })
 })
 
-const goodbye = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
+export const goodbye = (pushname: string, gcname: string, picprofil: string) => new Promise((resolve, reject) => {
     async function goodbye () {
         const image = await new Canvas.Goodbye()
             .setUsername(pushname)
@@ -59,8 +59,3 @@ const goodbye = (pushname: string, gcname: string, picprofil: string) => new Pro
         reject(err)
     })
 })
-
-module.exports = {
-    welcome,
-    goodbye
-}

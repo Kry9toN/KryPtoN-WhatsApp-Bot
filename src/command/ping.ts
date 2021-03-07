@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const moment = require('moment-timezone')
-const { processTime } = require('../utils/functions')
+import { MessageType } from '@adiwajshing/baileys'
+import moment from 'moment-timezone'
+import { processTime } from '../utils/functions'
 
 module.exports = {
     name: 'ping',

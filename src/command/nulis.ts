@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const { getBuffer } = require('../utils/functions')
-const { fetchJson } = require('../utils/fetcher')
+import { MessageType } from '@adiwajshing/baileys'
+import { getBuffer } from '../utils/functions'
+import { fetchJson } from '../utils/fetcher'
 
 module.exports = {
     name: 'nulis',
@@ -30,7 +29,7 @@ module.exports = {
         fetchJson(`https://mhankbarbar.tech/nulis?text=${value}&apiKey=${client.apiKey}`, { method: 'get' })
             .then(async (hasil: any) => {
                 client.reply(pesan.tunggu)
-                const buffer = await getBuffer(hasil.result)
+                const buffer = await getBuffer(hasil.result, { method: 'get' })
                 client.sendMessage(client.from, buffer, MessageType.image, { quoted: chat, caption: pesan.berhasil })
             }).catch((err: string) => {
                 console.log(err)

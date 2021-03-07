@@ -16,8 +16,7 @@
  */
 
 /* eslint-disable no-mixed-operators */
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
+import { MessageType } from '@adiwajshing/baileys'
 
 module.exports = {
     name: 'siaran',

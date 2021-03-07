@@ -15,23 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const {
-    WAConnection, MessageType
-} = require('@adiwajshing/baileys')
-const { Collection } = require('discord.js')
-const { readdirSync } = require('fs')
-const { join } = require('path')
-const { start, success, getGroupAdmins } = require('./utils/functions')
-const { color } = require('./utils/color')
-const fs = require('fs')
-const moment = require('moment-timezone')
-const { welcome, goodbye } = require('./utils/greeting')
-const { databaseView } = require('./utils/db')
-const { web, loging, qrCode } = require('./utils/web')
-const i18n = require('i18n')
-const getLocale = require('./utils/locale')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { WAConnection } = require('@adiwajshing/baileys')
+import { MessageType } from '@adiwajshing/baileys'
+import { Collection } from 'discord.js'
+import { readdirSync } from 'fs'
+import { join } from 'path'
+import { start, success, getGroupAdmins } from './utils/functions'
+import { color } from './utils/color'
+import fs from 'fs'
+import moment from 'moment-timezone'
+import { welcome, goodbye } from './utils/greeting'
+import { databaseView } from './utils/db'
+import { web, loging, qrCode } from './utils/web'
+import i18n from 'i18n'
+import getLocale from './utils/locale'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
 
 async function krypton () {
@@ -55,7 +55,7 @@ async function krypton () {
     client.browserDescription = ['KryPtoN', 'Chrome', '87']
 
     await client.on('qr', (qr: string) => {
-        console.log(color('[', 'white'), color('!', 'red'), color(']', 'white'), color(' Scan the QR code above'))
+        console.log(color('[', 'white'), color('!', 'red'), color(']', 'white'), color(' Scan the QR code above', 'blue'))
         qr = encodeURIComponent(qr)
         qrCode(qr)
     })
@@ -90,7 +90,7 @@ async function krypton () {
         const keyWord = client.body.toLowerCase()
         // Notes
         await databaseView('SELECT * FROM notes')
-            .then((hasil: Array<any>) => {
+            .then((hasil: any) => {
                 const filterBaseString = JSON.stringify(hasil)
                 if (filterBaseString.includes(client.groupId)) {
                     for (let i = 0; i < hasil.length; i++) {
@@ -110,13 +110,13 @@ async function krypton () {
             const name = client.contacts[num] != undefined ? client.contacts[num].vname || client.contacts[num].notify : undefined
             const ppimg = await client.getProfilePicture(`${greeting.participants[0].split('@')[0]}@c.us`)
             if (greeting.action == 'add') {
-                console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, 'client', color(greeting.participants[0].split('@')[0]), 'Masuk ke group', color(mdata.subject))
-                await welcome(name, mdata.subject, ppimg).then(async (hasil: Array<any>) => {
+                console.log(color('~', 'yellow'), color('EXEC', 'red'), client.time, 'client', color(greeting.participants[0].split('@')[0], 'yellow'), 'Masuk ke group', color(mdata.subject, 'blue'))
+                await welcome(name, mdata.subject, ppimg).then(async (hasil: any) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             } else if (greeting.action == 'remove') {
-                console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, 'client', color(greeting.participants[0].split('@')[0]), 'Keluar dari group', color(mdata.subject))
-                await goodbye(name, mdata.subject, ppimg).then(async (hasil: Array<any>) => {
+                console.log(color('~', 'yellow'), color('EXEC', 'red'), client.time, 'client', color(greeting.participants[0].split('@')[0], 'yellow'), 'Keluar dari group', color(mdata.subject, 'blue'))
+                await goodbye(name, mdata.subject, ppimg).then(async (hasil: any) => {
                     await client.sendMessage(mdata.id, hasil, MessageType.image)
                 })
             }
@@ -199,10 +199,10 @@ async function krypton () {
         loging(client)
 
         // Logging Message
-        if (!client.isGroup && client.isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, color(client.commandName), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
-        if (!client.isGroup && !client.isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', client.time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'args :', color(args.length))
-        if (client.isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mEXEC\x1b[1;37m]', client.time, color(client.commandName), 'client.from', color(client.sender.split('@')[0]), 'in', color(client.groupName), 'args :', color(args.length))
-        if (!client.isCmd && client.isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRECV\x1b[1;37m]', client.time, color('Message'), 'client.from', color(client.sender.split('@')[0]), 'in', color(client.groupName), 'args :', color(args.length))
+        if (!client.isGroup && client.isCmd) console.log(color('~', 'yellow'), color('EXEC', 'red'), client.time, color(client.commandName, 'yellow'), 'from', color(client.sender.split('@')[0], 'yellow'), 'args :', color(args.length, 'blue'))
+        if (!client.isGroup && !client.isCmd) console.log(color('~', 'yellow'), color('RECV', 'green'), client.time, color('Message', 'yellow'), 'from', color(client.sender.split('@')[0], 'yellow'), 'args :', color(args.length, 'blue'))
+        if (client.isCmd && client.isGroup) console.log(color('~', 'yellow'), color('EXEC', 'red'), client.time, color(client.commandName, 'yellow'), 'from', color(client.sender.split('@')[0], 'yellow'), 'in', color(client.groupName, 'yellow'), 'args :', color(args.length, 'blue'))
+        if (!client.isCmd && client.isGroup) console.log(color('~', 'yellow'), color('RECV', 'green'), client.time, color('Message', 'yellow'), 'from', color(client.sender.split('@')[0], 'yellow'), 'in', color(client.groupName, 'yellow'), 'args :', color(args.length, 'blue'))
 
         if (client.body.startsWith('#')) client.emit('message', { client })
 
@@ -211,6 +211,7 @@ async function krypton () {
         */
         const commandFiles = readdirSync(join(__dirname, 'command')).filter((file: string) => file.endsWith('.js'))
         for (const file of commandFiles) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
             const command = require(join(__dirname, 'command', `${file}`))
             client.cmd.set(command.name, command)
         }
@@ -248,7 +249,7 @@ async function krypton () {
             }
 
             const now = Date.now()
-            const timestamps = cooldowns.get(command.name)
+            const timestamps: any = cooldowns.get(command.name)
             const cooldownAmount = (command.cooldown || 1) * 1000
 
             if (timestamps.has(client.from)) {

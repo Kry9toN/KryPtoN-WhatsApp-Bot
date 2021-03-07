@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const { databaseInput } = require('../utils/db')
+import { databaseInput } from '../utils/db'
 
 /***
      * Initial Database

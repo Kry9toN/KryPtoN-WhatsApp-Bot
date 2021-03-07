@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const i18n = require('i18n')
+import { MessageType } from '@adiwajshing/baileys'
+import i18n from 'i18n'
 
 module.exports = {
     name: 'fakereply',

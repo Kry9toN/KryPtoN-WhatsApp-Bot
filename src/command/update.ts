@@ -15,13 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
 // using spawn in the child process module
-const spawn = require('child_process').spawn
-const { term, restart } = require('../utils/functions')
-const {
-    MessageType
-} = require('@adiwajshing/baileys')
+import { spawn } from 'child_process'
+import { term, restart } from '../utils/functions'
+import { MessageType } from '@adiwajshing/baileys'
 
 module.exports = {
     name: 'update',

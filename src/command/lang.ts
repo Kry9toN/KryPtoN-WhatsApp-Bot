@@ -15,15 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { databaseView, databaseInput } = require('../utils/db')
+import { databaseView, databaseInput } from '../utils/db'
+import i18n from 'i18n'
 
 module.exports = {
     name: 'lang',
     cooldown: 15,
     description: 'lang.desc',
     async execute (client: any, chat: any, pesan: any, args: any) {
-        const list = ['en', 'id']
+        const list: any = ['en', 'id']
         if (args[0] == 'set' && list.includes(args[1])) {
             const lang = args[1]
             if (client.isGroup) {

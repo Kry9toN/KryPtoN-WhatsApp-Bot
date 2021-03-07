@@ -15,8 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { databaseView, databaseInput } = require('../utils/db')
+import { databaseView, databaseInput } from '../utils/db'
 
 module.exports = {
     name: 'notes',

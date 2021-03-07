@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
-const { Pool } = require('pg')
+import { Pool } from 'pg'
 const optionsAndoid = {
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -33,8 +33,8 @@ const options = {
 }
 const pool = new Pool(process.platform == 'android' ? optionsAndoid : options)
 
-const databaseInput = (value: string) => new Promise((resolve, reject) => {
-    pool.query(value, (err: string, result: any) => {
+export const databaseInput = (value: string) => new Promise((resolve, reject) => {
+    pool.query(value, (err: any, result: any) => {
         if (err) {
             console.error(err)
             reject(err)
@@ -43,8 +43,8 @@ const databaseInput = (value: string) => new Promise((resolve, reject) => {
     })
 })
 
-const databaseView = (value: string) => new Promise((resolve, reject) => {
-    pool.query(value, (err: string, result: any) => {
+export const databaseView = (value: string) => new Promise((resolve, reject) => {
+    pool.query(value, (err: any, result: any) => {
         if (err) {
             console.error(err)
             reject(err)
@@ -53,8 +53,8 @@ const databaseView = (value: string) => new Promise((resolve, reject) => {
     })
 })
 
-const dbLocale = (id: any) => new Promise((resolve, reject) => {
-    pool.query('SELECT * FROM locales', (err: string, result: any) => {
+export const dbLocale = (id: any) => new Promise((resolve, reject) => {
+    pool.query('SELECT * FROM locales', (err: any, result: any) => {
         if (err) {
             console.error(err)
             reject(err)
@@ -76,9 +76,3 @@ const dbLocale = (id: any) => new Promise((resolve, reject) => {
         }
     })
 })
-
-module.exports = {
-    databaseView,
-    databaseInput,
-    dbLocale
-}

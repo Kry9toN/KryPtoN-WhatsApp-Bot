@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /*
  * This file is part of the KryPtoN Bot WA distribution (https://github.com/Kry9toN/KryPtoN-WhatsApp-Bot).
  * Copyright (c) 2021 Dhimas Bagus Prayoga.
@@ -15,21 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
 // REQUIRE NPM PACKAGES
-const {
-    MessageType
-} = require('@adiwajshing/baileys')
-const http = require('http')
-const express = require('express')
+import { MessageType } from '@adiwajshing/baileys'
+import http from 'http'
+import express from 'express'
 const app = express()
 const httpServer = http.createServer(app)
 const osUtils = require('node-os-utils')
-const os = require('os')
+import os from 'os'
 const io = require('socket.io')(httpServer)
-const { color } = require('./color')
+import { color } from './color'
 
-const web = async (client: any) => {
+export const web = async (client: any) => {
     const apiKey = process.env.WEB_API
     // View Engine and static public folder
     app.set('view engine', 'ejs')
@@ -55,7 +53,7 @@ const web = async (client: any) => {
     const cpu = osUtils.cpu
 
     // USER and OS
-    const username = os.userInfo([{ encoding: 'buffer' }]).username
+    const username = os.userInfo({ encoding: 'buffer' }).username
     const osInfo = os.type()
 
     // SOCKET IO
@@ -83,7 +81,7 @@ const web = async (client: any) => {
     })
 }
 
-const loging = (client: any) => {
+export const loging = (client: any) => {
     let loging
     if (!client.isGroup && client.isCmd) loging = `=> ${client.time} ${client.commandName} from ${client.sender.split('@')[0]}`
     if (!client.isGroup && !client.isCmd) loging = `=> ${client.time} Message from ${client.sender.split('@')[0]}`
@@ -92,12 +90,6 @@ const loging = (client: any) => {
     io.emit('log', { loging })
 }
 
-const qrCode = (qr: string) => {
+export const qrCode = (qr: string) => {
     io.emit('qr-regen', { qr })
-}
-
-module.exports = {
-    web,
-    loging,
-    qrCode
 }

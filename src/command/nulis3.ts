@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { MessageType } = require('@adiwajshing/baileys')
-const { getBuffer } = require('../utils/functions')
-const { fetchJson } = require('../utils/fetcher')
+import { MessageType } from '@adiwajshing/baileys'
+import { getBuffer } from '../utils/functions'
+import { fetchJson } from '../utils/fetcher'
 
 module.exports = {
     name: 'nulis3',
@@ -27,10 +26,10 @@ module.exports = {
     description: 'Untuk menuliskan di buku bot\nPenggunaan !nulis3 _tulisan_',
     execute (client: any, chat: any, pesan: any, args: any) {
         const value = args.slice().join(' ')
-        fetchJson(`https://tools.zone-xsec.com/api/nulis.php?q=${value}`)
+        fetchJson(`https://tools.zone-xsec.com/api/nulis.php?q=${value}`, { method: 'get' })
             .then(async (hasil: any) => {
                 client.reply(pesan.tunggu)
-                const image = await getBuffer(hasil.image)
+                const image = await getBuffer(hasil.image, { method: 'get' })
                 client.sendMessage(client.from, image, MessageType.image, { quoted: chat, caption: pesan.berhasil })
             }).catch((err: string) => {
                 console.log(err)

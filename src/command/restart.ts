@@ -15,11 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { restart } = require('../utils/functions')
-const {
-    MessageType
-} = require('@adiwajshing/baileys')
+import { restart } from '../utils/functions'
+import { MessageType } from '@adiwajshing/baileys'
 
 module.exports = {
     name: 'restart',

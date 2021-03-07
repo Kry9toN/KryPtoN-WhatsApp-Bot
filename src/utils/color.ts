@@ -15,18 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const chalk = require('chalk')
+import chalk from 'chalk'
 
-const color = (text: string, color: string) => {
+export const color = (text: string, color: string) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
 }
 
-const bgcolor = (text: string, bgcolor: string) => {
+export const bgcolor = (text: string, bgcolor: string) => {
     return !bgcolor ? chalk.green(text) : chalk.bgKeyword(bgcolor)(text)
-}
-
-module.exports = {
-    color,
-    bgcolor
 }

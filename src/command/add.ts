@@ -15,11 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export {}
-const { color } = require('../utils/color')
-const i18n = require('i18n')
+import { color } from '../utils/color'
+import i18n from 'i18n'
 
-module.exports = {
+export = {
     name: 'add',
     aliases: ['ad'],
     cooldown: 20,
