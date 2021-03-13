@@ -17,6 +17,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
 import { Pool } from 'pg'
 const optionsAndoid = {
     user: process.env.DB_USER,
