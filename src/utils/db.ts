@@ -29,7 +29,8 @@ const options = {
     connectionString: process.env.DATABASE_URL,
     connectionTimeoutMillis: 2500,
     idleTimeoutMillis: 2000,
-    max: 10000
+    max: 10000,
+    ssl: true
 }
 const pool = new Pool(process.platform == 'android' ? optionsAndoid : options)
 
