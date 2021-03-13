@@ -29,7 +29,7 @@ export const getBase64 = async (url: string) => {
 export const fetchJson = (url: string, options: any) => new Promise((resolve, reject) => {
     fetch(url, options)
         .then((response: any) => response.json())
-        .then((json) => {
+        .then((json: any) => {
             // console.log(json)
             resolve(json)
         })
