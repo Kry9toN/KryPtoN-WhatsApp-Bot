@@ -35,14 +35,14 @@
     "WEB_API": {
       "description": "Enter initial web api for your auth.",
       "required": true
-    },
-    "addons": [
-      {
-        "plan": "heroku-postgresql",
-        "options": {
-          "version": "9.5"
-        }
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
       }
-    ]
-  }
+    }
+  ]
 }
